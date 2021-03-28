@@ -1,17 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Dashboard } from './components/admin/Dashboard';
+import { StudentScreen } from './components/home/StudentScreen';
 import { Login } from './components/login/Login';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { Dashboard } from './components/home/Dashboard.js';
+import './index.css';
 
 ReactDOM.render(
   <React.StrictMode>
     <Router>
-      <Route path="/login" exact component={Login}/> 
-    </Router>
-    <Router>
-      <Route path="/" exact component={Dashboard} />
+      <Switch>
+        <Route path="/dashboard" component={Dashboard} />
+        <Route path="/login" component={Login} />
+        <Route path="/" component={StudentScreen} />
+      </Switch>
     </Router>
   </React.StrictMode>,
   document.getElementById('container')
