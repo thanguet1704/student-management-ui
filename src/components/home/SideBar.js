@@ -4,16 +4,12 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { NavLink } from 'react-router-dom';
 
 export const SideBar = (props) => {
-  console.log(props.listMenu);
   return props.listMenu.map((menu) => {
     return (
       <NavLink
         to={menu.path}
         activeClassName="selected"
-        activeStyle={{
-          textDecoration: 'none',
-        }}
-        activeLink
+        activeStyle={{ textDecoration: 'none' }}
       >
         <ListItem button>
           <ListItemIcon>{menu.icon}</ListItemIcon>
