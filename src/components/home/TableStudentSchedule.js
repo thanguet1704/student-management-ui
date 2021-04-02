@@ -79,21 +79,8 @@ const times = [
   },
 ];
 
-const colors = [
-  '#4caf50',
-  '#80ff00',
-  '#03a9f4',
-  '#ffcccc',
-  '#03a9f4',
-  '#e91e63',
-  '#673ab7',
-  '#00bcd4',
-  '#cddc39',
-  '#ff9800',
-  '#ffc107',
-  '#bbdefb',
-  '#64b5f6',
-];
+const colors = ['#5BC3B2', '#F7EB7F', '#F5CFF4'];
+
 const useStyles = makeStyles({
   border: {
     width: '600',
@@ -101,13 +88,13 @@ const useStyles = makeStyles({
     fontSize: '1.2rem',
     padding: 10,
     textAlign: 'center',
-    border: '1px solid #000',
+    border: '5px solid #fff',
     borderCollapse: 'collapse',
     wordWrap: 'break-word',
   },
 });
 
-export const TableSchedule = (props) => {
+export const TableStudentSchedule = (props) => {
   const classes = useStyles();
   return (
     <table className={clsx(classes.border)}>
@@ -124,18 +111,18 @@ export const TableSchedule = (props) => {
       </tr>
       {/* hang1 */}
       <tr>
-        <th className={classes.border}>07:00</th>
+        <td className={classes.border}>07:00</td>
         <td
           className={clsx(classes.border)}
           rowSpan="2"
-          style={{ backgroundColor: colors[Math.floor(Math.random() * 13)] }}
+          style={{ backgroundColor: colors[Math.floor(Math.random() * 3)] }}
         >
           Các vấn đề hiện đại của Công nghệ thông tin (308-GD2)
         </td>
         <td className={classes.border}></td>
         <td
           className={clsx(classes.border)}
-          style={{ backgroundColor: colors[Math.floor(Math.random() * 13)] }}
+          style={{ backgroundColor: colors[Math.floor(Math.random() * 3)] }}
           rowSpan="3"
         >
           Quản trị mạng (302-G2)
@@ -146,7 +133,7 @@ export const TableSchedule = (props) => {
       </tr>
       {/* hang2 */}
       <tr>
-        <th className={classes.border}>08:00</th>
+        <td className={classes.border}>08:00</td>
         <td className={classes.border}></td>
         <td className={classes.border}></td>
         <td className={classes.border}></td>
@@ -154,12 +141,12 @@ export const TableSchedule = (props) => {
       </tr>
       {/* hang3 */}
       <tr>
-        <th className={classes.border}>09:00</th>
+        <td className={classes.border}>09:00</td>
         <td className={classes.border}></td>
         <td
           className={clsx(classes.border)}
           rowSpan="3"
-          style={{ backgroundColor: colors[Math.floor(Math.random() * 13)] }}
+          style={{ backgroundColor: colors[Math.floor(Math.random() * 3)] }}
         >
           Các vấn đề hiện đại của Công nghệ thông tin (308-GD2)
         </td>
@@ -169,11 +156,11 @@ export const TableSchedule = (props) => {
       </tr>
       {/* hang4 */}
       <tr>
-        <th className={classes.border}>10:00</th>
+        <td className={classes.border}>10:00</td>
         <td
           className={clsx(classes.border)}
           rowSpan="4"
-          style={{ backgroundColor: colors[Math.floor(Math.random() * 13)] }}
+          style={{ backgroundColor: colors[Math.floor(Math.random() * 3)] }}
         >
           Mạng không dây (103-G2)
         </td>
@@ -184,13 +171,13 @@ export const TableSchedule = (props) => {
       </tr>
       {/* hang5 */}
       <tr>
-        <th className={classes.border}>11:00</th>
+        <td className={classes.border}>11:00</td>
         <td className={clsx(classes.border)}></td>
         <td className={classes.border}></td>
         <td
           className={clsx(classes.border)}
           rowSpan="4"
-          style={{ backgroundColor: colors[Math.floor(Math.random() * 13)] }}
+          style={{ backgroundColor: colors[Math.floor(Math.random() * 3)] }}
         >
           Mạng không dây (103-G2)
         </td>
@@ -198,7 +185,7 @@ export const TableSchedule = (props) => {
       </tr>
       {/* hang6 */}
       <tr>
-        <th className={classes.border}>12:00</th>
+        <td className={classes.border}>12:00</td>
         <td className={clsx(classes.border)}></td>
         <td className={classes.border}></td>
         <td className={classes.border}></td>
@@ -206,7 +193,7 @@ export const TableSchedule = (props) => {
       </tr>
       {/* hang7 */}
       <tr>
-        <th className={classes.border}>13:00</th>
+        <td className={classes.border}>13:00</td>
         <td className={clsx(classes.border)}></td>
         <td className={classes.border}></td>
         <td className={classes.border}></td>
@@ -214,7 +201,7 @@ export const TableSchedule = (props) => {
       </tr>
       {/* hang8 */}
       <tr>
-        <th className={classes.border}>14:00</th>
+        <td className={classes.border}>14:00</td>
         <td className={clsx(classes.border)}></td>
         <td className={classes.border}></td>
         <td className={classes.border}></td>
@@ -223,12 +210,12 @@ export const TableSchedule = (props) => {
       </tr>
       {/* hang9 */}
       <tr>
-        <th className={classes.border}>15:00</th>
+        <td className={classes.border}>15:00</td>
         <td className={clsx(classes.border)}></td>
         <td
           className={clsx(classes.border)}
           rowSpan="3"
-          style={{ backgroundColor: colors[Math.floor(Math.random() * 13)] }}
+          style={{ backgroundColor: colors[Math.floor(Math.random() * 3)] }}
         >
           Quản trị mạng (302-G2)
         </td>
@@ -239,7 +226,7 @@ export const TableSchedule = (props) => {
       </tr>
       {/* hang10 */}
       <tr>
-        <th className={classes.border}>16:00</th>
+        <td className={classes.border}>16:00</td>
         <td className={classes.border}></td>
         <td className={classes.border}></td>
         <td className={classes.border}></td>
@@ -248,7 +235,7 @@ export const TableSchedule = (props) => {
       </tr>
       {/* hang11 */}
       <tr>
-        <th className={classes.border}>17:00</th>
+        <td className={classes.border}>17:00</td>
         <td className={clsx(classes.border)}></td>
         <td className={classes.border}></td>
         <td className={classes.border}></td>
