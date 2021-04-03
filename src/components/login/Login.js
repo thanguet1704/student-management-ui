@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, Checkbox, Col, Form, Input, Row, Typography } from 'antd';
+import { Button, Col, Form, Input, Row, Typography } from 'antd';
 import 'antd/dist/antd.css';
 import React from 'react';
 import { useHistory } from 'react-router-dom';

@@ -1,22 +1,10 @@
 import { FileExcelFilled, SearchOutlined } from '@ant-design/icons';
 import TuneOutlinedIcon from '@material-ui/icons/TuneOutlined';
-import {
-  Button,
-  DatePicker,
-  Input,
-  Popover,
-  Space,
-  Table,
-  Tag,
-  Upload,
-} from 'antd';
+import { Button, Input, Popover, Space, Table, Tag, Upload } from 'antd';
 import 'date-fns';
-import moment from 'moment';
-import React from 'react';
-import { FilterButton } from '../../common/components/FilterButton';
-
-const dateFormat = 'DD-MM-YYYY';
-const { RangePicker } = DatePicker;
+import { default as React } from 'react';
+import { FilterButton } from '../../../common/components/FilterButton';
+import { CreateUser } from './components/CreateUser';
 
 const columns = [
   {
@@ -234,7 +222,7 @@ const filterData = [
   },
 ];
 
-export const TableReportAttendence = () => {
+export const TableStudentInfo = () => {
   return (
     <div>
       <div
@@ -247,7 +235,7 @@ export const TableReportAttendence = () => {
         <Space>
           <Input
             size="large"
-            placeholder="Tìm kiếm theo chuyên đề"
+            placeholder="Tìm kiếm theo tên học viên"
             prefix={<SearchOutlined />}
             style={{ borderRadius: 5, width: '100%' }}
           />
@@ -267,26 +255,10 @@ export const TableReportAttendence = () => {
               </Button>
             </Popover>
           </div>
-          <Space direction="vertical" size={12}>
-            <RangePicker
-              defaultValue={[
-                moment(moment().subtract(7, 'd'), dateFormat),
-                moment(new Date(), dateFormat),
-              ]}
-              style={{ width: '65%' }}
-              size="large"
-            />
-          </Space>
         </Space>
+
         <Space style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Upload>
-            <Button
-              icon={<FileExcelFilled style={{ color: '#366F38' }} />}
-              size="large"
-            >
-              Import
-            </Button>
-          </Upload>
+          <CreateUser title="Thêm học viên" />
           <Upload>
             <Button
               icon={<FileExcelFilled style={{ color: '#366F38' }} />}

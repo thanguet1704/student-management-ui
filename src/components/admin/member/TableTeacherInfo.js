@@ -1,22 +1,23 @@
-import { FileExcelFilled, SearchOutlined } from '@ant-design/icons';
-import TuneOutlinedIcon from '@material-ui/icons/TuneOutlined';
+import {
+  PlusOutlined,
+  SearchOutlined,
+  UploadOutlined,
+} from '@ant-design/icons';
 import {
   Button,
-  DatePicker,
   Input,
-  Popover,
+  Select,
   Space,
   Table,
   Tag,
+  Typography,
   Upload,
 } from 'antd';
 import 'date-fns';
-import moment from 'moment';
 import React from 'react';
-import { FilterButton } from '../../common/components/FilterButton';
+import { CreateUser } from './components/CreateUser';
 
-const dateFormat = 'DD-MM-YYYY';
-const { RangePicker } = DatePicker;
+const { Option } = Select;
 
 const columns = [
   {
@@ -217,24 +218,7 @@ const data = [
   },
 ];
 
-const filterData = [
-  {
-    title: 'Lớp',
-    key: 'k70',
-    children: [
-      {
-        title: 'K70 01',
-        key: 'k7001',
-      },
-      {
-        title: 'K70 02',
-        key: 'k7002',
-      },
-    ],
-  },
-];
-
-export const TableReportAttendence = () => {
+export const TableTeacherInfo = () => {
   return (
     <div>
       <div
@@ -247,54 +231,13 @@ export const TableReportAttendence = () => {
         <Space>
           <Input
             size="large"
-            placeholder="Tìm kiếm theo chuyên đề"
+            placeholder="Tìm kiếm theo tên học viên"
             prefix={<SearchOutlined />}
             style={{ borderRadius: 5, width: '100%' }}
           />
-          <div
-            style={{
-              clear: 'both',
-              whiteSpace: 'nowrap',
-            }}
-          >
-            <Popover
-              placement="bottom"
-              content={<FilterButton filterData={filterData} />}
-              trigger="click"
-            >
-              <Button style={{ border: 'none', width: '20%' }}>
-                <TuneOutlinedIcon />
-              </Button>
-            </Popover>
-          </div>
-          <Space direction="vertical" size={12}>
-            <RangePicker
-              defaultValue={[
-                moment(moment().subtract(7, 'd'), dateFormat),
-                moment(new Date(), dateFormat),
-              ]}
-              style={{ width: '65%' }}
-              size="large"
-            />
-          </Space>
         </Space>
         <Space style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Upload>
-            <Button
-              icon={<FileExcelFilled style={{ color: '#366F38' }} />}
-              size="large"
-            >
-              Import
-            </Button>
-          </Upload>
-          <Upload>
-            <Button
-              icon={<FileExcelFilled style={{ color: '#366F38' }} />}
-              size="large"
-            >
-              Export
-            </Button>
-          </Upload>
+          <CreateUser title="Thêm giảng viên" />
         </Space>
       </div>
       <Table columns={columns} dataSource={data} />;

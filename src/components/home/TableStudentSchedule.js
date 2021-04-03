@@ -32,53 +32,6 @@ const days = [
   },
 ];
 
-const times = [
-  {
-    value: 'time1',
-    display: '07:00-08:00',
-  },
-  {
-    value: 'time2',
-    display: '08:00-09:00',
-  },
-  {
-    value: 'time3',
-    display: '09:00-10:00',
-  },
-  {
-    value: 'time4',
-    display: '11:00-12:00',
-  },
-  {
-    value: 'time5',
-    display: '12:00-13:00',
-  },
-  {
-    value: 'time6',
-    display: '13:00-14:00',
-  },
-  {
-    value: 'time7',
-    display: '14:00-15:00',
-  },
-  {
-    value: 'time8',
-    display: '15:00-16:00',
-  },
-  {
-    value: 'time9',
-    display: '16:00-17:00',
-  },
-  {
-    value: 'time10',
-    display: '17:00-18:00',
-  },
-  {
-    value: 'time11',
-    display: '18:00-19:00',
-  },
-];
-
 const colors = ['#5BC3B2', '#F7EB7F', '#F5CFF4'];
 
 const useStyles = makeStyles({
