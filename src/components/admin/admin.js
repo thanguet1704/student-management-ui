@@ -188,6 +188,9 @@ export const admin = () => {
                         <Option value="K72">K72</Option>
                       </Select>
                     </Space>
+                    <Space>
+                      <Typography>Lọc theo ngày:</Typography>
+                    </Space>
                     <Space direction="vertical" size={12}>
                       <RangePicker
                         defaultValue={[

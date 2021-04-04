@@ -1,7 +1,7 @@
 import {
   AppstoreOutlined,
+  FileExcelFilled,
   ScheduleOutlined,
-  UploadOutlined,
   SearchOutlined,
 } from '@ant-design/icons';
 import { Breadcrumb, Button, Input, Layout, Upload } from 'antd';
@@ -41,18 +41,20 @@ export const Student = () => {
             <Route path="/attendence" exact>
               <div
                 style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
+                  display: 'grid',
+                  gridTemplateColumns: '1fr 1fr 1fr',
+                  paddingTop: 20,
+                  paddingBottom: 20,
                 }}
               >
-                <Input
-                  size="large"
-                  placeholder="Tìm kiếm theo chuyên đề"
-                  prefix={<SearchOutlined />}
-                  style={{ borderRadius: 5, width: '20%' }}
-                />
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <Input
+                    size="small"
+                    placeholder="Tìm kiếm theo chuyên đề"
+                    prefix={<SearchOutlined />}
+                    style={{ borderRadius: 5, width: '80%', height: '70%' }}
+                  />
+                </div>
                 <Breadcrumb
                   style={{
                     margin: '16px 0',
@@ -67,10 +69,28 @@ export const Student = () => {
                     THÔNG TIN ĐIỂM DANH
                   </Breadcrumb.Item>
                 </Breadcrumb>
-                <Upload>
-                  <Button icon={<UploadOutlined />}>Export</Button>
-                </Upload>
-                ,
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Upload>
+                    <Button
+                      icon={
+                        <FileExcelFilled
+                          style={{
+                            color: '#366F38',
+                          }}
+                        />
+                      }
+                      size="large"
+                    >
+                      Export
+                    </Button>
+                  </Upload>
+                </div>
               </div>
 
               <Content

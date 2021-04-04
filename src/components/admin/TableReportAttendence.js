@@ -9,6 +9,7 @@ import {
   Table,
   Tag,
   Upload,
+  Typography,
 } from 'antd';
 import 'date-fns';
 import moment from 'moment';
@@ -267,6 +268,9 @@ export const TableReportAttendence = () => {
               </Button>
             </Popover>
           </div>
+          <Space>
+            <Typography>Lọc theo ngày:</Typography>
+          </Space>
           <Space direction="vertical" size={12}>
             <RangePicker
               defaultValue={[

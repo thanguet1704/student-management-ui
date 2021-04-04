@@ -23,49 +23,44 @@ const columns = [
     key: 'name',
   },
   {
-    title: 'Môn học',
-    dataIndex: 'subject',
-    key: 'subject',
+    title: 'Lớp',
+    dataIndex: 'classHCMA',
+    key: 'classHCMA',
+  },
+  {
+    title: 'Khoa',
+    dataIndex: 'branch',
+    key: 'branch',
   },
   {
     title: 'Trạng thái',
     dataIndex: 'status',
     key: 'status',
-    render: (status) => (
-      <>
-        {status.map((tag) => {
-          let color;
-          let display;
-          switch (tag) {
-            case 'abvent': {
-              color = 'green';
-              display = 'Có mặt';
-              break;
-            }
+    render: (status) => {
+      let color;
+      let display;
+      switch (status) {
+        case 'active': {
+          color = 'green';
+          display = 'Hoạt động';
+          break;
+        }
 
-            case 'absent': {
-              color = 'red';
-              display = 'Vắng';
-              break;
-            }
+        case 'inactive': {
+          color = 'red';
+          display = 'Đã khóa';
+          break;
+        }
+        default:
+          break;
+      }
 
-            case 'late': {
-              color = 'orange';
-              display = 'Muộn';
-              break;
-            }
-            default:
-              break;
-          }
-
-          return (
-            <Tag color={color} key={tag}>
-              {display.toUpperCase()}
-            </Tag>
-          );
-        })}
-      </>
-    ),
+      return (
+        <Tag color={color} key={status}>
+          {display}
+        </Tag>
+      );
+    },
   },
 ];
 
@@ -74,134 +69,153 @@ const data = [
     stt: '1',
     id: '17021037',
     name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
-    status: ['abvent'],
+    classHCMA: 'K70 01',
+    branch: 'Cong nghe thong tin',
+    status: 'active',
   },
   {
     stt: '1',
     id: '17021037',
     name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
-    status: ['abvent'],
+    classHCMA: 'K70 01',
+    branch: 'Cong nghe thong tin',
+    status: 'active',
   },
   {
     stt: '1',
     id: '17021037',
     name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
-    status: ['abvent'],
+    classHCMA: 'K70 01',
+    branch: 'Cong nghe thong tin',
+    status: 'active',
   },
   {
     stt: '1',
     id: '17021037',
     name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
-    status: ['abvent'],
+    classHCMA: 'K70 01',
+    branch: 'Cong nghe thong tin',
+    status: 'active',
   },
   {
     stt: '1',
     id: '17021037',
     name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
-    status: ['absent'],
+    classHCMA: 'K70 01',
+    branch: 'Cong nghe thong tin',
+    status: 'inactive',
   },
   {
     stt: '1',
     id: '17021037',
     name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
-    status: ['absent'],
+    classHCMA: 'K70 01',
+    branch: 'Cong nghe thong tin',
+    status: 'inactive',
   },
   {
     stt: '1',
     id: '17021037',
     name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
-    status: ['absent'],
+    classHCMA: 'K70 01',
+    branch: 'Cong nghe thong tin',
+    status: 'inactive',
   },
   {
     stt: '1',
     id: '17021037',
     name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
-    status: ['late'],
+    classHCMA: 'K70 01',
+    branch: 'Cong nghe thong tin',
+    status: 'active',
   },
   {
     stt: '1',
     id: '17021037',
     name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
-    status: ['late'],
+    classHCMA: 'K70 01',
+    branch: 'Cong nghe thong tin',
+    status: 'active',
   },
   {
     stt: '1',
     id: '17021037',
     name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
-    status: ['late'],
+    classHCMA: 'K70 01',
+    branch: 'Cong nghe thong tin',
+    status: 'active',
   },
   {
     stt: '1',
     id: '17021037',
     name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
-    status: ['absent'],
+    classHCMA: 'K70 01',
+    branch: 'Cong nghe thong tin',
+    status: 'inactive',
   },
   {
     stt: '1',
     id: '17021037',
     name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
-    status: ['absent'],
+    classHCMA: 'K70 01',
+    branch: 'Cong nghe thong tin',
+    status: 'active',
   },
   {
     stt: '1',
     id: '17021037',
     name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
-    status: ['absent'],
+    classHCMA: 'K70 01',
+    branch: 'Cong nghe thong tin',
+    status: 'active',
   },
   {
     stt: '1',
     id: '17021037',
     name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
-    status: ['absent'],
+    classHCMA: 'K70 01',
+    branch: 'Cong nghe thong tin',
+    status: 'active',
   },
   {
     stt: '1',
     id: '17021037',
     name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
-    status: ['absent'],
+    classHCMA: 'K70 01',
+    branch: 'Cong nghe thong tin',
+    status: 'active',
   },
   {
     stt: '1',
     id: '17021037',
     name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
-    status: ['absent'],
+    classHCMA: 'K70 01',
+    branch: 'Cong nghe thong tin',
+    status: 'active',
   },
   {
     stt: '1',
     id: '17021037',
     name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
-    status: ['absent'],
+    classHCMA: 'K70 01',
+    branch: 'Cong nghe thong tin',
+    status: 'active',
   },
   {
     stt: '1',
     id: '17021037',
     name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
-    status: ['absent'],
+    classHCMA: 'K70 01',
+    branch: 'Cong nghe thong tin',
+    status: 'active',
   },
   {
     stt: '1',
     id: '17021037',
     name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
-    status: ['absent'],
+    classHCMA: 'K70 01',
+    branch: 'Cong nghe thong tin',
+    status: 'active',
   },
 ];
 
