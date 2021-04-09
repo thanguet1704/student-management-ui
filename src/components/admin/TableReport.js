@@ -207,7 +207,7 @@ export const TableReport = (props) => {
                 <Avatar style={{ background: `${randomColor()}` }}>K70</Avatar>
               }
               title={<a href="/">Lớp: {}</a>}
-              description="Cố vấn học tập: Trần Xuân Diệu"
+              description="Trịnh Hữu Thắng"
               style={{ color: '#000' }}
             />
           </List.Item>

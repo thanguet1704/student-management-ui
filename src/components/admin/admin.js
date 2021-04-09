@@ -103,7 +103,7 @@ const total = [
   },
 ];
 
-export const admin = () => {
+export const Admin = () => {
   return (
     <Layout>
       <HeaderComponent />

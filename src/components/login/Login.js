@@ -1,8 +1,9 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Col, Form, Input, Row, Typography } from 'antd';
 import 'antd/dist/antd.css';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { LoginApi } from '../../api';
 import backgroundImage from '../../assets/background.svg';
 import logo from '../../assets/logo.png';
 
@@ -41,6 +42,9 @@ const layout = {
     span: 16,
   },
 };
+
+const loginApi = new LoginApi();
+
 const tailLayout = {
   wrapperCol: {
     offset: 8,
@@ -54,9 +58,30 @@ export const Login = () => {
   const history = useHistory();
 
   const [form] = Form.useForm();
-  const handleSubmit = () => {
-    history.push('/attendence');
+
+  const [userState, setUserState] = useState(null);
+
+  const login = async () => {
+    try {
+      console.log();
+      const body = {
+        username: form.getFieldValue('username'),
+        password: form.getFieldValue('password'),
+      };
+
+      const res = await loginApi.login(body);
+
+      if (res.status === 200) {
+        setUserState(res.data);
+        history.push('/attendence');
+      }
+
+      if (res.status === 400) {
+      }
+    } catch (error) {}
   };
+
+  useEffect(() => {}, []);
 
   return (
     <div>
@@ -94,8 +119,6 @@ export const Login = () => {
               initialValues={{
                 remember: true,
               }}
-              // onFinish={handleOnFinish}
-              // onFinishFailed={onFinishFailed}
               className={classes.form}
             >
               <Form.Item
@@ -138,7 +161,7 @@ export const Login = () => {
                 <Button
                   type="primary"
                   htmlType="submit"
-                  onClick={handleSubmit}
+                  onClick={login}
                   size="middle"
                 >
                   Đăng nhập
