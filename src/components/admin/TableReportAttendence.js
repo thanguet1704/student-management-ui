@@ -8,8 +8,8 @@ import {
   Space,
   Table,
   Tag,
-  Upload,
   Typography,
+  Upload,
 } from 'antd';
 import 'date-fns';
 import moment from 'moment';
@@ -17,7 +17,6 @@ import React from 'react';
 import { FilterButton } from '../../common/components/FilterButton';
 
 const dateFormat = 'DD-MM-YYYY';
-const { RangePicker } = DatePicker;
 
 const columns = [
   {
@@ -39,6 +38,16 @@ const columns = [
     title: 'Môn học',
     dataIndex: 'subject',
     key: 'subject',
+  },
+  {
+    title: 'Thời gian vào',
+    dataIndex: 'in',
+    key: 'in',
+  },
+  {
+    title: 'Thời gian ra',
+    dataIndex: 'out',
+    key: 'out',
   },
   {
     title: 'Trạng thái',
@@ -236,6 +245,10 @@ const filterData = [
 ];
 
 export const TableReportAttendence = () => {
+  const handleOnChangeDatePicker = (date, dateString) => {
+    console.log(date, dateString);
+  };
+
   return (
     <div>
       <div
@@ -271,14 +284,13 @@ export const TableReportAttendence = () => {
           <Space>
             <Typography>Lọc theo ngày:</Typography>
           </Space>
-          <Space direction="vertical" size={12}>
-            <RangePicker
-              defaultValue={[
-                moment(moment().subtract(7, 'd'), dateFormat),
-                moment(new Date(), dateFormat),
-              ]}
-              style={{ width: '65%' }}
+          <Space direction="vertical">
+            <DatePicker
+              onChange={handleOnChangeDatePicker}
+              defaultValue={moment(new Date(), dateFormat)}
+              format={dateFormat}
               size="large"
+              style={{ borderRadius: 5 }}
             />
           </Space>
         </Space>
@@ -287,6 +299,7 @@ export const TableReportAttendence = () => {
             <Button
               icon={<FileExcelFilled style={{ color: '#366F38' }} />}
               size="large"
+              style={{ borderRadius: 5 }}
             >
               Import
             </Button>
@@ -295,13 +308,14 @@ export const TableReportAttendence = () => {
             <Button
               icon={<FileExcelFilled style={{ color: '#366F38' }} />}
               size="large"
+              style={{ borderRadius: 5 }}
             >
               Export
             </Button>
           </Upload>
         </Space>
       </div>
-      <Table columns={columns} dataSource={data} />;
+      <Table columns={columns} dataSource={data} size="middle" />;
     </div>
   );
 };

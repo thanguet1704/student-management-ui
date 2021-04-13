@@ -5,7 +5,7 @@ import queryString from 'query-string';
 dotenv.config();
 
 export const axiosClient = axios.create({
-  baseURL: `http://localhost:3400`,
+  baseURL: `http://localhost:8000`,
   headers: {
     'content-type': 'application/json',
   },

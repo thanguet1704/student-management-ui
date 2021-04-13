@@ -14,10 +14,12 @@ export const TotalCard = (props) => {
       >
         <Card
           style={{
-            width: '15vw',
+            width: '100%',
             background: '#F7EB7F',
             borderRadius: 5,
             minHeight: 150,
+            marginLeft: 20,
+            marginRight: 20,
             boxSizing: 'border-box',
             border: '1px solid #F7EB7F',
             boxShadow: '1px 1px 1px 1px #ebf0ec',

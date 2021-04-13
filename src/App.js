@@ -6,7 +6,7 @@ import {
   Switch,
 } from 'react-router-dom';
 import { AuthApi } from './api';
-import { Admin } from './components/admin/admin';
+import { Admin } from './components/admin/Admin';
 import { Student } from './components/home/Student';
 import { Login } from './components/login/Login';
 import './index.css';
@@ -19,6 +19,7 @@ export default function App() {
   useEffect(() => {
     authApi.auth().then((res) => {
       setAuth(res.status === 200);
+      console.log(res.status);
     });
   });
 
@@ -28,10 +29,10 @@ export default function App() {
         <Switch>
           <Route path="/admin">
             <Route path="/">
-              {auth ? <Admin /> : <Redirect to="/login" />}
+              {!auth ? <Admin /> : <Redirect to="/login" />}
             </Route>
           </Route>
-          <Route path="/login" component={Login}>
+          {/* <Route path="/login">
             <Route path="/">
               {!auth ? <Login /> : <Redirect to="/attendence" />}
             </Route>
@@ -43,7 +44,7 @@ export default function App() {
             <Route path="/schedule">
               {auth ? <Student /> : <Redirect to="/login" />}
             </Route>
-          </Route>
+          </Route> */}
         </Switch>
       </Router>
     </div>

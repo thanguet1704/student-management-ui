@@ -29,6 +29,7 @@ import { TotalCard } from './TotalCard';
 import ReactPlayer from 'react-player';
 import { TableStudentInfo } from './member/TableStudentInfo';
 import { TableTeacherInfo } from './member/TableTeacherInfo';
+import { AdminSchedule } from './schedule/AdminSchedule';
 
 const { Option } = Select;
 
@@ -45,12 +46,14 @@ const listMenu = [
     path: '/admin/studentManagement',
     display: 'Quản lý học viên',
     icon: <ScheduleOutlined />,
+    public: true,
   },
   {
     key: 2,
     path: '/admin/report',
     display: 'Báo cáo điểm danh',
     icon: <BarChartOutlined />,
+    public: true,
   },
   {
     key: 3,
@@ -68,6 +71,14 @@ const listMenu = [
         path: '/admin/teacherInfo',
       },
     ],
+    public: false,
+  },
+  {
+    key: 6,
+    path: '/admin/schedule',
+    display: 'Thời khóa biểu',
+    icon: <ScheduleOutlined />,
+    public: false,
   },
 ];
 
@@ -161,15 +172,13 @@ export const Admin = () => {
                   background: '#fff',
                 }}
               >
-                <Row>
-                  <TotalCard totals={total} />
-                </Row>
                 <Row
                   style={{
                     marginTop: 20,
                     display: 'flex',
                     justifyContent: 'space-between',
                     paddingLeft: 20,
+                    marginBottom: 20,
                   }}
                 >
                   <Space>
@@ -180,6 +189,7 @@ export const Admin = () => {
                         style={{
                           width: 120,
                         }}
+                        size="large"
                       >
                         <Option value="all">All</Option>
                         <Option value="K70">K70</Option>
@@ -197,12 +207,15 @@ export const Admin = () => {
                           moment(moment().subtract(7, 'd'), dateFormat),
                           moment(new Date(), dateFormat),
                         ]}
-                        style={{ width: '65%' }}
+                        size="large"
                       />
                     </Space>
                   </Space>
                 </Row>
-                <Row style={{ padding: 20 }} gutter={20}>
+                <Row style={{ marginBottom: 20 }}>
+                  <TotalCard totals={total} />
+                </Row>
+                <Row style={{ padding: 20 }} gutter={40}>
                   <Col span={18}>
                     <Card
                       bodyStyle={{
@@ -333,6 +346,16 @@ export const Admin = () => {
                 }}
               >
                 <TableTeacherInfo />
+              </Content>
+            </Route>
+            <Route path="/admin/schedule" exact>
+              <Content
+                style={{
+                  padding: 24,
+                  height: '100%',
+                }}
+              >
+                <AdminSchedule />
               </Content>
             </Route>
           </Switch>
