@@ -1,18 +1,5 @@
-import {
-  PlusOutlined,
-  SearchOutlined,
-  UploadOutlined,
-} from '@ant-design/icons';
-import {
-  Button,
-  Input,
-  Select,
-  Space,
-  Table,
-  Tag,
-  Typography,
-  Upload,
-} from 'antd';
+import { SearchOutlined } from '@ant-design/icons';
+import { Input, Select, Space, Table, Tag } from 'antd';
 import 'date-fns';
 import React from 'react';
 import { CreateUser } from './components/CreateUser';
@@ -26,59 +13,24 @@ const columns = [
     key: 'stt',
   },
   {
-    title: 'MSV',
-    dataIndex: 'id',
-    key: 'id',
-  },
-  {
     title: 'Họ và tên',
     dataIndex: 'name',
     key: 'name',
   },
   {
-    title: 'Môn học',
-    dataIndex: 'subject',
-    key: 'subject',
+    title: 'Viện',
+    dataIndex: 'institua',
+    key: 'institua',
   },
   {
-    title: 'Trạng thái',
-    dataIndex: 'status',
-    key: 'status',
-    render: (status) => (
-      <>
-        {status.map((tag) => {
-          let color;
-          let display;
-          switch (tag) {
-            case 'abvent': {
-              color = 'green';
-              display = 'Có mặt';
-              break;
-            }
-
-            case 'absent': {
-              color = 'red';
-              display = 'Vắng';
-              break;
-            }
-
-            case 'late': {
-              color = 'orange';
-              display = 'Muộn';
-              break;
-            }
-            default:
-              break;
-          }
-
-          return (
-            <Tag color={color} key={tag}>
-              {display.toUpperCase()}
-            </Tag>
-          );
-        })}
-      </>
-    ),
+    title: 'Số điện thoại',
+    dataIndex: 'phone',
+    key: 'phone',
+  },
+  {
+    title: 'Email',
+    dataIndex: 'email',
+    key: 'email',
   },
 ];
 
@@ -87,133 +39,167 @@ const data = [
     stt: '1',
     id: '17021037',
     name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
-    status: ['abvent'],
+    institua: 'THÔNG TIN KHOA HỌC',
+    phone: '0353005557',
+    email: 'thangth@gmail.com',
   },
   {
     stt: '1',
     id: '17021037',
     name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
-    status: ['abvent'],
+    institua: 'THÔNG TIN KHOA HỌC',
+    phone: '0353005557',
+    email: 'thangth@gmail.com',
   },
   {
     stt: '1',
     id: '17021037',
     name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
-    status: ['abvent'],
+    institua: 'THÔNG TIN KHOA HỌC',
+    phone: '0353005557',
+    email: 'thangth@gmail.com',
   },
   {
     stt: '1',
     id: '17021037',
     name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
-    status: ['abvent'],
+    institua: 'THÔNG TIN KHOA HỌC',
+    phone: '0353005557',
+    email: 'thangth@gmail.com',
   },
   {
     stt: '1',
     id: '17021037',
     name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
+    institua: 'THÔNG TIN KHOA HỌC',
+    phone: '0353005557',
+    email: 'thangth@gmail.com',
     status: ['absent'],
   },
   {
     stt: '1',
     id: '17021037',
     name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
+    institua: 'THÔNG TIN KHOA HỌC',
+    phone: '0353005557',
+    email: 'thangth@gmail.com',
     status: ['absent'],
   },
   {
     stt: '1',
     id: '17021037',
     name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
+    institua: 'THÔNG TIN KHOA HỌC',
+    phone: '0353005557',
+    email: 'thangth@gmail.com',
     status: ['absent'],
   },
   {
     stt: '1',
     id: '17021037',
     name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
+    institua: 'THÔNG TIN KHOA HỌC',
+    phone: '0353005557',
+    email: 'thangth@gmail.com',
     status: ['late'],
   },
   {
     stt: '1',
     id: '17021037',
     name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
+    institua: 'THÔNG TIN KHOA HỌC',
+    phone: '0353005557',
+    email: 'thangth@gmail.com',
     status: ['late'],
   },
   {
     stt: '1',
     id: '17021037',
     name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
+    institua: 'THÔNG TIN KHOA HỌC',
+    phone: '0353005557',
+    email: 'thangth@gmail.com',
     status: ['late'],
   },
   {
     stt: '1',
     id: '17021037',
     name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
+    institua: 'THÔNG TIN KHOA HỌC',
+    phone: '0353005557',
+    email: 'thangth@gmail.com',
     status: ['absent'],
   },
   {
     stt: '1',
     id: '17021037',
     name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
+    institua: 'THÔNG TIN KHOA HỌC',
+    phone: '0353005557',
+    email: 'thangth@gmail.com',
     status: ['absent'],
   },
   {
     stt: '1',
     id: '17021037',
     name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
+    institua: 'THÔNG TIN KHOA HỌC',
+    phone: '0353005557',
+    email: 'thangth@gmail.com',
     status: ['absent'],
   },
   {
     stt: '1',
     id: '17021037',
     name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
+    institua: 'THÔNG TIN KHOA HỌC',
+    phone: '0353005557',
+    email: 'thangth@gmail.com',
     status: ['absent'],
   },
   {
     stt: '1',
     id: '17021037',
     name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
+    institua: 'THÔNG TIN KHOA HỌC',
+    phone: '0353005557',
+    email: 'thangth@gmail.com',
     status: ['absent'],
   },
   {
     stt: '1',
     id: '17021037',
     name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
+    institua: 'THÔNG TIN KHOA HỌC',
+    phone: '0353005557',
+    email: 'thangth@gmail.com',
     status: ['absent'],
   },
   {
     stt: '1',
     id: '17021037',
     name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
+    institua: 'THÔNG TIN KHOA HỌC',
+    phone: '0353005557',
+    email: 'thangth@gmail.com',
     status: ['absent'],
   },
   {
     stt: '1',
     id: '17021037',
     name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
+    institua: 'THÔNG TIN KHOA HỌC',
+    phone: '0353005557',
+    email: 'thangth@gmail.com',
     status: ['absent'],
   },
   {
     stt: '1',
     id: '17021037',
     name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
+    institua: 'THÔNG TIN KHOA HỌC',
+    phone: '0353005557',
+    email: 'thangth@gmail.com',
     status: ['absent'],
   },
 ];

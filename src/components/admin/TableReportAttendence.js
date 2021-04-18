@@ -1,9 +1,14 @@
-import { FileExcelFilled, SearchOutlined } from '@ant-design/icons';
+import {
+  FileExcelFilled,
+  SearchOutlined,
+  UploadOutlined,
+} from '@ant-design/icons';
 import TuneOutlinedIcon from '@material-ui/icons/TuneOutlined';
 import {
   Button,
   DatePicker,
   Input,
+  message,
   Popover,
   Space,
   Table,
@@ -35,9 +40,9 @@ const columns = [
     key: 'name',
   },
   {
-    title: 'Môn học',
-    dataIndex: 'subject',
-    key: 'subject',
+    title: 'Chuyên đề',
+    dataIndex: 'category',
+    key: 'category',
   },
   {
     title: 'Thời gian vào',
@@ -95,134 +100,134 @@ const data = [
   {
     stt: '1',
     id: '17021037',
-    name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
+    name: 'Trịnh Hữu Thắng',
+    category: 'Khái quát xã hội học trong lãnh đạo quản lý',
     status: ['abvent'],
   },
   {
     stt: '1',
     id: '17021037',
-    name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
+    name: 'Trịnh Hữu Thắng',
+    category: 'Khái quát xã hội học trong lãnh đạo quản lý',
     status: ['abvent'],
   },
   {
     stt: '1',
     id: '17021037',
-    name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
+    name: 'Trịnh Hữu Thắng',
+    category: 'Khái quát xã hội học trong lãnh đạo quản lý',
     status: ['abvent'],
   },
   {
     stt: '1',
     id: '17021037',
-    name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
+    name: 'Trịnh Hữu Thắng',
+    category: 'Khái quát xã hội học trong lãnh đạo quản lý',
     status: ['abvent'],
   },
   {
     stt: '1',
     id: '17021037',
-    name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
+    name: 'Trịnh Hữu Thắng',
+    category: 'Khái quát xã hội học trong lãnh đạo quản lý',
     status: ['absent'],
   },
   {
     stt: '1',
     id: '17021037',
-    name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
+    name: 'Trịnh Hữu Thắng',
+    category: 'Khái quát xã hội học trong lãnh đạo quản lý',
     status: ['absent'],
   },
   {
     stt: '1',
     id: '17021037',
-    name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
+    name: 'Trịnh Hữu Thắng',
+    category: 'Khái quát xã hội học trong lãnh đạo quản lý',
     status: ['absent'],
   },
   {
     stt: '1',
     id: '17021037',
-    name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
+    name: 'Trịnh Hữu Thắng',
+    category: 'Khái quát xã hội học trong lãnh đạo quản lý',
     status: ['late'],
   },
   {
     stt: '1',
     id: '17021037',
-    name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
+    name: 'Trịnh Hữu Thắng',
+    category: 'Khái quát xã hội học trong lãnh đạo quản lý',
     status: ['late'],
   },
   {
     stt: '1',
     id: '17021037',
-    name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
+    name: 'Trịnh Hữu Thắng',
+    category: 'Khái quát xã hội học trong lãnh đạo quản lý',
     status: ['late'],
   },
   {
     stt: '1',
     id: '17021037',
-    name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
+    name: 'Trịnh Hữu Thắng',
+    category: 'Khái quát xã hội học trong lãnh đạo quản lý',
     status: ['absent'],
   },
   {
     stt: '1',
     id: '17021037',
-    name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
+    name: 'Trịnh Hữu Thắng',
+    category: 'Khái quát xã hội học trong lãnh đạo quản lý',
     status: ['absent'],
   },
   {
     stt: '1',
     id: '17021037',
-    name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
+    name: 'Trịnh Hữu Thắng',
+    category: 'Khái quát xã hội học trong lãnh đạo quản lý',
     status: ['absent'],
   },
   {
     stt: '1',
     id: '17021037',
-    name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
+    name: 'Trịnh Hữu Thắng',
+    category: 'Khái quát xã hội học trong lãnh đạo quản lý',
     status: ['absent'],
   },
   {
     stt: '1',
     id: '17021037',
-    name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
+    name: 'Trịnh Hữu Thắng',
+    category: 'Khái quát xã hội học trong lãnh đạo quản lý',
     status: ['absent'],
   },
   {
     stt: '1',
     id: '17021037',
-    name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
+    name: 'Trịnh Hữu Thắng',
+    category: 'Khái quát xã hội học trong lãnh đạo quản lý',
     status: ['absent'],
   },
   {
     stt: '1',
     id: '17021037',
-    name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
+    name: 'Trịnh Hữu Thắng',
+    category: 'Khái quát xã hội học trong lãnh đạo quản lý',
     status: ['absent'],
   },
   {
     stt: '1',
     id: '17021037',
-    name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
+    name: 'Trịnh Hữu Thắng',
+    category: 'Khái quát xã hội học trong lãnh đạo quản lý',
     status: ['absent'],
   },
   {
     stt: '1',
     id: '17021037',
-    name: 'Trinh Huu Thang',
-    subject: 'Mang khong day',
+    name: 'Trịnh Hữu Thắng',
+    category: 'Khái quát xã hội học trong lãnh đạo quản lý',
     status: ['absent'],
   },
 ];
@@ -247,6 +252,20 @@ const filterData = [
 export const TableReportAttendence = () => {
   const handleOnChangeDatePicker = (date, dateString) => {
     console.log(date, dateString);
+  };
+
+  const props = {
+    name: 'file',
+    onChange(info) {
+      if (info.file.status !== 'uploading') {
+        console.log(info.file, info.fileList);
+      }
+      if (info.file.status === 'done') {
+        message.success(`${info.file.name} file uploaded successfully`);
+      } else if (info.file.status === 'error') {
+        message.error(`${info.file.name} file upload failed.`);
+      }
+    },
   };
 
   return (
@@ -295,14 +314,8 @@ export const TableReportAttendence = () => {
           </Space>
         </Space>
         <Space style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Upload>
-            <Button
-              icon={<FileExcelFilled style={{ color: '#366F38' }} />}
-              size="large"
-              style={{ borderRadius: 5 }}
-            >
-              Import
-            </Button>
+          <Upload {...props}>
+            <Button icon={<UploadOutlined />}>Upload</Button>
           </Upload>
           <Upload>
             <Button

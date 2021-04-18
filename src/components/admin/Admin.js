@@ -30,6 +30,7 @@ import ReactPlayer from 'react-player';
 import { TableStudentInfo } from './member/TableStudentInfo';
 import { TableTeacherInfo } from './member/TableTeacherInfo';
 import { AdminSchedule } from './schedule/AdminSchedule';
+import WatchLaterIcon from '@material-ui/icons/WatchLater';
 
 const { Option } = Select;
 
@@ -44,7 +45,7 @@ const listMenu = [
   {
     key: 1,
     path: '/admin/studentManagement',
-    display: 'Quản lý học viên',
+    display: 'Quản lý điểm danh',
     icon: <ScheduleOutlined />,
     public: true,
   },
@@ -57,7 +58,7 @@ const listMenu = [
   },
   {
     key: 3,
-    display: 'Thành viên',
+    display: 'Quản lý thành viên',
     icon: <UserOutlined />,
     subMenu: [
       {
@@ -102,14 +103,14 @@ const total = [
   {
     total: 40,
     title: 'Số lượt đi muộn',
-    icon: <PeopleAltOutlinedIcon style={{ fontSize: 50, color: '#5BC3B2' }} />,
+    icon: <WatchLaterIcon style={{ fontSize: 50, color: '#5BC3B2' }} />,
     rate: '6%',
   },
 
   {
     total: 30,
-    title: 'Số lượt nghỉ',
-    icon: <PeopleAltOutlinedIcon style={{ fontSize: 50, color: '#5BC3B2' }} />,
+    title: 'Số lượt về giữa giờ',
+    icon: <WatchLaterIcon style={{ fontSize: 50, color: '#5BC3B2' }} />,
     rate: '5%',
   },
 ];
@@ -246,12 +247,10 @@ export const Admin = () => {
                 </Row>
                 <Row
                   style={{
-                    padding: 10,
                     fontWeight: 'bold',
-                    fontSize: '2em',
+                    fontSize: '1.5em',
                     color: '#F7EB7F',
-                    display: 'flex',
-                    justifyContent: 'center',
+                    padding: 20,
                   }}
                 >
                   <Typography>GIÁM SÁT LỚP</Typography>
@@ -259,38 +258,20 @@ export const Admin = () => {
                 <Row
                   style={{
                     display: 'flex',
-                    flexDirection: 'column',
                     alignItems: 'center',
-                    marginLeft: 20,
-                    marginRight: 20,
-                    borderRadius: 5,
+                    justifyContent: 'space-between',
+                    paddingLeft: 20,
+                    paddingRight: 20,
                   }}
                 >
-                  <Row>
-                    <Col
-                      span={12}
-                      style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        padding: 20,
-                      }}
-                    >
-                      <ReactPlayer
-                        url="https://www.youtube.com/watch?v=r7uHSjHAMqc"
-                        style={{ width: '100%' }}
-                      />
-                    </Col>
-                    <Col
-                      span={12}
-                      style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        padding: 20,
-                      }}
-                    >
-                      <ReactPlayer url="https://www.youtube.com/watch?v=r7uHSjHAMqc" />
-                    </Col>
-                  </Row>
+                  <ReactPlayer
+                    url="https://www.youtube.com/watch?v=iTRM_5v2GVQ"
+                    style={{ width: '100%' }}
+                  />
+                  <ReactPlayer
+                    url="https://www.youtube.com/watch?v=iTRM_5v2GVQ"
+                    style={{ width: '100%' }}
+                  />
                 </Row>
               </Content>
             </Route>
