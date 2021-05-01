@@ -6,7 +6,6 @@ import {
 } from '@ant-design/icons';
 import { Breadcrumb, Button, Input, Layout, Upload } from 'antd';
 import { Route, Switch } from 'react-router-dom';
-import { HeaderComponent } from '../../common/components/HeaderComponent';
 import { SideBar } from '../../common/components/SideBar';
 import { TableStudentAttendence } from './TableStudentAttendence';
 import { TableStudentSchedule } from './TableStudentSchedule';
@@ -29,11 +28,8 @@ const listMenu = [
 ];
 
 export const Student = () => {
-  const onSearch = (value) => console.log(value);
-
   return (
     <Layout style={{ height: '100vh' }}>
-      <HeaderComponent />
       <Layout>
         <SideBar listMenu={listMenu} />
         <Layout style={{ padding: '0 24px 24px' }}>

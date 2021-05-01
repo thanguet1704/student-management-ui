@@ -5,6 +5,7 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import PeopleAltOutlinedIcon from '@material-ui/icons/PeopleAltOutlined';
+import WatchLaterIcon from '@material-ui/icons/WatchLater';
 import {
   Breadcrumb,
   Card,
@@ -19,18 +20,16 @@ import {
 import 'date-fns';
 import moment from 'moment';
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
-import { HeaderComponent } from '../../common/components/HeaderComponent';
-import { SideBar } from '../../common/components/SideBar';
-import { Chart } from './Chart';
-import { TableReport } from './TableReport';
-import { TableReportAttendence } from './TableReportAttendence';
-import { TotalCard } from './TotalCard';
 import ReactPlayer from 'react-player';
+import { Route, Switch } from 'react-router-dom';
+import { SideBar } from '../../common/components/SideBar';
 import { TableStudentInfo } from './member/TableStudentInfo';
 import { TableTeacherInfo } from './member/TableTeacherInfo';
+import { Chart } from './report/Chart';
+import { TableReport } from './report/TableReport';
+import { TotalCard } from './report/TotalCard';
 import { AdminSchedule } from './schedule/AdminSchedule';
-import WatchLaterIcon from '@material-ui/icons/WatchLater';
+import { TableReportAttendence } from './attendence/TableReportAttendence';
 
 const { Option } = Select;
 
@@ -118,7 +117,6 @@ const total = [
 export const Admin = () => {
   return (
     <Layout>
-      <HeaderComponent />
       <Layout>
         <SideBar listMenu={listMenu} />
         <Layout style={{ padding: '0 24px 24px', minHeight: '93vh' }}>

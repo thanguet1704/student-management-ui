@@ -1,12 +1,11 @@
 import { Avatar, Popover, Space, Typography } from 'antd';
 import { Header } from 'antd/lib/layout/layout';
 import Title from 'antd/lib/typography/Title';
-import React, { useState } from 'react';
-import avatar from '../../assets/avatar.jpg';
+import React, { useEffect, useState } from 'react';
 import logo from '../../assets/logo.png';
 import { UserOption } from './UserOption';
 
-export const HeaderComponent = () => {
+export const HeaderComponent = (props) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const showModal = () => {
@@ -20,6 +19,12 @@ export const HeaderComponent = () => {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
+
+  const lastName = `${props.auth.name}`.split(' ').slice(-1).join(' ');
+
+  useEffect(() => {
+    console.log(props.auth);
+  });
 
   return (
     <Header
@@ -55,9 +60,21 @@ export const HeaderComponent = () => {
                 fontFamily: 'sans-serif',
               }}
             >
-              Trinh Huu Thang
+              {props.auth.name}
             </Typography>
-            <Avatar style={{ float: 'right' }} src={avatar} />
+            {props.auth.isAuth ? (
+              <Avatar
+                style={{
+                  float: 'right',
+                  color: '#f56a00',
+                  backgroundColor: '#fde3cf',
+                }}
+              >
+                {`${lastName}`.slice(0, 1).toUpperCase()}
+              </Avatar>
+            ) : (
+              <></>
+            )}
           </Space>
         </div>
       </Popover>

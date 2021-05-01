@@ -52,36 +52,34 @@ const tailLayout = {
   },
 };
 
-export const Login = () => {
+export const Login = (props) => {
   const classes = useStyles();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  let history = useHistory();
 
-  const history = useHistory();
-
-  const [form] = Form.useForm();
-
-  const [userState, setUserState] = useState(null);
-
-  const login = async () => {
+  const handleLogin = async () => {
     try {
-      console.log();
-      const body = {
-        username: form.getFieldValue('username'),
-        password: form.getFieldValue('password'),
-      };
-
-      const res = await loginApi.login(body);
+      const res = await loginApi.login({ username, password });
 
       if (res.status === 200) {
-        setUserState(res.data);
-        history.push('/attendence');
-      }
+        localStorage.setItem('hcmaid', res.data.access_token);
+        switch (res.data.role) {
+          case 'student':
+            history.push('/attendence');
+            break;
 
-      if (res.status === 400) {
+          default:
+            history.push('/admin/studentManagement');
+            break;
+        }
       }
     } catch (error) {}
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    handleLogin();
+  }, []);
 
   return (
     <div>
@@ -113,7 +111,6 @@ export const Login = () => {
               </Typography>
             </Col>
             <Form
-              form={form}
               {...layout}
               name="basic"
               initialValues={{
@@ -131,7 +128,10 @@ export const Login = () => {
                   },
                 ]}
               >
-                <Input size="large" />
+                <Input
+                  size="large"
+                  onChange={(e) => setUsername(e.target.value)}
+                />
               </Form.Item>
 
               <Form.Item
@@ -144,7 +144,11 @@ export const Login = () => {
                   },
                 ]}
               >
-                <Input.Password size="large" style={{ height: '120%' }} />
+                <Input.Password
+                  size="large"
+                  style={{ height: '120%' }}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
               </Form.Item>
 
               <Form.Item
@@ -161,7 +165,7 @@ export const Login = () => {
                 <Button
                   type="primary"
                   htmlType="submit"
-                  onClick={login}
+                  onClick={handleLogin}
                   size="middle"
                 >
                   Đăng nhập

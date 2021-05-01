@@ -19,7 +19,7 @@ import {
 import 'date-fns';
 import moment from 'moment';
 import React from 'react';
-import { FilterButton } from '../../common/components/FilterButton';
+import { FilterButton } from '../../../common/components/FilterButton';
 
 const dateFormat = 'DD-MM-YYYY';
 
@@ -258,7 +258,6 @@ export const TableReportAttendence = () => {
     name: 'file',
     onChange(info) {
       if (info.file.status !== 'uploading') {
-        console.log(info.file, info.fileList);
       }
       if (info.file.status === 'done') {
         message.success(`${info.file.name} file uploaded successfully`);
