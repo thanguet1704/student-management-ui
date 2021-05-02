@@ -1,13 +1,12 @@
 import { Select, Space, Typography } from 'antd';
 import { useEffect, useState } from 'react';
-import { axiosClient } from '../../../api';
+import { axiosClient } from '../../../../api';
 
 const { Option } = Select;
 
 export const CategorySelect = (props) => {
   const { subjectId, category, setCategory } = props;
   const [categories, setCategories] = useState();
-  // const [category, setCategory] = useState(categories[0]);
 
   const handleGetCategories = async () => {
     const res = await axiosClient.get(`/subjects/${subjectId}`);

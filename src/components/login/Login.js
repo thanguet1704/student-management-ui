@@ -33,6 +33,8 @@ export const Login = (props) => {
       .then((res) => {
         localStorage.setItem('hcmaid', res.data.access_token);
         localStorage.setItem('role', res.data.role);
+        localStorage.setItem('name', res.data.name);
+
         setAuth({ name: res.data.name, role: res.data.role });
         switch (res.data.role) {
           case 'student':

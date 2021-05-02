@@ -1,12 +1,11 @@
 import { Select, Space, Typography } from 'antd';
 import { useEffect, useState } from 'react';
-import { axiosClient } from '../../../api';
+import { axiosClient } from '../../../../api';
 
 const { Option } = Select;
 
-export const ClassSelect = () => {
+export const ClassSelect = (props) => {
   const [classes, setClasses] = useState([{ id: 1, name: 'K70 - A01' }]);
-  const [classObject, setClassObject] = useState(classes[0]);
 
   const handleGetClass = async () => {
     const res = await axiosClient.get('/class');
@@ -15,7 +14,7 @@ export const ClassSelect = () => {
 
   const handleChangeClass = async (value) => {
     const cla = classes.find((classs) => classs.id === value);
-    setClassObject(cla);
+    props.setClassObject(cla);
   };
 
   useEffect(() => {
@@ -26,7 +25,7 @@ export const ClassSelect = () => {
     <Space>
       <Typography style={{ width: 80 }}>Lớp:</Typography>
       <Select
-        defaultValue={classObject.id}
+        defaultValue={props.classObject.id}
         style={{ width: 140 }}
         size="large"
         onChange={(value) => handleChangeClass(value)}

@@ -1,12 +1,11 @@
 import { Select, Space, Typography } from 'antd';
 import { useEffect, useState } from 'react';
-import { axiosClient } from '../../../api';
+import { axiosClient } from '../../../../api';
 
 const { Option } = Select;
 
 export const SessionSelect = (props) => {
   const [sessions, setSessions] = useState([{ id: 1, title: 'Sáng' }]);
-  const [session, setSession] = useState(sessions[0]);
 
   const handleGetSession = async () => {
     const res = await axiosClient.get('/sessions');
@@ -15,7 +14,7 @@ export const SessionSelect = (props) => {
 
   const handleChangeSession = (value) => {
     const ses = sessions.find((session) => session.id === value);
-    setSession(ses);
+    props.setSession(ses);
   };
 
   useEffect(() => {
@@ -25,7 +24,7 @@ export const SessionSelect = (props) => {
     <Space>
       <Typography>Buổi:</Typography>
       <Select
-        defaultValue={session.id}
+        defaultValue={props.session.id}
         style={{ width: '5vw' }}
         size="large"
         onChange={(value) => handleChangeSession(value)}

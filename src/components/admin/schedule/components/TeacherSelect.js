@@ -1,6 +1,6 @@
 import { Select, Space, Typography } from 'antd';
 import { useEffect, useState } from 'react';
-import { axiosClient } from '../../../api';
+import { axiosClient } from '../../../../api';
 
 const { Option } = Select;
 
@@ -8,7 +8,6 @@ export const TeacherSelect = (props) => {
   const [teachers, setTeachers] = useState([
     { id: 51, name: 'Trịnh Hữu Thắng' },
   ]);
-  const [teacher, setTeacher] = useState(teachers[0]);
 
   const handleGetTeachers = async () => {
     const res = await axiosClient.get('/users/teachers');
@@ -17,7 +16,7 @@ export const TeacherSelect = (props) => {
 
   const handleChangeTeacher = (value) => {
     const ses = teachers.find((teacher) => teacher.id === value);
-    setTeacher(ses);
+    props.setTeacher(ses);
   };
 
   useEffect(() => {
@@ -27,9 +26,10 @@ export const TeacherSelect = (props) => {
     <Space>
       <Typography>Giảng viên:</Typography>
       <Select
-        defaultValue={teacher.id}
+        defaultValue={props.teacher.id}
         style={{ width: 206 }}
         size="large"
+        value={props.teacher.id}
         onChange={(value) => handleChangeTeacher(value)}
       >
         {teachers?.map((s) => {

@@ -1,6 +1,7 @@
-import { Button, Form, Input, Modal } from 'antd';
+import { Alert, Button, Form, Input, Modal } from 'antd';
 import { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+import { axiosClient } from '../../api';
 import { AuthContext } from '../../contexts/AuthProvider';
 
 export const UserOption = (props) => {
@@ -10,8 +11,26 @@ export const UserOption = (props) => {
   const handleLogout = () => {
     localStorage.removeItem('hcmaid');
     localStorage.removeItem('role');
+    localStorage.removeItem('name');
     authCt.setAuth({ name: '', role: '' });
     history.push('/');
+  };
+
+  const handleOk = () => {
+    axiosClient
+      .patch({
+        username: props.username,
+        oldPassword: props.password,
+        newPassword: props.newPassword,
+      })
+      .then((res) => {
+        localStorage.removeItem('hcmaid');
+        localStorage.removeItem('role');
+        localStorage.removeItem('name');
+        props.setIsModalVisible(false);
+        history.push('/');
+      })
+      .catch((err) => props.setError(true));
   };
 
   return (
@@ -28,16 +47,24 @@ export const UserOption = (props) => {
         style={{ textAlign: 'center' }}
         title="Đổi mật khẩu"
         visible={props.isModalVisible}
-        onOk={props.handleOk}
+        onOk={() => handleOk}
         onCancel={props.handleCancel}
       >
         <Form name="basic" initialValues={{ remember: true }}>
+          {props.error ? (
+            <Form.Item>
+              <Alert message="Lỗi" type="error" showIcon />
+            </Form.Item>
+          ) : (
+            <></>
+          )}
+
           <Form.Item
             label="Tên đăng nhập"
             name="username"
             rules={[{ required: true, message: 'Hãy nhập tên đăng nhập!' }]}
           >
-            <Input />
+            <Input onChange={(value) => props.setUserName(value)} />
           </Form.Item>
 
           <Form.Item
@@ -45,7 +72,7 @@ export const UserOption = (props) => {
             name="password"
             rules={[{ required: true, message: 'Nhập mật khẩu cũ!' }]}
           >
-            <Input.Password />
+            <Input.Password onChange={(value) => props.setPassword(value)} />
           </Form.Item>
 
           <Form.Item
@@ -53,7 +80,7 @@ export const UserOption = (props) => {
             name="password"
             rules={[{ required: true, message: 'Nhập mật khẩu mới!' }]}
           >
-            <Input.Password />
+            <Input.Password onChange={(value) => props.setNewPassword(value)} />
           </Form.Item>
         </Form>
       </Modal>

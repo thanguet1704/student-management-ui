@@ -9,13 +9,13 @@ import { UserOption } from './UserOption';
 export const HeaderComponent = (props) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { auth, setAuth } = useContext(AuthContext);
+  const [username, setUserName] = useState('');
+  const [password, setPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [error, setError] = useState(false);
 
   const showModal = () => {
     setIsModalVisible(true);
-  };
-
-  const handleOk = () => {
-    setIsModalVisible(false);
   };
 
   const handleCancel = () => {
@@ -36,8 +36,13 @@ export const HeaderComponent = (props) => {
         content={UserOption({
           isModalVisible,
           showModal,
-          handleOk,
           handleCancel,
+          setUserName,
+          setPassword,
+          setNewPassword,
+          error,
+          setIsModalVisible,
+          setError,
         })}
       >
         <div

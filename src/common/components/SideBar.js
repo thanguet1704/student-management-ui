@@ -1,16 +1,19 @@
 import { Layout, Menu } from 'antd';
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../contexts/AuthProvider';
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
 
 export const SideBar = (props) => {
+  const { auth } = useContext(AuthContext);
   return (
     <Sider style={{ background: '#fff' }}>
       <Menu defaultSelectedKeys={['attendence']} mode="inline">
         {props.listMenu
           .filter((item) => {
-            if (props.role === 'student' || props.role === 'teacher') {
+            if (auth.role === 'student' || auth.role === 'teacher') {
               return item.public === true;
             }
 

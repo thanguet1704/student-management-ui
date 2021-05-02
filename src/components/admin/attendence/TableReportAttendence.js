@@ -3,22 +3,10 @@ import {
   SearchOutlined,
   UploadOutlined,
 } from '@ant-design/icons';
-import TuneOutlinedIcon from '@material-ui/icons/TuneOutlined';
-import {
-  Button,
-  Input,
-  message,
-  Popover,
-  Space,
-  Table,
-  Tag,
-  Typography,
-  Upload,
-} from 'antd';
+import { Button, Input, message, Space, Table, Tag, Upload } from 'antd';
 import 'date-fns';
 import React from 'react';
-import { FilterButton } from '../../../common/components/FilterButton';
-import { DateSelect } from '../schedule/DateSelect';
+import { DateSelect } from '../schedule/components/DateSelect';
 
 const dateFormat = 'DD-MM-YYYY';
 
