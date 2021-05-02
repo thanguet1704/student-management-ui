@@ -5,6 +5,7 @@ import {
   SearchOutlined,
 } from '@ant-design/icons';
 import { Breadcrumb, Button, Input, Layout, Upload } from 'antd';
+import { useState } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { SideBar } from '../../common/components/SideBar';
 import { TableStudentAttendence } from './TableStudentAttendence';
@@ -18,18 +19,22 @@ const listMenu = [
     path: '/attendence',
     display: 'Thông tin điểm danh',
     icon: <AppstoreOutlined />,
+    public: true,
   },
   {
     key: 'schedule',
     path: '/schedule',
     display: 'Thời khóa biểu',
     icon: <ScheduleOutlined />,
+    public: true,
   },
 ];
 
 export const Student = () => {
+  const [searchName, setSearchName] = useState('');
+
   return (
-    <Layout style={{ height: '100vh' }}>
+    <Layout style={{ height: '93vh' }}>
       <Layout>
         <SideBar listMenu={listMenu} />
         <Layout style={{ padding: '0 24px 24px' }}>
@@ -49,6 +54,9 @@ export const Student = () => {
                     placeholder="Tìm kiếm theo chuyên đề"
                     prefix={<SearchOutlined />}
                     style={{ borderRadius: 5, width: '80%', height: '70%' }}
+                    onChange={(e) => {
+                      setSearchName(e.target.value);
+                    }}
                   />
                 </div>
                 <Breadcrumb
@@ -98,7 +106,7 @@ export const Student = () => {
                   background: '#fff',
                 }}
               >
-                <TableStudentAttendence />
+                <TableStudentAttendence searchName={searchName} />
               </Content>
             </Route>
             <Route path="/schedule" exact>

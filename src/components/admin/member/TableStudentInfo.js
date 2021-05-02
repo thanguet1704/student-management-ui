@@ -283,7 +283,12 @@ export const TableStudentInfo = () => {
           </Upload>
         </Space>
       </div>
-      <Table columns={columns} dataSource={data} />;
+      <Table
+        columns={columns}
+        dataSource={data}
+        onChange={(value) => console.log(value)}
+      />
+      ;
     </div>
   );
 };

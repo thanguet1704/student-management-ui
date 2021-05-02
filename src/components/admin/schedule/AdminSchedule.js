@@ -1,6 +1,7 @@
-import { Button, Col, Row, Select, Space, Typography } from 'antd';
+import { Button, Col, Row, Select, Space, Typography, Table } from 'antd';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
+import { axiosClient } from '../../../api';
 import ScheduleApi from '../../../api/ScheduleApi';
 import { CategorySelect } from './components/CategorySelect';
 import { ClassSelect } from './components/ClassSelect';
@@ -10,6 +11,36 @@ import { TeacherSelect } from './components/TeacherSelect';
 
 const { Option } = Select;
 const dateFormat = 'MM-DD-YYYY';
+const columns = [
+  {
+    title: 'Thứ.Ngày',
+    dataIndex: 'learnDate',
+    key: 'learnDate',
+    render: (date) => {
+      return `${moment(new Date()).locale('vi').format('dddd')}.${date}`;
+    },
+  },
+  {
+    title: 'Chuyên đề',
+    dataIndex: 'category',
+    key: 'category',
+  },
+  {
+    title: 'Buổi',
+    dataIndex: 'session',
+    key: 'session',
+  },
+  {
+    title: 'Số tiết',
+    dataIndex: 'lession',
+    key: 'lession',
+  },
+  {
+    title: 'Giảng viên (Điện thoại)',
+    dataIndex: 'teacher',
+    key: 'teacher',
+  },
+];
 
 export const AdminSchedule = () => {
   const scheduleApi = new ScheduleApi();
@@ -29,6 +60,18 @@ export const AdminSchedule = () => {
   const [session, setSession] = useState({ id: 1, title: 'Sáng' });
   const [classObject, setClassObject] = useState({ id: 1, name: 'K70 - A01' });
   const [teacher, setTeacher] = useState({ id: 51, name: 'Trịnh Hữu Thắng' });
+  const [errorCreate, setErrorCreate] = useState(false);
+  const [createSuccess, setCreateSuccess] = useState(false);
+
+  let data = [
+    {
+      learnDate,
+      category: category.title,
+      session: session.title,
+      lession: category.lession,
+      teacher: `${teacher.name} (${teacher.phone})`,
+    },
+  ];
 
   const handleGetSubjects = async () => {
     const getSubjects = await scheduleApi.getSubjects();
@@ -38,6 +81,26 @@ export const AdminSchedule = () => {
   const handleChangeSubject = (value) => {
     const subject = subjects.find((sub) => sub.id === value);
     setSubject({ id: value, name: subject.name });
+  };
+
+  const handleCreateSchedle = () => {
+    axiosClient
+      .post('/schedule', {
+        subjectId: subject.id,
+        categoryId: category.id,
+        classId: classObject.id,
+        learningDate: learnDate,
+        sessionId: session.id,
+        accountId: teacher.id,
+        classroomId: 1,
+        startDate,
+        endDate,
+        finalExamDate: '2021-05-02T11:59:24.248Z',
+      })
+      .then((res) => {
+        setCreateSuccess(true);
+      })
+      .catch((err) => setErrorCreate(true));
   };
 
   useEffect(() => {
@@ -119,6 +182,7 @@ export const AdminSchedule = () => {
             marginTop: 10,
           }}
           size="large"
+          onClick={handleCreateSchedle}
         >
           Thêm
         </Button>
@@ -148,50 +212,13 @@ export const AdminSchedule = () => {
             <Typography>Địa điểm: Phòng 310A-A14</Typography>
           </Space>
           <Space size="large">
-            <table style={{ borderCollapse: 'collapse' }}>
-              <tr>
-                <th style={{ border: '1px solid black', textAlign: 'center' }}>
-                  Thứ.Ngày
-                </th>
-                <th style={{ border: '1px solid black', textAlign: 'center' }}>
-                  Buổi
-                </th>
-                <th style={{ border: '1px solid black', textAlign: 'center' }}>
-                  <Space direction="vertical">
-                    <Typography>Nội dung giảng dạy - học tập</Typography>
-                    <Typography>(Tên bài giảng/ chuyên đề)</Typography>
-                  </Space>
-                </th>
-                <th style={{ border: '1px solid black', textAlign: 'center' }}>
-                  Số tiết
-                </th>
-                <th style={{ border: '1px solid black', textAlign: 'center' }}>
-                  <Space direction="vertical">
-                    <Typography>Giảng viên</Typography>
-                    <Typography>(Điện thoại)</Typography>
-                  </Space>
-                </th>
-              </tr>
-              <tr>
-                <td style={{ border: '1px solid black', textAlign: 'center' }}>
-                  {`${moment(new Date())
-                    .locale('vi')
-                    .format('dddd')} ${learnDate}`}
-                </td>
-                <td style={{ border: '1px solid black', textAlign: 'center' }}>
-                  {session.title}
-                </td>
-                <td style={{ border: '1px solid black', textAlign: 'center' }}>
-                  {category.title}
-                </td>
-                <td style={{ border: '1px solid black', textAlign: 'center' }}>
-                  {category.lession}
-                </td>
-                <td style={{ border: '1px solid black', textAlign: 'center' }}>
-                  {teacher.name}({teacher.phone})
-                </td>
-              </tr>
-            </table>
+            <Table
+              columns={columns}
+              dataSource={data}
+              bordered={true}
+              pagination={false}
+              size="large"
+            />
           </Space>
         </Space>
       </Col>

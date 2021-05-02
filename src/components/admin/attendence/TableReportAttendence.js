@@ -5,10 +5,8 @@ import {
 } from '@ant-design/icons';
 import { Button, Input, message, Space, Table, Tag, Upload } from 'antd';
 import 'date-fns';
-import React from 'react';
+import React, { useState } from 'react';
 import { DateSelect } from '../schedule/components/DateSelect';
-
-const dateFormat = 'DD-MM-YYYY';
 
 const columns = [
   {
@@ -220,9 +218,7 @@ const data = [
 ];
 
 export const TableReportAttendence = () => {
-  const handleOnChangeDatePicker = (date, dateString) => {
-    console.log(date, dateString);
-  };
+  const [searchName, setSearchName] = useState();
 
   const props = {
     name: 'file',
@@ -271,7 +267,7 @@ export const TableReportAttendence = () => {
               size="large"
               style={{ borderRadius: 5 }}
             >
-              Export
+              Xuất danh sách
             </Button>
           </Upload>
         </Space>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, useHistory } from 'react-router-dom';
 import { AuthApi } from './api';
 import { HeaderComponent } from './common/components/HeaderComponent';
 import { Admin } from './components/admin/Admin';
@@ -16,6 +16,7 @@ const authApi = new AuthApi();
 export default function App() {
   const [auth, setAuth] = useState({});
   const [error, setError] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
     authApi
@@ -25,7 +26,10 @@ export default function App() {
           setAuth(res.data);
         }
       })
-      .catch((err) => setError(true));
+      .catch((err) => {
+        setError(true);
+        // history.push('/');
+      });
   }, [auth.isAuth]);
 
   return (
@@ -38,7 +42,6 @@ export default function App() {
             <LoginRoute path="/" component={Login} exact />
             <StudentRoute path="/attendence" component={Student} />
             <StudentRoute path="/schedule" component={Student} />
-            {/* <Route path="*" component={NotFound}></Route> */}
             {/* <Route path="*" component={NotFound}></Route> */}
           </Switch>
         </Router>

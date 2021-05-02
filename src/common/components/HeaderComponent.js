@@ -65,7 +65,7 @@ export const HeaderComponent = (props) => {
             >
               {auth.name}
             </Typography>
-            {auth.name !== '' ? (
+            {auth.name ? (
               <Avatar
                 style={{
                   float: 'right',
