@@ -1,8 +1,9 @@
-import { Table, Tag, Pagination, Col, Space } from 'antd';
+import { Table, Tag } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { axiosClient } from '../../api';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
+import { CSVLink } from 'react-csv';
 
 const columns = [
   {
@@ -79,11 +80,26 @@ const columns = [
   },
 ];
 
+const headers = [
+  { label: 'MSV', key: 'MSV' },
+  { label: 'Họ và tên', key: 'name' },
+  { label: 'Chuyên đề', key: 'category' },
+  { label: 'Thời gian vào', key: 'timeIn' },
+  { label: 'Thời gian ra', key: 'timeOut' },
+  { label: 'Ngày', key: 'date' },
+  { label: 'Trạng thái', key: 'status' },
+];
+
 export const TableStudentAttendence = ({ searchName }) => {
   const [current, setCurrent] = useState(1);
   const pageSize = 10;
   const [data, setData] = useState({ totalPage: 0, data: [] });
   const history = useHistory();
+  const [csvReport, setCsvReport] = useState({
+    fileName: 'danh-sach-diem-danh.csv',
+    headers,
+    data,
+  });
 
   const handleOnChange = (value) => {
     setCurrent(value.current);

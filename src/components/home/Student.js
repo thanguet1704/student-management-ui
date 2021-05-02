@@ -4,12 +4,13 @@ import {
   ScheduleOutlined,
   SearchOutlined,
 } from '@ant-design/icons';
-import { Breadcrumb, Button, Input, Layout, Upload } from 'antd';
+import { Breadcrumb, Button, Input, Layout } from 'antd';
 import { useState } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { SideBar } from '../../common/components/SideBar';
 import { TableStudentAttendence } from './TableStudentAttendence';
 import { TableStudentSchedule } from './TableStudentSchedule';
+import { CSVLink } from 'react-csv';
 
 const { Content } = Layout;
 
@@ -80,20 +81,18 @@ export const Student = () => {
                     alignItems: 'center',
                   }}
                 >
-                  <Upload>
-                    <Button
-                      icon={
-                        <FileExcelFilled
-                          style={{
-                            color: '#366F38',
-                          }}
-                        />
-                      }
-                      size="large"
-                    >
-                      Export
-                    </Button>
-                  </Upload>
+                  <Button
+                    icon={
+                      <FileExcelFilled
+                        style={{
+                          color: '#366F38',
+                        }}
+                      />
+                    }
+                    size="large"
+                  >
+                    {/* <CSVLink>Xuất</CSVLink> */}Xuất
+                  </Button>
                 </div>
               </div>
 
