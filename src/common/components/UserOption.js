@@ -1,14 +1,18 @@
 import { Button, Form, Input, Modal } from 'antd';
-import React, { useEffect } from 'react';
+import { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
+import { AuthContext } from '../../contexts/AuthProvider';
 
 export const UserOption = (props) => {
+  const authCt = useContext(AuthContext);
+  const history = useHistory();
+
   const handleLogout = () => {
     localStorage.removeItem('hcmaid');
+    localStorage.removeItem('role');
+    authCt.setAuth({ name: '', role: '' });
+    history.push('/');
   };
-
-  // useEffect(() => {
-  //   handleLogout();
-  // }, []);
 
   return (
     <div

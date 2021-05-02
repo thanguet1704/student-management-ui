@@ -6,7 +6,6 @@ import {
 import TuneOutlinedIcon from '@material-ui/icons/TuneOutlined';
 import {
   Button,
-  DatePicker,
   Input,
   message,
   Popover,
@@ -17,9 +16,9 @@ import {
   Upload,
 } from 'antd';
 import 'date-fns';
-import moment from 'moment';
 import React from 'react';
 import { FilterButton } from '../../../common/components/FilterButton';
+import { DateSelect } from '../schedule/DateSelect';
 
 const dateFormat = 'DD-MM-YYYY';
 
@@ -232,23 +231,6 @@ const data = [
   },
 ];
 
-const filterData = [
-  {
-    title: 'Lớp',
-    key: 'k70',
-    children: [
-      {
-        title: 'K70 01',
-        key: 'k7001',
-      },
-      {
-        title: 'K70 02',
-        key: 'k7002',
-      },
-    ],
-  },
-];
-
 export const TableReportAttendence = () => {
   const handleOnChangeDatePicker = (date, dateString) => {
     console.log(date, dateString);
@@ -276,45 +258,24 @@ export const TableReportAttendence = () => {
           paddingBottom: 20,
         }}
       >
-        <Space>
-          <Input
-            size="large"
-            placeholder="Tìm kiếm theo chuyên đề"
-            prefix={<SearchOutlined />}
-            style={{ borderRadius: 5, width: '100%' }}
-          />
-          <div
-            style={{
-              clear: 'both',
-              whiteSpace: 'nowrap',
-            }}
-          >
-            <Popover
-              placement="bottom"
-              content={<FilterButton filterData={filterData} />}
-              trigger="click"
-            >
-              <Button style={{ border: 'none', width: '20%' }}>
-                <TuneOutlinedIcon />
-              </Button>
-            </Popover>
-          </div>
+        <Space size="large">
           <Space>
-            <Typography>Lọc theo ngày:</Typography>
-          </Space>
-          <Space direction="vertical">
-            <DatePicker
-              onChange={handleOnChangeDatePicker}
-              defaultValue={moment(new Date(), dateFormat)}
-              format={dateFormat}
+            <Input
               size="large"
-              style={{ borderRadius: 5 }}
+              placeholder="Tìm kiếm theo chuyên đề"
+              prefix={<SearchOutlined />}
+              style={{ borderRadius: 5, width: '100%' }}
             />
+          </Space>
+          <Space>
+            <DateSelect title={`Lọc ngày`} />
           </Space>
         </Space>
         <Space style={{ display: 'flex', justifyContent: 'flex-end' }}>
           <Upload {...props}>
-            <Button icon={<UploadOutlined />}>Upload</Button>
+            <Button icon={<UploadOutlined />} size="large">
+              Điểm danh
+            </Button>
           </Upload>
           <Upload>
             <Button

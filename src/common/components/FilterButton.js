@@ -1,24 +1,33 @@
-import { Tree } from 'antd';
+import { Checkbox, Col } from 'antd';
+import { useEffect, useState } from 'react';
+import { axiosClient } from '../../api';
 
 export const FilterButton = (props) => {
-  const onSelect = (selectedKeys, info) => {
-    console.log('selected', selectedKeys, info);
+  const [checkList, setCheckList] = useState([]);
+  const [list, setList] = useState([]);
+
+  const handleOnChange = (checkedValues) => {
+    setList(checkedValues);
   };
 
-  const onCheck = (checkedKeys, info) => {
-    console.log('onCheck', checkedKeys, info);
+  const handleGetClass = async () => {
+    const res = await axiosClient.get('/class');
+    setCheckList(res.data);
   };
+
+  useEffect(() => {
+    handleGetClass();
+  }, []);
 
   return (
-    <Tree
-      checkable
-      defaultExpandedKeys={props.filterData.map((filter) => filter.key)}
-      defaultSelectedKeys={props.filterData.map((filter) => filter.key)}
-      defaultCheckedKeys={props.filterData.map((filter) => filter.key)}
-      onSelect={onSelect}
-      onCheck={onCheck}
-      treeData={props.filterData}
-      showLine={false}
-    />
+    <Checkbox.Group onChange={handleOnChange}>
+      {checkList.map((item) => {
+        return (
+          <Col span={8}>
+            <Checkbox value={item.id}>{item.name}</Checkbox>
+          </Col>
+        );
+      })}
+    </Checkbox.Group>
   );
 };

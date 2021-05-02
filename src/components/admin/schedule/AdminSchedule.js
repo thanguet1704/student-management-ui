@@ -17,6 +17,7 @@ export const AdminSchedule = () => {
 
   const [subjects, setSubjects] = useState([{ id: 0, name: 'Chọn' }]);
   const [subject, setSubject] = useState(subjects[0]);
+  const [category, setCategory] = useState({ id: '', title: '' });
 
   let startDate = moment(new Date()).format(dateFormat);
   let endDate = moment(new Date()).format(dateFormat);
@@ -85,7 +86,11 @@ export const AdminSchedule = () => {
               <DateSelect title={'Bắt đầu'} startDate={startDate} />
               <DateSelect title={'Kết thúc'} />
             </Space>
-            <CategorySelect subjectId={subject.id} />
+            <CategorySelect
+              subjectId={subject.id}
+              category={category}
+              setCategory={setCategory}
+            />
             <Space style={{ marginBottom: 20 }} size="large">
               <DateSelect title={'Ngày học'} />
               <SessionSelect />

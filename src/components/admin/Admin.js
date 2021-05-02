@@ -114,11 +114,11 @@ const total = [
   },
 ];
 
-export const Admin = () => {
+export const Admin = (props) => {
   return (
     <Layout>
       <Layout>
-        <SideBar listMenu={listMenu} />
+        <SideBar listMenu={listMenu} role={props.auth.role} />
         <Layout style={{ padding: '0 24px 24px', minHeight: '93vh' }}>
           <Switch>
             <Route path="/admin/studentManagement" exact>

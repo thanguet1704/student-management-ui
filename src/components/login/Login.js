@@ -1,38 +1,12 @@
-import { makeStyles } from '@material-ui/core/styles';
-import { Button, Col, Form, Input, Row, Typography } from 'antd';
+import { Alert, Button, Col, Form, Input, Row, Typography } from 'antd';
 import 'antd/dist/antd.css';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { LoginApi } from '../../api';
 import backgroundImage from '../../assets/background.svg';
 import logo from '../../assets/logo.png';
-
-const useStyles = makeStyles({
-  left: {
-    height: '100vh',
-  },
-  right: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  imgLeft: {
-    width: '100%',
-    height: '100%',
-    paddingLeft: 100,
-  },
-  topRight: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-  },
-  topHeader: {
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  form: { margin: '0 auto' },
-});
+import { AuthContext } from '../../contexts/AuthProvider';
+import './login.css';
 
 const layout = {
   labelCol: {
@@ -45,25 +19,21 @@ const layout = {
 
 const loginApi = new LoginApi();
 
-const tailLayout = {
-  wrapperCol: {
-    offset: 8,
-    span: 16,
-  },
-};
-
 export const Login = (props) => {
-  const classes = useStyles();
+  const { setAuth } = useContext(AuthContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  let history = useHistory();
+  const [error, setError] = useState(false);
+
+  const history = useHistory();
 
   const handleLogin = async () => {
-    try {
-      const res = await loginApi.login({ username, password });
-
-      if (res.status === 200) {
+    loginApi
+      .login({ username, password })
+      .then((res) => {
         localStorage.setItem('hcmaid', res.data.access_token);
+        localStorage.setItem('role', res.data.role);
+        setAuth({ name: res.data.name, role: res.data.role });
         switch (res.data.role) {
           case 'student':
             history.push('/attendence');
@@ -73,106 +43,100 @@ export const Login = (props) => {
             history.push('/admin/studentManagement');
             break;
         }
-      }
-    } catch (error) {}
+      })
+      .catch((err) => setError(true));
   };
-
-  useEffect(() => {
-    handleLogin();
-  }, []);
 
   return (
     <div>
       <Row>
-        <Col span={12} style={{ height: '100vh' }}>
-          <img
-            src={backgroundImage}
-            className={classes.imgLeft}
-            alt="background"
-          />
+        <Col style={{ padding: 100, boxSizing: 'border-box' }} className="left">
+          <img src={backgroundImage} alt="background" />
         </Col>
-        <Col span={12} style={{ height: '100vh' }} className={classes.topRight}>
-          <Row>
-            <Col className={classes.topHeader}>
-              <img
-                src={logo}
-                alt="logo"
-                style={{ width: '10rem', margin: '0 auto' }}
-              />
-              <Typography
-                style={{
-                  width: '100%',
-                  textAlign: 'center',
-                  fontSize: '3rem',
-                  padding: '20',
-                }}
-              >
-                Hệ thống quản lý học viên
-              </Typography>
-            </Col>
-            <Form
+        <Col
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <img src={logo} alt="logo" style={{ width: '15rem' }} />
+          <Typography
+            style={{
+              width: '100%',
+              textAlign: 'center',
+              fontSize: '3rem',
+              padding: '20',
+            }}
+          >
+            Đăng nhập hệ thống
+          </Typography>
+          <Form
+            name="basic"
+            initialValues={{
+              remember: true,
+            }}
+          >
+            <Form.Item>
+              {error ? (
+                <Alert
+                  message="Tên đăng nhập hoặc mật khẩu không chính xác"
+                  type="error"
+                  showIcon
+                />
+              ) : (
+                <></>
+              )}
+            </Form.Item>
+
+            <Form.Item
               {...layout}
-              name="basic"
-              initialValues={{
-                remember: true,
-              }}
-              className={classes.form}
+              label="Tên đăng nhập"
+              name="username"
+              rules={[
+                {
+                  required: true,
+                  message: 'Hãy nhập tên đăng nhập!',
+                },
+              ]}
             >
-              <Form.Item
-                label="Tên đăng nhập"
-                name="username"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Hãy nhập tên đăng nhập!',
-                  },
-                ]}
-              >
-                <Input
-                  size="large"
-                  onChange={(e) => setUsername(e.target.value)}
-                />
-              </Form.Item>
+              <Input
+                size="large"
+                onChange={(e) => setUsername(e.target.value)}
+                style={{ height: '200%' }}
+              />
+            </Form.Item>
 
-              <Form.Item
-                label="Mật khẩu"
-                name="password"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Hãy nhập mật khẩu!',
-                  },
-                ]}
+            <Form.Item
+              {...layout}
+              label="Mật khẩu"
+              name="password"
+              rules={[
+                {
+                  required: true,
+                  message: 'Hãy nhập mật khẩu!',
+                },
+              ]}
+            >
+              <Input.Password
+                size="large"
+                style={{ height: '200%' }}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </Form.Item>
+            <Form.Item {...layout}>
+              <Button
+                type="primary"
+                htmlType="submit"
+                onClick={handleLogin}
+                size="large"
+                style={{ borderRadius: 5 }}
               >
-                <Input.Password
-                  size="large"
-                  style={{ height: '120%' }}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </Form.Item>
-
-              <Form.Item
-                {...tailLayout}
-                name="remember"
-                valuePropName="checked"
-              >
-                <a className="login-form-forgot" href="/">
-                  Quên mật khẩu
-                </a>
-              </Form.Item>
-
-              <Form.Item {...tailLayout}>
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  onClick={handleLogin}
-                  size="middle"
-                >
-                  Đăng nhập
-                </Button>
-              </Form.Item>
-            </Form>
-          </Row>
+                Đăng nhập
+              </Button>
+            </Form.Item>
+          </Form>
         </Col>
       </Row>
     </div>
