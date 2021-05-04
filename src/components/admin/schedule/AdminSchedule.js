@@ -42,7 +42,7 @@ const columns = [
   },
 ];
 
-export const AdminSchedule = () => {
+const AdminSchedule = () => {
   const scheduleApi = new ScheduleApi();
 
   const [subjects, setSubjects] = useState([{ id: 0, name: 'Chọn' }]);
@@ -105,7 +105,7 @@ export const AdminSchedule = () => {
 
   useEffect(() => {
     handleGetSubjects();
-  }, []);
+  }, [subjects]);
 
   return (
     <Row
@@ -225,3 +225,5 @@ export const AdminSchedule = () => {
     </Row>
   );
 };
+
+export default AdminSchedule;

@@ -1,10 +1,11 @@
 import { Avatar, Popover, Space, Typography } from 'antd';
 import { Header } from 'antd/lib/layout/layout';
 import Title from 'antd/lib/typography/Title';
-import React, { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import logo from '../../assets/logo.png';
 import { AuthContext } from '../../contexts/AuthProvider';
 import { UserOption } from './UserOption';
+import { DownOutlined } from '@ant-design/icons';
 
 export const HeaderComponent = (props) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -28,7 +29,7 @@ export const HeaderComponent = (props) => {
     <Header
       style={{
         padding: 10,
-        background: '#ffffff',
+        background: '#fffff9',
       }}
     >
       <Popover
@@ -57,34 +58,35 @@ export const HeaderComponent = (props) => {
           }}
         >
           <Space>
+            {auth.name ? (
+              <div>
+                <Avatar
+                  shape="square"
+                  size={36}
+                  style={{ color: '#4C7CFD', backgroundColor: '#E1F0FF' }}
+                >
+                  {`${lastName}`.slice(0, 1).toUpperCase()}
+                </Avatar>
+              </div>
+            ) : (
+              <></>
+            )}
             <Typography
               style={{
-                color: '#ef8354',
+                color: 'black',
                 fontFamily: 'sans-serif',
               }}
             >
               {auth.name}
             </Typography>
-            {auth.name ? (
-              <Avatar
-                style={{
-                  float: 'right',
-                  color: '#f56a00',
-                  backgroundColor: '#fde3cf',
-                }}
-              >
-                {`${lastName}`.slice(0, 1).toUpperCase()}
-              </Avatar>
-            ) : (
-              <></>
-            )}
+            <DownOutlined style={{ fontSize: '12px', color: '#aaaaaa' }} />
           </Space>
         </div>
       </Popover>
 
       <Title level={3} style={{ display: 'flex', alignItems: 'center' }}>
         <img src={logo} alt="logo" style={{ height: '2em' }} />
-        <Typography style={{ color: '#ef8354', fontFamily: 'sans-serif' }}>
+        <Typography style={{ color: 'black' }}>
           HỆ THỐNG QUẢN LÝ HỌC VIÊN
         </Typography>
       </Title>

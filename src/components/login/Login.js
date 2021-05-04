@@ -1,4 +1,13 @@
-import { Alert, Button, Col, Form, Input, Row, Typography } from 'antd';
+import {
+  Alert,
+  Button,
+  Col,
+  Form,
+  Input,
+  Row,
+  Typography,
+  message,
+} from 'antd';
 import 'antd/dist/antd.css';
 import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
@@ -36,6 +45,7 @@ export const Login = (props) => {
         localStorage.setItem('name', res.data.name);
 
         setAuth({ name: res.data.name, role: res.data.role });
+        message.success('Đăng nhập thành công');
         switch (res.data.role) {
           case 'student':
             history.push('/attendence');
@@ -127,7 +137,7 @@ export const Login = (props) => {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </Form.Item>
-            <Form.Item {...layout}>
+            <Form.Item {...layout} label="" name="">
               <Button
                 type="primary"
                 htmlType="submit"

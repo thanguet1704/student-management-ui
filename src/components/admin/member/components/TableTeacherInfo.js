@@ -1,10 +1,7 @@
 import { SearchOutlined } from '@ant-design/icons';
-import { Input, Select, Space, Table, Tag } from 'antd';
+import { Input, Space, Table } from 'antd';
 import 'date-fns';
-import React from 'react';
-import { CreateUser } from './components/CreateUser';
-
-const { Option } = Select;
+import { CreateUser } from '../components/CreateUser';
 
 const columns = [
   {

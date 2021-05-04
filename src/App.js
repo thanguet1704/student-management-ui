@@ -16,7 +16,7 @@ const authApi = new AuthApi();
 export default function App() {
   const [auth, setAuth] = useState({});
   const [error, setError] = useState(false);
-  const history = useHistory();
+  let history = useHistory();
 
   useEffect(() => {
     authApi
@@ -42,7 +42,6 @@ export default function App() {
             <LoginRoute path="/" component={Login} exact />
             <StudentRoute path="/attendence" component={Student} />
             <StudentRoute path="/schedule" component={Student} />
-            {/* <Route path="*" component={NotFound}></Route> */}
           </Switch>
         </Router>
       </AuthProvider>

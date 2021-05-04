@@ -191,7 +191,9 @@ export const TableReport = (props) => {
   };
   return (
     <div>
-      <Typography style={{ fontWeight: 'bold' }}>Danh sách lớp học</Typography>
+      <Typography style={{ fontWeight: 'bold' }}>
+        Học viên nghỉ học nhiều nhất
+      </Typography>
       <div id="scrollableDiv" style={{ height: 400, overflow: 'auto' }}>
         <InfiniteScroll
           dataLength={state.length}

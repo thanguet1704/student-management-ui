@@ -2,9 +2,8 @@ import { FileExcelFilled, SearchOutlined } from '@ant-design/icons';
 import TuneOutlinedIcon from '@material-ui/icons/TuneOutlined';
 import { Button, Input, Popover, Space, Table, Tag, Upload } from 'antd';
 import 'date-fns';
-import { default as React } from 'react';
-import { FilterButton } from '../../../common/components/FilterButton';
-import { CreateUser } from './components/CreateUser';
+import { FilterButton } from '../../../../common/components/FilterButton';
+import { CreateUser } from '../components/CreateUser';
 
 const columns = [
   {
@@ -288,7 +287,6 @@ export const TableStudentInfo = () => {
         dataSource={data}
         onChange={(value) => console.log(value)}
       />
-      ;
     </div>
   );
 };

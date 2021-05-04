@@ -91,7 +91,7 @@ export const Student = () => {
                     }
                     size="large"
                   >
-                    {/* <CSVLink>Xuất</CSVLink> */}Xuất
+                    {/* <CSVLink>Xuất</CSVLink> */}Xuất File
                   </Button>
                 </div>
               </div>
