@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import queryString from 'query-string';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 dotenv.config();
 
@@ -8,7 +9,7 @@ export const axiosClient = axios.create({
   baseURL: `http://localhost:3400`,
   headers: {
     'content-type': 'application/json',
-    Authorization: `Bearer ${localStorage.getItem('hcmaid')}`,
+    Authorization: `Bearer ${Cookies.get('hcmaid')}`,
   },
   paramsSerializer: (params) => queryString.stringify(params),
   withCredentials: true,

@@ -74,26 +74,6 @@ export const Student = () => {
                     THÔNG TIN ĐIỂM DANH
                   </Breadcrumb.Item>
                 </Breadcrumb>
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'flex-end',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Button
-                    icon={
-                      <FileExcelFilled
-                        style={{
-                          color: '#366F38',
-                        }}
-                      />
-                    }
-                    size="large"
-                  >
-                    {/* <CSVLink>Xuất</CSVLink> */}Xuất File
-                  </Button>
-                </div>
               </div>
 
               <Content

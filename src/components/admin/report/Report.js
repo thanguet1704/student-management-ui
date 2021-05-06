@@ -1,35 +1,23 @@
 import PeopleAltOutlinedIcon from '@material-ui/icons/PeopleAltOutlined';
 import { createFromIconfontCN } from '@ant-design/icons';
-import {
-  Breadcrumb,
-  Card,
-  Col,
-  Layout,
-  Row,
-  Space,
-  Typography,
-  DatePicker,
-} from 'antd';
+import { Breadcrumb, Card, Col, Layout, Row, Space, Typography } from 'antd';
 import 'date-fns';
-import moment from 'moment';
-import React, { useEffect, useState } from 'react';
-import ReactPlayer from 'react-player';
+import { useEffect, useState } from 'react';
 import { Chart } from './components/Chart';
 import { TableReport } from './components/TableReport';
 import { TotalCard } from './components/TotalCard';
 import { Selection } from '../../../common/components/Selection';
-import { axiosClient } from '../../../api';
+import { axiosClient } from '../../../api/config';
+import { DateSelect } from './components/DateSelect';
 
 const { Content } = Layout;
-const { RangePicker } = DatePicker;
-const dateFormat = 'DD-MM-YYYY';
 const IconFont = createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js',
 });
 
 const Report = () => {
   const [schoolYears, setSchoolYears] = useState([{ id: 1, name: 'K70' }]);
-  const [schoolYear, setSchoolYear] = useState({ id: 1, name: 'K70' });
+  const [schoolYear, setSchoolYear] = useState({ id: 1 });
 
   const [statAtendence, setStatAttendence] = useState();
   const [classIdChart, setClasdIdChart] = useState();
@@ -38,9 +26,13 @@ const Report = () => {
   );
   const [endDateReport, setEndDateReport] = useState(new Date().toISOString());
 
+  const [students, setStudents] = useState([]);
+
   const handleGetStatAttendence = () => {
     axiosClient
-      .get(`/attendence/attendenceStats?schoolYearId=${schoolYear.id}`)
+      .get(
+        `/attendence/attendenceStats?schoolYearId=${schoolYear.id}&startDate=${startDateReport}&endDate=${endDateReport}`
+      )
       .then((res) => setStatAttendence(res.data.stat));
   };
 
@@ -48,9 +40,20 @@ const Report = () => {
     axiosClient.get('/schoolYears').then((res) => setSchoolYears(res.data));
   };
 
+  const handleGetTopAbsent = () => {
+    axiosClient
+      .get(`attendence/topAbsent?schoolYearId=${schoolYear.id}`)
+      .then((res) => setStudents(res.data))
+      .catch((error) => {});
+  };
+
   useEffect(() => {
     handleGetSchoolYears();
+  }, []);
+
+  useEffect(() => {
     handleGetStatAttendence();
+    handleGetTopAbsent();
   }, [schoolYear, startDateReport, endDateReport, classIdChart]);
   return (
     <div>
@@ -83,24 +86,16 @@ const Report = () => {
             marginBottom: 20,
           }}
         >
-          <Space>
+          <Space size="large">
             <Selection
               title={'Khóa'}
               schoolYear={schoolYear}
               setSchoolYear={setSchoolYear}
               schoolYears={schoolYears}
             />
-            <Space>
-              <Typography>Lọc theo ngày:</Typography>
-            </Space>
-            <Space direction="vertical" size={12}>
-              <RangePicker
-                defaultValue={[
-                  moment(moment().subtract(7, 'd'), dateFormat),
-                  moment(new Date(), dateFormat),
-                ]}
-                size="large"
-              />
+            <Space size="large">
+              <DateSelect title={'Từ ngày'} setDate={setStartDateReport} />
+              <DateSelect title={'Đến ngày'} setDate={setEndDateReport} />
             </Space>
           </Space>
         </Row>
@@ -150,11 +145,11 @@ const Report = () => {
                 border: '1px solid #0EFC5E ',
               }}
             >
-              <TableReport />
+              <TableReport students={students} />
             </Card>
           </Col>
         </Row>
-        <Row
+        {/* <Row
           style={{
             fontWeight: 'bold',
             fontSize: '1.5em',
@@ -181,7 +176,7 @@ const Report = () => {
             url="https://www.youtube.com/watch?v=iTRM_5v2GVQ"
             style={{ width: '100%' }}
           />
-        </Row>
+        </Row> */}
       </Content>
     </div>
   );

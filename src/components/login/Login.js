@@ -11,7 +11,7 @@ import {
 import 'antd/dist/antd.css';
 import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { LoginApi } from '../../api';
+import { axiosClient } from '../../api/config';
 import backgroundImage from '../../assets/background.svg';
 import logo from '../../assets/logo.png';
 import { AuthContext } from '../../contexts/AuthProvider';
@@ -26,8 +26,6 @@ const layout = {
   },
 };
 
-const loginApi = new LoginApi();
-
 export const Login = (props) => {
   const { setAuth } = useContext(AuthContext);
   const [username, setUsername] = useState('');
@@ -36,16 +34,16 @@ export const Login = (props) => {
 
   const history = useHistory();
 
-  const handleLogin = async () => {
-    loginApi
-      .login({ username, password })
+  const handleLogin = () => {
+    axiosClient
+      .post('login', { username, password })
       .then((res) => {
         localStorage.setItem('hcmaid', res.data.access_token);
         localStorage.setItem('role', res.data.role);
         localStorage.setItem('name', res.data.name);
 
         setAuth({ name: res.data.name, role: res.data.role });
-        message.success('Đăng nhập thành công');
+        // message.success('Đăng nhập thành công');
         switch (res.data.role) {
           case 'student':
             history.push('/attendence');
@@ -56,7 +54,7 @@ export const Login = (props) => {
             break;
         }
       })
-      .catch((err) => setError(true));
+      .catch((error) => setError(true));
   };
 
   return (

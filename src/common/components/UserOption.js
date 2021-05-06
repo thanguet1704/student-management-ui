@@ -1,8 +1,9 @@
 import { Alert, Button, Form, Input, Modal } from 'antd';
 import { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import { axiosClient } from '../../api';
+import { axiosClient } from '../../api/config';
 import { AuthContext } from '../../contexts/AuthProvider';
+import Cookies from 'js-cookie';
 
 export const UserOption = (props) => {
   const authCt = useContext(AuthContext);
@@ -12,6 +13,7 @@ export const UserOption = (props) => {
     localStorage.removeItem('hcmaid');
     localStorage.removeItem('role');
     localStorage.removeItem('name');
+    // Cookies.remove('hcmaid', { path});
     authCt.setAuth({ name: '', role: '' });
     history.push('/');
   };

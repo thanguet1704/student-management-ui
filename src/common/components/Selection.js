@@ -12,7 +12,9 @@ export const Selection = (props) => {
           width: 120,
         }}
         size="large"
-        onChange={(value) => props.setSchoolYear(value)}
+        onChange={(value) => {
+          props.setSchoolYear({ id: value });
+        }}
       >
         {props.schoolYears.map((item) => {
           return <Option value={item.id}>{item.name}</Option>;

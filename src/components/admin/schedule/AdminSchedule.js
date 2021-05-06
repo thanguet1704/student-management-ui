@@ -1,16 +1,15 @@
 import { Button, Col, Row, Select, Space, Typography, Table } from 'antd';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
-import { axiosClient } from '../../../api';
-import ScheduleApi from '../../../api/ScheduleApi';
+import { axiosClient } from '../../../api/config';
 import { CategorySelect } from './components/CategorySelect';
 import { ClassSelect } from './components/ClassSelect';
-import { DateSelect } from './components/DateSelect';
+import { DateSelect } from '../report/components/DateSelect';
 import { SessionSelect } from './components/SessionSelect';
 import { TeacherSelect } from './components/TeacherSelect';
 
 const { Option } = Select;
-const dateFormat = 'MM-DD-YYYY';
+const dateFormat = 'MM/DD/YYYY';
 const columns = [
   {
     title: 'Thứ.Ngày',
@@ -43,8 +42,6 @@ const columns = [
 ];
 
 const AdminSchedule = () => {
-  const scheduleApi = new ScheduleApi();
-
   const [subjects, setSubjects] = useState([{ id: 0, name: 'Chọn' }]);
   const [subject, setSubject] = useState(subjects[0]);
   const [category, setCategory] = useState({ id: '', title: '' });
@@ -74,7 +71,7 @@ const AdminSchedule = () => {
   ];
 
   const handleGetSubjects = async () => {
-    const getSubjects = await scheduleApi.getSubjects();
+    const getSubjects = await axiosClient.get('/subjects');
     setSubjects(getSubjects.data);
   };
 

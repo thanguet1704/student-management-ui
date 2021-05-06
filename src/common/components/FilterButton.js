@@ -1,6 +1,6 @@
 import { Checkbox, Col } from 'antd';
 import { useEffect, useState } from 'react';
-import { axiosClient } from '../../api';
+import { axiosClient } from '../../api/config';
 
 export const FilterButton = (props) => {
   const [checkList, setCheckList] = useState([]);

@@ -5,7 +5,7 @@ import {
 } from '@ant-design/icons';
 import { Button, Input, Space, Table, Tag, Upload } from 'antd';
 import 'date-fns';
-import { DateSelect } from '../../schedule/components/DateSelect';
+import { DateSelect } from '../../report/components/DateSelect';
 import moment from 'moment';
 
 const columns = [
@@ -140,7 +140,6 @@ export const TableReportAttendence = (props) => {
           total: props.attendenceData.totalPage * 15,
         }}
       />
-      ;
     </div>
   );
 };
