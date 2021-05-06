@@ -24,6 +24,10 @@ export const CreateUser = (props) => {
         onClick={showModal}
         icon={<PlusOutlined />}
         size="large"
+        style={{
+          backgroundColor: 'rgb(76, 124, 253)',
+          borderRadius: 5,
+        }}
       >
         {props.title}
       </Button>

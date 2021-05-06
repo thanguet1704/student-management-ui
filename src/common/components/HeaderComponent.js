@@ -30,6 +30,7 @@ export const HeaderComponent = (props) => {
       style={{
         padding: 10,
         background: '#fffff9',
+        border: '2px solid #e6e6e6',
       }}
     >
       <Popover

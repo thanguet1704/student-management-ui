@@ -60,6 +60,15 @@ const AdminSchedule = () => {
   const [errorCreate, setErrorCreate] = useState(false);
   const [createSuccess, setCreateSuccess] = useState(false);
 
+  const [teachers, setTeachers] = useState([
+    { id: 51, name: 'Trịnh Hữu Thắng' },
+  ]);
+
+  const handleGetTeachers = async () => {
+    const res = await axiosClient.get('/users/teachers');
+    setTeachers(res.data);
+  };
+
   let data = [
     {
       learnDate,
@@ -102,6 +111,7 @@ const AdminSchedule = () => {
 
   useEffect(() => {
     handleGetSubjects();
+    handleGetTeachers();
   }, [subjects]);
 
   return (
@@ -110,7 +120,7 @@ const AdminSchedule = () => {
         height: '100%',
         width: '100%',
         padding: 20,
-        background: '#fff',
+        // background: '#fff',
         borderRadius: 10,
       }}
     >
@@ -167,7 +177,11 @@ const AdminSchedule = () => {
               classObject={classObject}
               setClassObject={setClassObject}
             />
-            <TeacherSelect teacher={teacher} setTeacher={setTeacher} />
+            <TeacherSelect
+              teacher={teacher}
+              setTeacher={setTeacher}
+              teachers={teachers}
+            />
           </Space>
         </Space>
         <Button
@@ -177,6 +191,7 @@ const AdminSchedule = () => {
             width: 176,
             borderRadius: 10,
             marginTop: 10,
+            backgroundColor: 'rgb(76, 124, 253)',
           }}
           size="large"
           onClick={handleCreateSchedle}

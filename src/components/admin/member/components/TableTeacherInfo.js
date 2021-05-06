@@ -2,6 +2,8 @@ import { SearchOutlined } from '@ant-design/icons';
 import { Input, Space, Table } from 'antd';
 import 'date-fns';
 import { CreateUser } from '../components/CreateUser';
+import { useEffect, useState } from 'react';
+import { axiosClient } from '../../../../api';
 
 const columns = [
   {
@@ -29,181 +31,43 @@ const columns = [
     dataIndex: 'email',
     key: 'email',
   },
-];
-
-const data = [
   {
-    stt: '1',
-    id: '17021037',
-    name: 'Trinh Huu Thang',
-    institua: 'THÔNG TIN KHOA HỌC',
-    phone: '0353005557',
-    email: 'thangth@gmail.com',
-  },
-  {
-    stt: '1',
-    id: '17021037',
-    name: 'Trinh Huu Thang',
-    institua: 'THÔNG TIN KHOA HỌC',
-    phone: '0353005557',
-    email: 'thangth@gmail.com',
-  },
-  {
-    stt: '1',
-    id: '17021037',
-    name: 'Trinh Huu Thang',
-    institua: 'THÔNG TIN KHOA HỌC',
-    phone: '0353005557',
-    email: 'thangth@gmail.com',
-  },
-  {
-    stt: '1',
-    id: '17021037',
-    name: 'Trinh Huu Thang',
-    institua: 'THÔNG TIN KHOA HỌC',
-    phone: '0353005557',
-    email: 'thangth@gmail.com',
-  },
-  {
-    stt: '1',
-    id: '17021037',
-    name: 'Trinh Huu Thang',
-    institua: 'THÔNG TIN KHOA HỌC',
-    phone: '0353005557',
-    email: 'thangth@gmail.com',
-    status: ['absent'],
-  },
-  {
-    stt: '1',
-    id: '17021037',
-    name: 'Trinh Huu Thang',
-    institua: 'THÔNG TIN KHOA HỌC',
-    phone: '0353005557',
-    email: 'thangth@gmail.com',
-    status: ['absent'],
-  },
-  {
-    stt: '1',
-    id: '17021037',
-    name: 'Trinh Huu Thang',
-    institua: 'THÔNG TIN KHOA HỌC',
-    phone: '0353005557',
-    email: 'thangth@gmail.com',
-    status: ['absent'],
-  },
-  {
-    stt: '1',
-    id: '17021037',
-    name: 'Trinh Huu Thang',
-    institua: 'THÔNG TIN KHOA HỌC',
-    phone: '0353005557',
-    email: 'thangth@gmail.com',
-    status: ['late'],
-  },
-  {
-    stt: '1',
-    id: '17021037',
-    name: 'Trinh Huu Thang',
-    institua: 'THÔNG TIN KHOA HỌC',
-    phone: '0353005557',
-    email: 'thangth@gmail.com',
-    status: ['late'],
-  },
-  {
-    stt: '1',
-    id: '17021037',
-    name: 'Trinh Huu Thang',
-    institua: 'THÔNG TIN KHOA HỌC',
-    phone: '0353005557',
-    email: 'thangth@gmail.com',
-    status: ['late'],
-  },
-  {
-    stt: '1',
-    id: '17021037',
-    name: 'Trinh Huu Thang',
-    institua: 'THÔNG TIN KHOA HỌC',
-    phone: '0353005557',
-    email: 'thangth@gmail.com',
-    status: ['absent'],
-  },
-  {
-    stt: '1',
-    id: '17021037',
-    name: 'Trinh Huu Thang',
-    institua: 'THÔNG TIN KHOA HỌC',
-    phone: '0353005557',
-    email: 'thangth@gmail.com',
-    status: ['absent'],
-  },
-  {
-    stt: '1',
-    id: '17021037',
-    name: 'Trinh Huu Thang',
-    institua: 'THÔNG TIN KHOA HỌC',
-    phone: '0353005557',
-    email: 'thangth@gmail.com',
-    status: ['absent'],
-  },
-  {
-    stt: '1',
-    id: '17021037',
-    name: 'Trinh Huu Thang',
-    institua: 'THÔNG TIN KHOA HỌC',
-    phone: '0353005557',
-    email: 'thangth@gmail.com',
-    status: ['absent'],
-  },
-  {
-    stt: '1',
-    id: '17021037',
-    name: 'Trinh Huu Thang',
-    institua: 'THÔNG TIN KHOA HỌC',
-    phone: '0353005557',
-    email: 'thangth@gmail.com',
-    status: ['absent'],
-  },
-  {
-    stt: '1',
-    id: '17021037',
-    name: 'Trinh Huu Thang',
-    institua: 'THÔNG TIN KHOA HỌC',
-    phone: '0353005557',
-    email: 'thangth@gmail.com',
-    status: ['absent'],
-  },
-  {
-    stt: '1',
-    id: '17021037',
-    name: 'Trinh Huu Thang',
-    institua: 'THÔNG TIN KHOA HỌC',
-    phone: '0353005557',
-    email: 'thangth@gmail.com',
-    status: ['absent'],
-  },
-  {
-    stt: '1',
-    id: '17021037',
-    name: 'Trinh Huu Thang',
-    institua: 'THÔNG TIN KHOA HỌC',
-    phone: '0353005557',
-    email: 'thangth@gmail.com',
-    status: ['absent'],
-  },
-  {
-    stt: '1',
-    id: '17021037',
-    name: 'Trinh Huu Thang',
-    institua: 'THÔNG TIN KHOA HỌC',
-    phone: '0353005557',
-    email: 'thangth@gmail.com',
-    status: ['absent'],
+    title: 'Địa chỉ',
+    dataIndex: 'address',
+    key: 'address',
   },
 ];
 
 export const TableTeacherInfo = () => {
+  const [teachers, setTeachers] = useState([]);
+  const [searchName, setSearchName] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 10;
+
+  const handleGetTeachers = () => {
+    axiosClient
+      .get(`/users/teachers?search=${searchName}`)
+      .then((res) => {
+        const data = res.data.data.map((teacher, index) => ({
+          stt: index + 1,
+          ...teacher,
+        }));
+        setTeachers(data);
+      })
+      .catch((error) => {});
+  };
+
+  const handleOnChange = (value) => {
+    if (value) setCurrentPage(value.current);
+  };
+
+  useEffect(() => {
+    handleOnChange();
+    handleGetTeachers();
+  }, [searchName, currentPage]);
+
   return (
-    <div>
+    <div style={{ marginTop: 20 }}>
       <div
         style={{
           display: 'grid',
@@ -216,14 +80,28 @@ export const TableTeacherInfo = () => {
             size="large"
             placeholder="Tìm kiếm theo tên học viên"
             prefix={<SearchOutlined />}
-            style={{ borderRadius: 5, width: '100%' }}
+            style={{
+              borderRadius: 5,
+              width: '100%',
+            }}
+            onChange={(e) => setSearchName(e.target.value)}
           />
         </Space>
         <Space style={{ display: 'flex', justifyContent: 'flex-end' }}>
           <CreateUser title="Thêm giảng viên" />
         </Space>
       </div>
-      <Table columns={columns} dataSource={data} />;
+      <Table
+        columns={columns}
+        dataSource={teachers}
+        bordered={true}
+        onChange={(value) => handleOnChange(value)}
+        pagination={{
+          simple: true,
+          defaultPageSize: pageSize,
+          total: teachers.totalPage * pageSize,
+        }}
+      />
     </div>
   );
 };

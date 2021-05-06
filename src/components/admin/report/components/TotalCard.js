@@ -14,14 +14,13 @@ export const TotalCard = (props) => {
       <Card
         style={{
           width: '100%',
-          background: '#F7EB7F',
           borderRadius: 5,
           minHeight: 150,
           marginLeft: 20,
           marginRight: 20,
           boxSizing: 'border-box',
-          border: '1px solid #F7EB7F',
-          boxShadow: '1px 1px 1px 1px #ebf0ec',
+          border: '1px solid rgb(227, 235, 246)',
+          boxShadow: 'rgb(18 38 63 / 3%) 0px 3px 3px 0px !important',
         }}
       >
         <Row style={{ height: '100%' }}>

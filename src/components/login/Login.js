@@ -141,7 +141,10 @@ export const Login = (props) => {
                 htmlType="submit"
                 onClick={handleLogin}
                 size="large"
-                style={{ borderRadius: 5 }}
+                style={{
+                  borderRadius: 5,
+                  backgroundColor: 'rgb(76, 124, 253)',
+                }}
               >
                 Đăng nhập
               </Button>

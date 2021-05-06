@@ -1,8 +1,8 @@
 import { FileExcelFilled, SearchOutlined } from '@ant-design/icons';
-import TuneOutlinedIcon from '@material-ui/icons/TuneOutlined';
-import { Button, Input, Popover, Space, Table, Tag, Upload } from 'antd';
+import { Button, Input, Space, Table, Tag, Upload } from 'antd';
 import 'date-fns';
-import { FilterButton } from '../../../../common/components/FilterButton';
+import { useEffect, useState } from 'react';
+import { axiosClient } from '../../../../api';
 import { CreateUser } from '../components/CreateUser';
 
 const columns = [
@@ -13,8 +13,8 @@ const columns = [
   },
   {
     title: 'MSV',
-    dataIndex: 'id',
-    key: 'id',
+    dataIndex: 'msv',
+    key: 'msv',
   },
   {
     title: 'Họ và tên',
@@ -23,29 +23,35 @@ const columns = [
   },
   {
     title: 'Lớp',
-    dataIndex: 'classHCMA',
-    key: 'classHCMA',
+    dataIndex: 'class',
+    key: 'class',
   },
   {
     title: 'Viện',
     dataIndex: 'institua',
     key: 'institua',
   },
+
+  {
+    title: 'Địa chỉ',
+    dataIndex: 'address',
+    key: 'address',
+  },
   {
     title: 'Trạng thái',
-    dataIndex: 'status',
-    key: 'status',
+    dataIndex: 'isActive',
+    key: 'isActive',
     render: (status) => {
       let color;
       let display;
       switch (status) {
-        case 'active': {
+        case true: {
           color = 'green';
           display = 'Hoạt động';
           break;
         }
 
-        case 'inactive': {
+        case false: {
           color = 'red';
           display = 'Đã khóa';
           break;
@@ -63,181 +69,36 @@ const columns = [
   },
 ];
 
-const data = [
-  {
-    stt: '1',
-    id: '17021037',
-    name: 'Trịnh Hữu Thắng',
-    classHCMA: 'K70 01',
-    institua: 'THÔNG TIN KHOA HỌC',
-    status: 'active',
-  },
-  {
-    stt: '1',
-    id: '17021037',
-    name: 'Trịnh Hữu Thắng',
-    classHCMA: 'K70 01',
-    institua: 'THÔNG TIN KHOA HỌC',
-    status: 'active',
-  },
-  {
-    stt: '1',
-    id: '17021037',
-    name: 'Trịnh Hữu Thắng',
-    classHCMA: 'K70 01',
-    institua: 'THÔNG TIN KHOA HỌC',
-    status: 'active',
-  },
-  {
-    stt: '1',
-    id: '17021037',
-    name: 'Trịnh Hữu Thắng',
-    classHCMA: 'K70 01',
-    institua: 'THÔNG TIN KHOA HỌC',
-    status: 'active',
-  },
-  {
-    stt: '1',
-    id: '17021037',
-    name: 'Trịnh Hữu Thắng',
-    classHCMA: 'K70 01',
-    institua: 'THÔNG TIN KHOA HỌC',
-    status: 'inactive',
-  },
-  {
-    stt: '1',
-    id: '17021037',
-    name: 'Trịnh Hữu Thắng',
-    classHCMA: 'K70 01',
-    institua: 'THÔNG TIN KHOA HỌC',
-    status: 'inactive',
-  },
-  {
-    stt: '1',
-    id: '17021037',
-    name: 'Trịnh Hữu Thắng',
-    classHCMA: 'K70 01',
-    institua: 'THÔNG TIN KHOA HỌC',
-    status: 'inactive',
-  },
-  {
-    stt: '1',
-    id: '17021037',
-    name: 'Trịnh Hữu Thắng',
-    classHCMA: 'K70 01',
-    institua: 'THÔNG TIN KHOA HỌC',
-    status: 'active',
-  },
-  {
-    stt: '1',
-    id: '17021037',
-    name: 'Trịnh Hữu Thắng',
-    classHCMA: 'K70 01',
-    institua: 'THÔNG TIN KHOA HỌC',
-    status: 'active',
-  },
-  {
-    stt: '1',
-    id: '17021037',
-    name: 'Trịnh Hữu Thắng',
-    classHCMA: 'K70 01',
-    institua: 'THÔNG TIN KHOA HỌC',
-    status: 'active',
-  },
-  {
-    stt: '1',
-    id: '17021037',
-    name: 'Trịnh Hữu Thắng',
-    classHCMA: 'K70 01',
-    institua: 'THÔNG TIN KHOA HỌC',
-    status: 'inactive',
-  },
-  {
-    stt: '1',
-    id: '17021037',
-    name: 'Trịnh Hữu Thắng',
-    classHCMA: 'K70 01',
-    institua: 'THÔNG TIN KHOA HỌC',
-    status: 'active',
-  },
-  {
-    stt: '1',
-    id: '17021037',
-    name: 'Trịnh Hữu Thắng',
-    classHCMA: 'K70 01',
-    institua: 'THÔNG TIN KHOA HỌC',
-    status: 'active',
-  },
-  {
-    stt: '1',
-    id: '17021037',
-    name: 'Trịnh Hữu Thắng',
-    classHCMA: 'K70 01',
-    institua: 'THÔNG TIN KHOA HỌC',
-    status: 'active',
-  },
-  {
-    stt: '1',
-    id: '17021037',
-    name: 'Trịnh Hữu Thắng',
-    classHCMA: 'K70 01',
-    institua: 'THÔNG TIN KHOA HỌC',
-    status: 'active',
-  },
-  {
-    stt: '1',
-    id: '17021037',
-    name: 'Trịnh Hữu Thắng',
-    classHCMA: 'K70 01',
-    institua: 'THÔNG TIN KHOA HỌC',
-    status: 'active',
-  },
-  {
-    stt: '1',
-    id: '17021037',
-    name: 'Trịnh Hữu Thắng',
-    classHCMA: 'K70 01',
-    institua: 'THÔNG TIN KHOA HỌC',
-    status: 'active',
-  },
-  {
-    stt: '1',
-    id: '17021037',
-    name: 'Trịnh Hữu Thắng',
-    classHCMA: 'K70 01',
-    institua: 'THÔNG TIN KHOA HỌC',
-    status: 'active',
-  },
-  {
-    stt: '1',
-    id: '17021037',
-    name: 'Trịnh Hữu Thắng',
-    classHCMA: 'K70 01',
-    institua: 'THÔNG TIN KHOA HỌC',
-    status: 'active',
-  },
-];
-
-const filterData = [
-  {
-    title: 'Lớp',
-    key: 'k70',
-    children: [
-      {
-        title: 'K70 01',
-        key: 'k7001',
-      },
-      {
-        title: 'K70 02',
-        key: 'k7002',
-      },
-    ],
-  },
-];
-
 export const TableStudentInfo = () => {
+  const [students, setStudents] = useState([]);
+  const [searchName, setSearchName] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 10;
+
+  const handleGetStudents = () => {
+    axiosClient
+      .get(`/users/students?search=${searchName}`)
+      .then((res) => {
+        const data = res.data.data.map((student, index) => ({
+          stt: index + 1,
+          ...student,
+        }));
+        setStudents(data);
+      })
+      .catch((error) => {});
+  };
+
+  const handleOnChange = (value) => {
+    if (value) setCurrentPage(value.current);
+  };
+
+  useEffect(() => {
+    handleOnChange();
+    handleGetStudents();
+  }, [searchName, currentPage]);
+
   return (
-    <div>
+    <div style={{ marginTop: 20 }}>
       <div
         style={{
           display: 'grid',
@@ -251,23 +112,10 @@ export const TableStudentInfo = () => {
             placeholder="Tìm kiếm theo tên học viên"
             prefix={<SearchOutlined />}
             style={{ borderRadius: 5, width: '100%' }}
-          />
-          <div
-            style={{
-              clear: 'both',
-              whiteSpace: 'nowrap',
+            onChange={(e) => {
+              setSearchName(e.target.value);
             }}
-          >
-            <Popover
-              placement="bottom"
-              content={<FilterButton filterData={filterData} />}
-              trigger="click"
-            >
-              <Button style={{ border: 'none', width: '20%' }}>
-                <TuneOutlinedIcon />
-              </Button>
-            </Popover>
-          </div>
+          />
         </Space>
 
         <Space style={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -284,8 +132,14 @@ export const TableStudentInfo = () => {
       </div>
       <Table
         columns={columns}
-        dataSource={data}
-        onChange={(value) => console.log(value)}
+        dataSource={students}
+        bordered={true}
+        onChange={(value) => handleOnChange(value)}
+        pagination={{
+          simple: true,
+          defaultPageSize: pageSize,
+          total: students.totalPage * pageSize,
+        }}
       />
     </div>
   );

@@ -10,7 +10,7 @@ const Member = () => {
   return (
     <div>
       <Route path="/admin/studentInfo" exact>
-        <Breadcrumb
+        {/* <Breadcrumb
           style={{
             margin: '16px 0',
             display: 'flex',
@@ -21,21 +21,21 @@ const Member = () => {
           <Breadcrumb.Item style={{ color: '#5BC3B2', fontWeight: 'bold' }}>
             DANH SÁCH HỌC VIÊN
           </Breadcrumb.Item>
-        </Breadcrumb>
-        <Content
+        </Breadcrumb> */}
+        {/* <Content
           className="site-layout-background"
           style={{
             padding: 24,
             margin: 0,
-            minHeight: 280,
+            height: '91vh',
             background: '#fff',
           }}
-        >
-          <TableStudentInfo />
-        </Content>
+        > */}
+        <TableStudentInfo />
+        {/* </Content> */}
       </Route>
       <Route path="/admin/teacherInfo" exact>
-        <Breadcrumb
+        {/* <Breadcrumb
           style={{
             margin: '16px 0',
             display: 'flex',
@@ -46,18 +46,16 @@ const Member = () => {
           <Breadcrumb.Item style={{ color: '#5BC3B2', fontWeight: 'bold' }}>
             DANH SÁCH GIẢNG VIÊN
           </Breadcrumb.Item>
-        </Breadcrumb>
-        <Content
-          className="site-layout-background"
+        </Breadcrumb> */}
+        {/* <Content
           style={{
             padding: 24,
             margin: 0,
             minHeight: 280,
-            background: '#fff',
           }}
-        >
-          <TableTeacherInfo />
-        </Content>
+        > */}
+        <TableTeacherInfo />
+        {/* </Content> */}
       </Route>
     </div>
   );

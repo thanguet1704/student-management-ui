@@ -5,23 +5,11 @@ import { axiosClient } from '../../../../api/config';
 const { Option } = Select;
 
 export const TeacherSelect = (props) => {
-  const [teachers, setTeachers] = useState([
-    { id: 51, name: 'Trịnh Hữu Thắng' },
-  ]);
-
-  const handleGetTeachers = async () => {
-    const res = await axiosClient.get('/users/teachers');
-    setTeachers(res.data);
-  };
-
   const handleChangeTeacher = (value) => {
-    const ses = teachers.find((teacher) => teacher.id === value);
+    const ses = props.teachers.find((teacher) => teacher.id === value);
     props.setTeacher(ses);
   };
 
-  useEffect(() => {
-    handleGetTeachers();
-  }, []);
   return (
     <Space>
       <Typography>Giảng viên:</Typography>
@@ -32,9 +20,9 @@ export const TeacherSelect = (props) => {
         value={props.teacher.id}
         onChange={(value) => handleChangeTeacher(value)}
       >
-        {teachers?.map((s) => {
+        {/* {props.teachers?.map((s) => {
           return <Option value={s.id}>{s.name}</Option>;
-        })}
+        })} */}
       </Select>
     </Space>
   );

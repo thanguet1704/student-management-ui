@@ -57,99 +57,81 @@ const Report = () => {
   }, [schoolYear, startDateReport, endDateReport, classIdChart]);
   return (
     <div>
-      <Breadcrumb
+      <Row
         style={{
-          margin: '16px 0',
+          marginTop: 20,
           display: 'flex',
-          justifyContent: 'center',
-          fontSize: '1.5rem',
+          justifyContent: 'space-between',
+          paddingLeft: 20,
+          marginBottom: 20,
         }}
       >
-        <Breadcrumb.Item style={{ color: '#5BC3B2', fontWeight: 'bold' }}>
-          <Typography style={{ color: '#5BC3B2' }}>
-            BÁO CÁO ĐIỂM DANH
-          </Typography>
-        </Breadcrumb.Item>
-      </Breadcrumb>
-      <Content
-        style={{
-          padding: 24,
-          background: '#fff',
-        }}
-      >
-        <Row
-          style={{
-            marginTop: 20,
-            display: 'flex',
-            justifyContent: 'space-between',
-            paddingLeft: 20,
-            marginBottom: 20,
-          }}
-        >
+        <Space size="large">
+          <Selection
+            title={'Khóa'}
+            schoolYear={schoolYear}
+            setSchoolYear={setSchoolYear}
+            schoolYears={schoolYears}
+          />
           <Space size="large">
-            <Selection
-              title={'Khóa'}
-              schoolYear={schoolYear}
-              setSchoolYear={setSchoolYear}
-              schoolYears={schoolYears}
-            />
-            <Space size="large">
-              <DateSelect title={'Từ ngày'} setDate={setStartDateReport} />
-              <DateSelect title={'Đến ngày'} setDate={setEndDateReport} />
-            </Space>
+            <DateSelect title={'Từ ngày'} setDate={setStartDateReport} />
+            <DateSelect title={'Đến ngày'} setDate={setEndDateReport} />
           </Space>
-        </Row>
-        <Row style={{ marginBottom: 20 }}>
-          <TotalCard
-            title={'Tổng lượt điểm danh'}
-            stat={statAtendence?.total}
-            icon={
-              <PeopleAltOutlinedIcon
-                style={{ fontSize: 50, color: '#5BC3B2' }}
-              />
-            }
-          />
-          <TotalCard
-            title={'Tổng lượt có mặt'}
-            stat={statAtendence?.attend}
-            icon={
-              <IconFont
-                type="icon-tuichu"
-                style={{ fontSize: 50, color: '#5BC3B2' }}
-              />
-            }
-          />
-          <TotalCard title={'Tổng lượt muộn'} stat={statAtendence?.late} />
-          <TotalCard title={'Tổng lượt vắng'} stat={statAtendence?.absent} />
-        </Row>
-        <Row style={{ padding: 20 }} gutter={40}>
-          <Col span={18}>
-            <Card
-              bodyStyle={{
-                background: '#BFFAD3',
-                borderRadius: 10,
-                border: '1px solid #0EFC5E',
-              }}
-            >
-              <Typography style={{ textAlign: 'center', fontWeight: 'bold' }}>
-                Biểu đồ thống kê số lượt vắng học trong năm 2021
-              </Typography>
-              <Chart />
-            </Card>
-          </Col>
-          <Col span={6}>
-            <Card
-              bodyStyle={{
-                background: '#BFFAD3',
-                borderRadius: 10,
-                border: '1px solid #0EFC5E ',
-              }}
-            >
-              <TableReport students={students} />
-            </Card>
-          </Col>
-        </Row>
-        {/* <Row
+        </Space>
+      </Row>
+      <Row style={{ marginBottom: 20 }}>
+        <TotalCard
+          title={'Tổng lượt điểm danh'}
+          stat={statAtendence?.total}
+          icon={
+            <PeopleAltOutlinedIcon style={{ fontSize: 50, color: '#5BC3B2' }} />
+          }
+        />
+        <TotalCard
+          title={'Tổng lượt có mặt'}
+          stat={statAtendence?.attend}
+          icon={
+            <IconFont
+              type="icon-tuichu"
+              style={{ fontSize: 50, color: '#5BC3B2' }}
+            />
+          }
+        />
+        <TotalCard title={'Tổng lượt muộn'} stat={statAtendence?.late} />
+        <TotalCard title={'Tổng lượt vắng'} stat={statAtendence?.absent} />
+      </Row>
+      <Row style={{ padding: 20 }} gutter={40}>
+        <Col span={18}>
+          <Card
+            bodyStyle={{
+              // background: '#BFFAD3',
+              borderRadius: 10,
+              border: '1px solid rgb(227, 235, 246)',
+              boxShadow: 'rgb(18 38 63 / 3%) 0px 3px 3px 0px !important',
+              height: '50vh',
+            }}
+          >
+            <Typography style={{ textAlign: 'center', fontWeight: 'bold' }}>
+              Biểu đồ thống kê số lượt vắng học trong năm 2021
+            </Typography>
+            <Chart />
+          </Card>
+        </Col>
+        <Col span={6}>
+          <Card
+            bodyStyle={{
+              // background: '#BFFAD3',
+              borderRadius: 10,
+              border: '1px solid rgb(227, 235, 246)',
+              boxShadow: 'rgb(18 38 63 / 3%) 0px 3px 3px 0px !important',
+              height: '50vh',
+            }}
+          >
+            <TableReport students={students} />
+          </Card>
+        </Col>
+      </Row>
+      {/* <Row
           style={{
             fontWeight: 'bold',
             fontSize: '1.5em',
@@ -177,7 +159,6 @@ const Report = () => {
             style={{ width: '100%' }}
           />
         </Row> */}
-      </Content>
     </div>
   );
 };

@@ -1,26 +1,17 @@
 import React from 'react';
-import { Line } from '@ant-design/charts';
+import { Line } from 'react-chartjs-2';
 
 export const Chart = () => {
-  const data = [
-    { classHCMA: 'K70 02', absent: 3 },
-    { classHCMA: 'K70 03', absent: 4 },
-    { classHCMA: 'K70 04', absent: 3.5 },
-    { classHCMA: 'K70 05', absent: 5 },
-    { classHCMA: 'K70 06', absent: 4.9 },
-    { classHCMA: 'K70 07', absent: 6 },
-    { classHCMA: 'K70 08', absent: 7 },
-    { classHCMA: 'K70 09', absent: 9 },
-  ];
-
-  const config = {
-    data,
-    xField: 'classHCMA',
-    yField: 'absent',
-    point: {
-      size: 10,
-      shape: 'diamond',
-    },
+  const data = {
+    labels: ['Jan', 'Reb', 'Hed', 'Jos', 'sd', 'sdf'],
+    datasets: [
+      {
+        label: 'Vắng',
+        data: [1, 5, 2.3, 4, 4.2, 6.2],
+        borderColor: ['rgba(255, 206, 86, 0.2)'],
+        backgroundColor: ['rgba(255, 206, 86, 0.2)'],
+      },
+    ],
   };
-  return <Line {...config} />;
+  return <Line data={data} height={110} />;
 };

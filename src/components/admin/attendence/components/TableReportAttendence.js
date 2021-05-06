@@ -10,6 +10,11 @@ import moment from 'moment';
 
 const columns = [
   {
+    title: 'STT',
+    dataIndex: 'stt',
+    key: 'stt',
+  },
+  {
     title: 'MSV',
     dataIndex: 'msv',
     key: 'msv',
@@ -89,7 +94,7 @@ export const TableReportAttendence = (props) => {
   };
 
   return (
-    <div>
+    <div style={{ marginTop: 20 }}>
       <div
         style={{
           display: 'grid',
