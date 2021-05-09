@@ -10,10 +10,9 @@ export const UserOption = (props) => {
   const history = useHistory();
 
   const handleLogout = () => {
-    localStorage.removeItem('hcmaid');
-    localStorage.removeItem('role');
-    localStorage.removeItem('name');
-    // Cookies.remove('hcmaid', { path});
+    Cookies.remove('hcmaid', { path: '/' });
+    Cookies.remove('name', { path: '/' });
+    Cookies.remove('role', { path: '/' });
     authCt.setAuth({ name: '', role: '' });
     history.push('/');
   };

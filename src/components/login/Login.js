@@ -16,6 +16,7 @@ import backgroundImage from '../../assets/background.svg';
 import logo from '../../assets/logo.png';
 import { AuthContext } from '../../contexts/AuthProvider';
 import './login.css';
+// import { useCookies } from 'react-cookie';
 
 const layout = {
   labelCol: {
@@ -31,6 +32,7 @@ export const Login = (props) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(false);
+  // const [cookies] = useCookies('hcmaid');
 
   const history = useHistory();
 
@@ -38,19 +40,19 @@ export const Login = (props) => {
     axiosClient
       .post('login', { username, password })
       .then((res) => {
-        localStorage.setItem('hcmaid', res.data.access_token);
-        localStorage.setItem('role', res.data.role);
-        localStorage.setItem('name', res.data.name);
-
-        setAuth({ name: res.data.name, role: res.data.role });
-        // message.success('Đăng nhập thành công');
+        setAuth({
+          name: res.data.name,
+          role: res.data.role,
+        });
         switch (res.data.role) {
           case 'student':
             history.push('/attendence');
+            window.location.reload();
             break;
 
           default:
             history.push('/admin/studentManagement');
+            window.location.reload();
             break;
         }
       })

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
+import Cookies from 'js-cookie';
 
 export const AuthContext = React.createContext();
 
 export default function AuthProvider({ children }) {
   const [auth, setAuth] = useState({
-    name: localStorage.getItem('name'),
-    role: localStorage.getItem('role'),
+    name: decodeURIComponent(Cookies.get('name')),
+    role: Cookies.get('role'),
   });
 
   return (

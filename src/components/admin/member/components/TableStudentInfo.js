@@ -4,6 +4,7 @@ import 'date-fns';
 import { useEffect, useState } from 'react';
 import { axiosClient } from '../../../../api';
 import { CreateUser } from '../components/CreateUser';
+import { useHistory } from 'react-router-dom';
 
 const columns = [
   {

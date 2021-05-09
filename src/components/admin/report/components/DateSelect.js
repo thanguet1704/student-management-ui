@@ -1,7 +1,7 @@
 import { DatePicker, Space, Typography } from 'antd';
 import moment from 'moment';
 
-const dateFormat = 'MM/DD/YYYY';
+const dateFormat = 'YYYY-MM-DD';
 
 export const DateSelect = (props) => {
   return (

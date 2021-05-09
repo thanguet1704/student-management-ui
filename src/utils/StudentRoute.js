@@ -1,8 +1,9 @@
 import { Redirect, Route } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 const StudentRoute = ({ path, component }) => {
-  const isLoged = localStorage.getItem('hcmaid');
-  const role = localStorage.getItem('role');
+  const isLoged = Cookies.get('hcmaid');
+  const role = Cookies.get('role');
   if (isLoged && role === 'student') {
     return <Route path={path} component={component} />;
   }

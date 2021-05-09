@@ -1,15 +1,13 @@
-import { Breadcrumb, Layout, message } from 'antd';
+import { message } from 'antd';
 import 'date-fns';
 import { useEffect, useState } from 'react';
 import { TableReportAttendence } from './components/TableReportAttendence';
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 import { axiosClient } from '../../../api/config';
-import Cookies from 'js-cookie';
-
-const { Content } = Layout;
+import moment from 'moment';
 
 const AdminAttendence = () => {
-  const history = useHistory();
+  // const history = useHistory();
   const [auth, setAuth] = useState({});
   const [attendenceData, setAttendenceData] = useState({
     totalPage: 0,
@@ -17,21 +15,21 @@ const AdminAttendence = () => {
   });
   const [searchNameAttendence, setSearchNameAttendence] = useState('');
   const [dateAttendence, setDateAttendence] = useState(
-    new Date().toISOString()
+    new Date(moment(new Date()).format('YYYY-DD-MM')).toISOString()
   );
   const [offsetAttendence, setOffsetAttendence] = useState(0);
 
   const handleAuthorization = () => {
-    // axiosClient
-    //   .post('/auth')
-    //   .then((res) => setAuth(res.data))
-    //   .catch((err) => {
-    //     if (err.response.status === 401) {
-    //       message.error('Phiên đăng nhập đã hết hạn');
-    //       localStorage.clear();
-    //       history.push('/');
-    //     }
-    //   });
+    axiosClient
+      .post('/auth')
+      .then((res) => setAuth(res.data))
+      .catch((err) => {
+        // if (err.response.status === 401) {
+        //   message.error('Phiên đăng nhập đã hết hạn');
+        //   localStorage.clear();
+        //   history.push('/');
+        // }
+      });
   };
 
   const handleGetAttendences = () => {
@@ -45,8 +43,14 @@ const AdminAttendence = () => {
       )
       .then((res) => {
         const data = res.data.data.map((attendence, index) => ({
-          stt: index + 1,
-          ...attendence,
+          stt: index + 1 + offsetAttendence,
+          category: attendence.category,
+          date: moment(attendence.date).format('DD-MM-YYYY'),
+          msv: attendence.msv,
+          name: attendence.name,
+          status: attendence.status,
+          timeIn: attendence.timeIn,
+          timeOut: attendence.timeOut,
         }));
         setAttendenceData({ totalPage: res.data.totalPage, data });
       })
@@ -54,7 +58,6 @@ const AdminAttendence = () => {
   };
 
   useEffect(() => {
-    console.log(Cookies.get('hcmaid'));
     handleAuthorization();
     handleGetAttendences();
   }, [searchNameAttendence, dateAttendence, offsetAttendence]);

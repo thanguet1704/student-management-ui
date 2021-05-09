@@ -1,6 +1,6 @@
 import { Select, Space, Typography } from 'antd';
 import { useEffect, useState } from 'react';
-import { axiosClient } from '../../../../api/config';
+import { axiosClient } from '../../../../../../api/config';
 
 const { Option } = Select;
 
@@ -25,7 +25,7 @@ export const SessionSelect = (props) => {
       <Typography>Buổi:</Typography>
       <Select
         defaultValue={props.session.id}
-        style={{ width: '5vw' }}
+        style={{ width: '9.3vw' }}
         size="large"
         onChange={(value) => handleChangeSession(value)}
       >

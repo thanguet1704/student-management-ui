@@ -1,16 +1,11 @@
-import {
-  AppstoreOutlined,
-  FileExcelFilled,
-  ScheduleOutlined,
-  SearchOutlined,
-} from '@ant-design/icons';
-import { Breadcrumb, Button, Input, Layout } from 'antd';
+import { AppstoreOutlined, ScheduleOutlined } from '@ant-design/icons';
+import { Breadcrumb, Layout } from 'antd';
 import { useState } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { SideBar } from '../../common/components/SideBar';
 import { TableStudentAttendence } from './TableStudentAttendence';
 import { TableStudentSchedule } from './TableStudentSchedule';
-import { CSVLink } from 'react-csv';
+import { HeaderComponent } from '../../common/components/HeaderComponent';
 
 const { Content } = Layout;
 
@@ -35,58 +30,17 @@ export const Student = () => {
   const [searchName, setSearchName] = useState('');
 
   return (
-    <Layout style={{ height: '93vh' }}>
+    <Layout style={{ height: '100vh' }}>
+      <HeaderComponent />
       <Layout>
         <SideBar listMenu={listMenu} />
         <Layout style={{ padding: '0 24px 24px' }}>
           <Switch>
             <Route path="/attendence" exact>
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: '1fr 1fr 1fr',
-                  paddingTop: 20,
-                  paddingBottom: 20,
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <Input
-                    size="small"
-                    placeholder="Tìm kiếm theo chuyên đề"
-                    prefix={<SearchOutlined />}
-                    style={{ borderRadius: 5, width: '80%', height: '70%' }}
-                    onChange={(e) => {
-                      setSearchName(e.target.value);
-                    }}
-                  />
-                </div>
-                <Breadcrumb
-                  style={{
-                    margin: '16px 0',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    fontSize: '1.5rem',
-                  }}
-                >
-                  <Breadcrumb.Item
-                    style={{ color: '#5BC3B2', fontWeight: 'bold' }}
-                  >
-                    THÔNG TIN ĐIỂM DANH
-                  </Breadcrumb.Item>
-                </Breadcrumb>
-              </div>
-
-              <Content
-                className="site-layout-background"
-                style={{
-                  padding: 24,
-                  margin: 0,
-                  minHeight: 280,
-                  background: '#fff',
-                }}
-              >
-                <TableStudentAttendence searchName={searchName} />
-              </Content>
+              <TableStudentAttendence
+                searchName={searchName}
+                setSearchName={setSearchName}
+              />
             </Route>
             <Route path="/schedule" exact>
               <Breadcrumb

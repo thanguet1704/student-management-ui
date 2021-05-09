@@ -7,13 +7,19 @@ import Report from './report/Report';
 import AdminAttendence from './attendence/AdminAttendence';
 import Member from './member/Member';
 import { ListMenuAdmin } from '../../common/routeConfig/adminRoute';
+import { AuthContext } from '../../contexts/AuthProvider';
+import { useContext } from 'react';
+import { HeaderComponent } from '../../common/components/HeaderComponent';
 
 export const Admin = (props) => {
+  const { auth } = useContext(AuthContext);
+
   return (
     <Layout>
+      <HeaderComponent />
       <Layout>
-        <SideBar listMenu={ListMenuAdmin} role={props.auth.role} />
-        <Layout style={{ padding: '0 24px 24px', minHeight: '93vh' }}>
+        <SideBar listMenu={ListMenuAdmin} role={auth.role} />
+        <Layout style={{ padding: '0 24px', minHeight: '93vh' }}>
           <Switch>
             <Route path="/admin/studentManagement" exact>
               <AdminAttendence />

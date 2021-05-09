@@ -1,10 +1,16 @@
-import { Table, Tag } from 'antd';
+import { Table, Tag, Space, Input } from 'antd';
 import { useEffect, useState } from 'react';
 import { axiosClient } from '../../api/config';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
+import { SearchOutlined } from '@ant-design/icons';
 
 const columns = [
+  {
+    title: 'STT',
+    dataIndex: 'stt',
+    key: 'stt',
+  },
   {
     title: 'MSV',
     dataIndex: 'msv',
@@ -40,6 +46,9 @@ const columns = [
     title: 'Ngày',
     dataIndex: 'date',
     key: 'date',
+    render: (time) => {
+      return moment(time).format('DD-MM-YYYY');
+    },
   },
   {
     title: 'Trạng thái',
@@ -79,7 +88,7 @@ const columns = [
   },
 ];
 
-export const TableStudentAttendence = ({ searchName }) => {
+export const TableStudentAttendence = (props) => {
   const [current, setCurrent] = useState(1);
   const pageSize = 10;
   const [data, setData] = useState({ totalPage: 0, data: [] });
@@ -93,11 +102,15 @@ export const TableStudentAttendence = ({ searchName }) => {
     axiosClient
       .get(
         `/attendence?searchName=${encodeURIComponent(
-          searchName
+          props.searchName
         )}&limit=${pageSize}&offset=${(current - 1) * pageSize}`
       )
       .then((res) => {
-        setData(res.data);
+        const results = res.data.data.map((attendence, index) => ({
+          stt: index + 1 + (current - 1) * pageSize,
+          ...attendence,
+        }));
+        setData({ totalPage: results.totalPage, data: results });
       })
       .catch((err) => {
         // history.push('/');
@@ -106,19 +119,40 @@ export const TableStudentAttendence = ({ searchName }) => {
 
   useEffect(() => {
     handleGetData();
-  }, [current, searchName]);
+  }, [current, props.searchName]);
 
   return (
-    <Table
-      columns={columns}
-      dataSource={data.data}
-      onChange={(value) => handleOnChange(value)}
-      bordered={true}
-      pagination={{
-        simple: true,
-        defaultPageSize: pageSize,
-        total: data.totalPage * pageSize,
-      }}
-    />
+    <div>
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'auto auto',
+          paddingBottom: 20,
+        }}
+      >
+        <Space>
+          <Input
+            size="large"
+            placeholder="Tìm kiếm học viên hoặc chuyên đề"
+            prefix={<SearchOutlined />}
+            style={{ borderRadius: 5, width: '120%', marginTop: 20 }}
+            onChange={(e) => {
+              props.setSearchName(e.target.value);
+            }}
+          />
+        </Space>
+      </div>
+      <Table
+        columns={columns}
+        dataSource={data.data}
+        onChange={(value) => handleOnChange(value)}
+        bordered={true}
+        pagination={{
+          simple: true,
+          defaultPageSize: pageSize,
+          total: data.totalPage * pageSize,
+        }}
+      />
+    </div>
   );
 };

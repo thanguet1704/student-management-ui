@@ -58,12 +58,12 @@ export const HeaderComponent = (props) => {
             marginRight: 20,
           }}
         >
-          <Space>
+          <Space style={{ fontSize: '1vw' }}>
             {auth.name ? (
               <div>
                 <Avatar
                   shape="square"
-                  size={36}
+                  size={'1vw'}
                   style={{ color: '#4C7CFD', backgroundColor: '#E1F0FF' }}
                 >
                   {`${lastName}`.slice(0, 1).toUpperCase()}
@@ -86,8 +86,8 @@ export const HeaderComponent = (props) => {
       </Popover>
 
       <Title level={3} style={{ display: 'flex', alignItems: 'center' }}>
-        <img src={logo} alt="logo" style={{ height: '2em' }} />
-        <Typography style={{ color: 'black' }}>
+        <img src={logo} alt="logo" style={{ height: '2vw' }} />
+        <Typography style={{ color: 'black', fontSize: '1.2vw' }}>
           HỆ THỐNG QUẢN LÝ HỌC VIÊN
         </Typography>
       </Title>

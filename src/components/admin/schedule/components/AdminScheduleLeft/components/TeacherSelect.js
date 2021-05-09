@@ -1,6 +1,4 @@
 import { Select, Space, Typography } from 'antd';
-import { useEffect, useState } from 'react';
-import { axiosClient } from '../../../../api/config';
 
 const { Option } = Select;
 
@@ -12,17 +10,18 @@ export const TeacherSelect = (props) => {
 
   return (
     <Space>
-      <Typography>Giảng viên:</Typography>
+      <Typography style={{ width: '4vw' }}>Giảng viên:</Typography>
       <Select
-        defaultValue={props.teacher.id}
-        style={{ width: 206 }}
+        defaultValue={props.teacher?.id}
+        style={{ width: '100%' }}
         size="large"
         value={props.teacher.id}
         onChange={(value) => handleChangeTeacher(value)}
       >
-        {/* {props.teachers?.map((s) => {
-          return <Option value={s.id}>{s.name}</Option>;
-        })} */}
+        {props.teacher.length > 0 &&
+          props.teachers.map((s) => {
+            return <Option value={s.id}>{s.name}</Option>;
+          })}
       </Select>
     </Space>
   );
