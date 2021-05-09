@@ -1,13 +1,10 @@
-import { message } from 'antd';
 import 'date-fns';
 import { useEffect, useState } from 'react';
 import { TableReportAttendence } from './components/TableReportAttendence';
-// import { useHistory } from 'react-router-dom';
 import { axiosClient } from '../../../api/config';
 import moment from 'moment';
 
 const AdminAttendence = () => {
-  // const history = useHistory();
   const [auth, setAuth] = useState({});
   const [attendenceData, setAttendenceData] = useState({
     totalPage: 0,
@@ -24,11 +21,9 @@ const AdminAttendence = () => {
       .post('/auth')
       .then((res) => setAuth(res.data))
       .catch((err) => {
-        // if (err.response.status === 401) {
-        //   message.error('Phiên đăng nhập đã hết hạn');
-        //   localStorage.clear();
-        //   history.push('/');
-        // }
+        if (err.response.status === 401) {
+          window.location.reload();
+        }
       });
   };
 
@@ -60,7 +55,7 @@ const AdminAttendence = () => {
   useEffect(() => {
     handleAuthorization();
     handleGetAttendences();
-  }, [searchNameAttendence, dateAttendence, offsetAttendence]);
+  }, [searchNameAttendence, dateAttendence, offsetAttendence, auth]);
 
   return (
     <div>

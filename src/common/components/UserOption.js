@@ -25,11 +25,11 @@ export const UserOption = (props) => {
         newPassword: props.newPassword,
       })
       .then((res) => {
-        localStorage.removeItem('hcmaid');
-        localStorage.removeItem('role');
-        localStorage.removeItem('name');
+        Cookies.remove('hcmaid', { path: '/' });
+        Cookies.remove('name', { path: '/' });
+        Cookies.remove('role', { path: '/' });
         props.setIsModalVisible(false);
-        history.push('/');
+        window.location.reload();
       })
       .catch((err) => props.setError(true));
   };

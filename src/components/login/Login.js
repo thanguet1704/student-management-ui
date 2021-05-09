@@ -1,13 +1,4 @@
-import {
-  Alert,
-  Button,
-  Col,
-  Form,
-  Input,
-  Row,
-  Typography,
-  message,
-} from 'antd';
+import { Alert, Button, Col, Form, Input, Row, Typography } from 'antd';
 import 'antd/dist/antd.css';
 import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
@@ -16,7 +7,6 @@ import backgroundImage from '../../assets/background.svg';
 import logo from '../../assets/logo.png';
 import { AuthContext } from '../../contexts/AuthProvider';
 import './login.css';
-// import { useCookies } from 'react-cookie';
 
 const layout = {
   labelCol: {
@@ -32,7 +22,6 @@ export const Login = (props) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(false);
-  // const [cookies] = useCookies('hcmaid');
 
   const history = useHistory();
 

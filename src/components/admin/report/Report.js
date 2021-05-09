@@ -1,6 +1,6 @@
 import PeopleAltOutlinedIcon from '@material-ui/icons/PeopleAltOutlined';
 import { createFromIconfontCN } from '@ant-design/icons';
-import { Breadcrumb, Card, Col, Layout, Row, Space, Typography } from 'antd';
+import { Card, Col, Row, Space, Typography } from 'antd';
 import 'date-fns';
 import { useEffect, useState } from 'react';
 import { Chart } from './components/Chart';
@@ -10,7 +10,6 @@ import { Selection } from '../../../common/components/Selection';
 import { axiosClient } from '../../../api/config';
 import { DateSelect } from './components/DateSelect';
 
-const { Content } = Layout;
 const IconFont = createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js',
 });
@@ -114,7 +113,7 @@ const Report = () => {
             <Typography style={{ textAlign: 'center', fontWeight: 'bold' }}>
               Biểu đồ thống kê số lượt vắng học trong năm 2021
             </Typography>
-            <Chart />
+            <Chart setClasdIdChart={setClasdIdChart} />
           </Card>
         </Col>
         <Col span={6}>

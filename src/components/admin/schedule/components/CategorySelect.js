@@ -1,21 +1,18 @@
 import { Select, Space, Typography } from 'antd';
 import { useEffect, useState } from 'react';
-import { axiosClient } from '../../../../../../api/config';
+import { axiosClient } from '../../../../api/config';
 
 const { Option } = Select;
 
 export const CategorySelect = (props) => {
   const { subjectId, category, setCategory } = props;
-  const [categories, setCategories] = useState();
+  const [categories, setCategories] = useState([]);
 
-  const handleGetCategories = async () => {
-    const res = await axiosClient.get(`/subjects/${subjectId}`);
-    setCategories(res.data);
-    if (res.data.length) {
+  const handleGetCategories = () => {
+    axiosClient.get(`/subjects/${subjectId}`).then((res) => {
+      setCategories(res.data);
       setCategory(res.data[0]);
-    } else {
-      setCategory({ id: '', title: '' });
-    }
+    });
   };
 
   const handleChangeCategory = (value) => {
@@ -30,8 +27,8 @@ export const CategorySelect = (props) => {
     <Space style={{ marginBottom: 20 }}>
       <Typography style={{ width: '4vw' }}>Chuyên đề:</Typography>
       <Select
-        defaultValue={category.id}
-        value={category.id}
+        defaultValue={category?.id}
+        value={categories[0]?.id}
         size="large"
         style={{ width: '19.7vw' }}
         onChange={(value) => handleChangeCategory(value)}

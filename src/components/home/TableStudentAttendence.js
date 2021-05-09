@@ -1,7 +1,6 @@
 import { Table, Tag, Space, Input } from 'antd';
 import { useEffect, useState } from 'react';
 import { axiosClient } from '../../api/config';
-import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 import { SearchOutlined } from '@ant-design/icons';
 
@@ -92,7 +91,6 @@ export const TableStudentAttendence = (props) => {
   const [current, setCurrent] = useState(1);
   const pageSize = 10;
   const [data, setData] = useState({ totalPage: 0, data: [] });
-  const history = useHistory();
 
   const handleOnChange = (value) => {
     setCurrent(value.current);
@@ -112,9 +110,7 @@ export const TableStudentAttendence = (props) => {
         }));
         setData({ totalPage: results.totalPage, data: results });
       })
-      .catch((err) => {
-        // history.push('/');
-      });
+      .catch((err) => {});
   };
 
   useEffect(() => {
