@@ -3,8 +3,8 @@ import { Breadcrumb, Layout } from 'antd';
 import { useState } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { SideBar } from '../../common/components/SideBar';
-import { TableStudentAttendence } from './TableStudentAttendence';
-import { TableStudentSchedule } from './TableStudentSchedule';
+import { TableStudentAttendence } from './components/TableStudentAttendence';
+import { TableStudentSchedule } from './components/TableStudentSchedule';
 import { HeaderComponent } from '../../common/components/HeaderComponent';
 
 const { Content } = Layout;
@@ -43,28 +43,10 @@ export const Student = () => {
               />
             </Route>
             <Route path="/schedule" exact>
-              <Breadcrumb
-                style={{
-                  margin: '16px 0',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  fontSize: '1.5rem',
-                }}
-              >
-                <Breadcrumb.Item
-                  style={{ color: '#5BC3B2', fontWeight: 'bold' }}
-                >
-                  THỜI KHÓA BIỂU
-                </Breadcrumb.Item>
-              </Breadcrumb>
               <Content
                 className="site-layout-background"
                 style={{
                   padding: 24,
-                  margin: 0,
-                  minHeight: 280,
-                  background: '#fff',
-                  border: '10px solid #5BC3B2',
                 }}
               >
                 <TableStudentSchedule />

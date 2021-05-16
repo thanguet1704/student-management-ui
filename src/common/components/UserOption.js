@@ -7,6 +7,7 @@ import Cookies from 'js-cookie';
 
 export const UserOption = (props) => {
   const authCt = useContext(AuthContext);
+  const [form] = Form.useForm();
   const history = useHistory();
 
   const handleLogout = () => {
@@ -45,43 +46,51 @@ export const UserOption = (props) => {
         Đổi mật khẩu
       </Button>
       <Modal
-        style={{ textAlign: 'center' }}
-        title="Đổi mật khẩu"
         visible={props.isModalVisible}
-        onOk={() => handleOk}
+        title="Đổi mật khẩu"
+        okText="Cập nhật"
+        cancelText="Hủy"
         onCancel={props.handleCancel}
+        onOk={() => {
+          form
+            .validateFields()
+            .then((values) => {
+              form.resetFields();
+              // onCreate(values);
+            })
+            .catch((info) => {
+              console.log('Validate Failed:', info);
+            });
+        }}
       >
-        <Form name="basic" initialValues={{ remember: true }}>
-          {props.error ? (
-            <Form.Item>
-              <Alert message="Lỗi" type="error" showIcon />
-            </Form.Item>
-          ) : (
-            <></>
-          )}
-
+        <Form
+          form={form}
+          layout="vertical"
+          name="form_in_modal"
+          initialValues={{
+            modifier: 'public',
+          }}
+        >
           <Form.Item
-            label="Tên đăng nhập"
             name="username"
-            rules={[{ required: true, message: 'Hãy nhập tên đăng nhập!' }]}
+            label="Tên đăng nhập"
+            rules={[
+              {
+                required: true,
+                message: 'Please input the title of collection!',
+              },
+            ]}
           >
-            <Input onChange={(value) => props.setUserName(value)} />
+            <Input />
           </Form.Item>
-
-          <Form.Item
-            label="Mật khẩu cũ"
-            name="password"
-            rules={[{ required: true, message: 'Nhập mật khẩu cũ!' }]}
-          >
-            <Input.Password onChange={(value) => props.setPassword(value)} />
+          <Form.Item name="password" label="Mật khẩu cũ">
+            <Input.Password type="textarea" />
           </Form.Item>
-
-          <Form.Item
-            label="Mật khẩu mới"
-            name="password"
-            rules={[{ required: true, message: 'Nhập mật khẩu mới!' }]}
-          >
-            <Input.Password onChange={(value) => props.setNewPassword(value)} />
+          <Form.Item name="confirm" label="Mật khẩu mới">
+            <Input.Password type="textarea" />
+          </Form.Item>
+          <Form.Item name="confirmNewPassword" label="Xác nhận mật khẩu mới">
+            <Input.Password type="textarea" />
           </Form.Item>
         </Form>
       </Modal>

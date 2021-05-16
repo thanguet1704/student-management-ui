@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { TableReportAttendence } from './components/TableReportAttendence';
 import { axiosClient } from '../../../api/config';
 import moment from 'moment';
+import { DateFormat } from '../../../common/interface';
 
 const AdminAttendence = () => {
   const [auth, setAuth] = useState({});
@@ -12,7 +13,7 @@ const AdminAttendence = () => {
   });
   const [searchNameAttendence, setSearchNameAttendence] = useState('');
   const [dateAttendence, setDateAttendence] = useState(
-    new Date(moment(new Date()).format('YYYY-DD-MM')).toISOString()
+    new Date(moment(new Date()).format(DateFormat)).toISOString()
   );
   const [offsetAttendence, setOffsetAttendence] = useState(0);
 
@@ -55,7 +56,7 @@ const AdminAttendence = () => {
   useEffect(() => {
     handleAuthorization();
     handleGetAttendences();
-  }, [searchNameAttendence, dateAttendence, offsetAttendence, auth]);
+  }, [searchNameAttendence, dateAttendence, offsetAttendence]);
 
   return (
     <div>

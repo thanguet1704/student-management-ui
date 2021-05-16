@@ -7,6 +7,7 @@ import backgroundImage from '../../assets/background.svg';
 import logo from '../../assets/logo.png';
 import { AuthContext } from '../../contexts/AuthProvider';
 import './login.css';
+import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
 const layout = {
   labelCol: {
@@ -16,6 +17,11 @@ const layout = {
     span: 16,
   },
 };
+
+// const formItemLayout = {
+//   labelCol: { span: 4 },
+//   wrapperCol: { span: 14 },
+// };
 
 export const Login = (props) => {
   const { setAuth } = useContext(AuthContext);
@@ -51,10 +57,17 @@ export const Login = (props) => {
   return (
     <div>
       <Row>
-        <Col style={{ padding: 100, boxSizing: 'border-box' }} className="left">
+        <Col
+          xs={24}
+          xl={12}
+          style={{ padding: 100, boxSizing: 'border-box' }}
+          className="left"
+        >
           <img src={backgroundImage} alt="background" />
         </Col>
         <Col
+          xs={24}
+          xl={12}
           style={{
             display: 'flex',
             flexDirection: 'column',
@@ -74,9 +87,14 @@ export const Login = (props) => {
             Đăng nhập hệ thống
           </Typography>
           <Form
-            name="basic"
+            size="large"
+            name="normal_login"
+            className="login-form"
             initialValues={{
               remember: true,
+            }}
+            style={{
+              width: '100%',
             }}
           >
             <Form.Item>
@@ -92,8 +110,6 @@ export const Login = (props) => {
             </Form.Item>
 
             <Form.Item
-              {...layout}
-              label="Tên đăng nhập"
               name="username"
               rules={[
                 {
@@ -103,15 +119,15 @@ export const Login = (props) => {
               ]}
             >
               <Input
+                prefix={<UserOutlined className="site-form-item-icon" />}
+                placeholder="Tên đăng nhập"
                 size="large"
                 onChange={(e) => setUsername(e.target.value)}
-                style={{ height: '200%' }}
+                style={{ borderRadius: 10 }}
               />
             </Form.Item>
 
             <Form.Item
-              {...layout}
-              label="Mật khẩu"
               name="password"
               rules={[
                 {
@@ -121,15 +137,17 @@ export const Login = (props) => {
               ]}
             >
               <Input.Password
+                style={{ borderRadius: 10 }}
+                prefix={<LockOutlined className="site-form-item-icon" />}
                 size="large"
-                style={{ height: '200%' }}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </Form.Item>
-            <Form.Item {...layout} label="" name="">
+            <Form.Item>
               <Button
                 type="primary"
                 htmlType="submit"
+                className="login-form-button"
                 onClick={handleLogin}
                 size="large"
                 style={{

@@ -14,16 +14,35 @@ import { axiosClient } from '../../../api/config';
 import { DateSelect } from './components/DateSelect';
 import { CategorySelect } from './components/CategorySelect';
 import { SessionSelect } from './components/SessionSelect';
+import { DateFormat } from '../../../common/interface';
 
 const { Option } = Select;
-const dateFormat = 'YYYY-DD-MM';
+const mappingDay = [
+  { value: 'Monday', display: 'Thứ 2' },
+  { value: 'Tuesday', display: 'Thứ 3' },
+  { value: 'Wednesday', display: 'Thứ 4' },
+  { value: 'Thursday', display: 'Thứ 5' },
+  { value: 'Friday', display: 'Thứ 6' },
+  { value: 'Saturday', display: 'Thứ 7' },
+  { value: 'Sunday', display: 'Chủ nhật' },
+];
 const columns = [
   {
     title: 'Thứ.Ngày',
     dataIndex: 'learnDate',
     key: 'learnDate',
     render: (date) => {
-      return `${moment(new Date()).locale('vi').format('dddd')}.${date}`;
+      const day = mappingDay.find(
+        (d) => d.value === moment(new Date()).locale('vi').format('dddd')
+      );
+
+      return (
+        <div>
+          <Typography>{day.display}</Typography>
+          <Typography>{moment(new Date(date)).format('DD-MM-YYYY')}</Typography>
+        </div>
+      );
+      // return `${day.display}.${moment(new Date(date)).format('DD-MM-YYYY')}`;
     },
   },
   {
@@ -63,17 +82,20 @@ const AdminSchedule = () => {
   const [subject, setSubject] = useState();
   const [category, setCategory] = useState();
   const [startDate, setStartDate] = useState(
-    `${moment(new Date()).format(dateFormat)}`
+    `${moment(new Date()).format(DateFormat)}`
   );
   const [endDate, setEndDate] = useState(
-    `${moment(new Date()).format(dateFormat)}`
+    `${moment(new Date()).format(DateFormat)}`
   );
   const [learnDate, setLearnDate] = useState(
-    `${moment(new Date()).format(dateFormat)}`
+    `${moment(new Date()).format(DateFormat)}`
   );
-  const [session, setSession] = useState({ id: 1, title: 'Sáng' });
+  const [finalExamDate, setFinalExamDate] = useState(
+    `${moment(new Date()).format(DateFormat)}`
+  );
+  const [session, setSession] = useState();
   const [classObject, setClassObject] = useState();
-  const [teacher, setTeacher] = useState({ id: 51, name: 'Trịnh Hữu Thắng' });
+  const [teacher, setTeacher] = useState();
 
   const [teachers, setTeachers] = useState([
     { id: 51, name: 'Trịnh Hữu Thắng' },
@@ -106,6 +128,7 @@ const AdminSchedule = () => {
   const handleGetClass = async () => {
     const res = await axiosClient.get('/class');
     setClasses(res.data);
+    setClassObject(res.data[0]);
   };
 
   const handleChangeClass = async (value) => {
@@ -115,22 +138,23 @@ const AdminSchedule = () => {
 
   const handleGetTeachers = async () => {
     const res = await axiosClient.get('/users/teachers');
-    setTeachers(res.data);
+    setTeachers(res.data.data);
+    setTeacher(res.data.data[0]);
   };
 
   const handleCreateSchedle = () => {
     axiosClient
       .post('/schedule', {
-        subjectId: subject.id,
-        categoryId: category.id,
-        classId: classObject.id,
+        subjectId: subject?.id,
+        categoryId: category?.id,
+        classId: classObject?.id,
         learningDate: learnDate,
-        sessionId: session.id,
-        accountId: teacher.id,
-        classroomId: classroom.id,
+        sessionId: session?.id,
+        accountId: teacher?.id,
+        classroomId: classroom?.id,
         startDate: startDate,
         endDate: endDate,
-        finalExamDate: '2021-05-09T09:55:59.003Z',
+        finalExamDate: finalExamDate,
       })
       .then((res) => {
         message.success('Thêm thời khóa biểu thành công');
@@ -151,7 +175,6 @@ const AdminSchedule = () => {
   const handleChangeClassroom = (value) => {
     const clroom = classrooms?.find((item) => item.id === value);
     setClassroom(clroom);
-    console.log(classroom);
   };
 
   const handleChangeTeacher = (value) => {
@@ -167,9 +190,9 @@ const AdminSchedule = () => {
       id: 0,
       learnDate: learnDate,
       category: category?.title,
-      session: session.title,
+      session: session?.title,
       lession: category?.lession,
-      teacher: `${teacher.name} (${teacher.phone})`,
+      teacher: `${teacher?.name} (${teacher?.phone})`,
       subject: subject?.name,
       classroom: classroom?.name,
     },
@@ -183,11 +206,11 @@ const AdminSchedule = () => {
           id: item.id,
           learnDate: item.date,
           category: item.category,
-          session: session.title,
-          lession: category.lession,
-          teacher: `${teacher.name} (${teacher.phone})`,
-          subject: subject.name,
-          classroom: classroom,
+          session: item.session.title,
+          lession: item.lession,
+          teacher: `${item.teacher.name} (${item.teacher.phone})`,
+          subject: item.subject,
+          classroom: item.classroom,
         }));
 
         setSchedules(data);
@@ -201,7 +224,7 @@ const AdminSchedule = () => {
     handleGetClass();
     handleGetTeachers();
     handleGetSubjects();
-  }, [semester, classObject, subject, category]);
+  }, [semester]);
 
   return (
     <div>
@@ -225,6 +248,7 @@ const AdminSchedule = () => {
             <Typography>Chọn Lớp:</Typography>
             <Select
               defaultValue={classObject?.id}
+              value={classes[0]?.id}
               size="large"
               style={{ width: '7vw' }}
               onChange={(value) => handleChangeClass(value)}
@@ -252,7 +276,7 @@ const AdminSchedule = () => {
               <Space style={{ marginBottom: 20, display: 'flex' }}>
                 <Typography style={{ width: '4vw' }}>Môn học:</Typography>
                 <Select
-                  defaultValue={subject?.name}
+                  // defaultValue={subject?.name}
                   size="large"
                   style={{ width: '19.7vw' }}
                   onChange={(value) => {
@@ -283,14 +307,14 @@ const AdminSchedule = () => {
               <Space size="large" style={{ marginBottom: 20 }}>
                 <Typography style={{ width: '3.1vw' }}>Giảng viên:</Typography>
                 <Select
-                  defaultValue={teachers[0]?.id}
+                  defaultValue={teacher?.id}
                   style={{ width: '19.7vw' }}
                   size="large"
-                  value={teacher?.id}
+                  value={teachers[0]?.id}
                   onChange={(value) => handleChangeTeacher(value)}
                 >
-                  {teacher.length > 0 &&
-                    teachers.map((s) => {
+                  {teachers.length > 0 &&
+                    teachers?.map((s) => {
                       return <Option value={s.id}>{s.name}</Option>;
                     })}
                 </Select>
@@ -312,7 +336,7 @@ const AdminSchedule = () => {
                   </Select>
                 </Space>
 
-                <DateSelect title={'Kiếm tra'} setDate={setStartDate} />
+                <DateSelect title={'Kiếm tra'} setDate={setFinalExamDate} />
               </Space>
             </Space>
             <Button
@@ -384,6 +408,7 @@ const AdminSchedule = () => {
                   bordered={true}
                   pagination={false}
                   size="large"
+                  scroll={{ y: '35vh' }}
                 />
               </Space>
             </Space>

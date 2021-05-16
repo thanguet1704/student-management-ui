@@ -1,6 +1,6 @@
 import { Table, Tag, Space, Input } from 'antd';
 import { useEffect, useState } from 'react';
-import { axiosClient } from '../../api/config';
+import { axiosClient } from '../../../api/config';
 import moment from 'moment';
 import { SearchOutlined } from '@ant-design/icons';
 

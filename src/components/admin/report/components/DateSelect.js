@@ -1,7 +1,6 @@
 import { DatePicker, Space, Typography } from 'antd';
 import moment from 'moment';
-
-const dateFormat = 'YYYY-MM-DD';
+import { DateFormat } from '../../../../common/interface';
 
 export const DateSelect = (props) => {
   return (
@@ -9,8 +8,8 @@ export const DateSelect = (props) => {
       <Typography>{props.title}:</Typography>
       <DatePicker
         size="large"
-        defaultValue={moment(new Date(), dateFormat)}
-        format={dateFormat}
+        defaultValue={moment(new Date(), DateFormat)}
+        format={DateFormat}
         style={{ width: 179 }}
         onChange={(date, dateString) => {
           props.setDate(new Date(dateString).toISOString());
