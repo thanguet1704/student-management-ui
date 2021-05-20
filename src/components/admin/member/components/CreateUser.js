@@ -38,7 +38,7 @@ export const CreateUser = (props) => {
           onOk={handleOk}
           onCancel={handleCancel}
         >
-          <Form name="register" initialValues={{ remember: true }}>
+          <Form name="register" layout="vertical">
             <Form.Item
               label="Tên đăng nhập"
               name="username"

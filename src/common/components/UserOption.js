@@ -1,5 +1,5 @@
-import { Alert, Button, Form, Input, Modal } from 'antd';
-import { useContext } from 'react';
+import { Button, Form, Input, Modal } from 'antd';
+import { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { axiosClient } from '../../api/config';
 import { AuthContext } from '../../contexts/AuthProvider';
@@ -32,8 +32,15 @@ export const UserOption = (props) => {
         props.setIsModalVisible(false);
         window.location.reload();
       })
-      .catch((err) => props.setError(true));
+      .catch((err) => {
+        form.resetFields();
+        props.setError(true);
+      });
   };
+
+  useEffect(() => {
+    form.resetFields();
+  }, []);
 
   return (
     <div
@@ -55,42 +62,62 @@ export const UserOption = (props) => {
           form
             .validateFields()
             .then((values) => {
-              form.resetFields();
               // onCreate(values);
+              handleOk();
+              form.resetFields();
             })
             .catch((info) => {
-              console.log('Validate Failed:', info);
+              form.resetFields();
             });
         }}
       >
-        <Form
-          form={form}
-          layout="vertical"
-          name="form_in_modal"
-          initialValues={{
-            modifier: 'public',
-          }}
-        >
+        <Form form={form} layout="vertical" name="form_in_modal">
           <Form.Item
             name="username"
             label="Tên đăng nhập"
             rules={[
               {
                 required: true,
-                message: 'Please input the title of collection!',
+                message: 'Tên đăng nhập không được bỏ trống!',
               },
             ]}
           >
-            <Input />
+            <Input
+              onChange={(e) => props.setUserName(e.target.value)}
+              allowClear={true}
+            />
           </Form.Item>
-          <Form.Item name="password" label="Mật khẩu cũ">
-            <Input.Password type="textarea" />
+          <Form.Item
+            name="password"
+            label="Mật khẩu cũ"
+            rules={[
+              {
+                required: true,
+                message: 'Mật khẩu không được bỏ trống!',
+              },
+            ]}
+          >
+            <Input.Password
+              type="textarea"
+              onChange={(e) => props.setPassword(e.target.value)}
+              allowClear={true}
+            />
           </Form.Item>
-          <Form.Item name="confirm" label="Mật khẩu mới">
-            <Input.Password type="textarea" />
-          </Form.Item>
-          <Form.Item name="confirmNewPassword" label="Xác nhận mật khẩu mới">
-            <Input.Password type="textarea" />
+          <Form.Item
+            name="confirm"
+            label="Mật khẩu mới"
+            rules={[
+              {
+                required: true,
+                message: 'Mật khẩu không được bỏ trống!',
+              },
+            ]}
+          >
+            <Input.Password
+              type="textarea"
+              onChange={(e) => props.setNewPassword(e.target.value)}
+              allowClear={true}
+            />
           </Form.Item>
         </Form>
       </Modal>

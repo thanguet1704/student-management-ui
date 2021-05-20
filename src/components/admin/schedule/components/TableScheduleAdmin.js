@@ -1,0 +1,65 @@
+import { Space, Typography, Table } from 'antd';
+import { useEffect, useState } from 'react';
+import { axiosClient } from '../../../../api';
+
+const TableScheduleAdmin = (props) => {
+  const [schedules, setSchedules] = useState([]);
+
+  const handleGetSchedule = () => {
+    axiosClient
+      .get(
+        `/schedule?semesterId=${props.semester?.id}&classId=${props.class?.id}`
+      )
+      .then((res) => {
+        const data = res.data.map((item) => ({
+          id: item.id,
+          learnDate: item.date,
+          category: item.category,
+          session: item.session.title,
+          lession: item.lession,
+          teacher: `${item.teacher.name} (${item.teacher.phone})`,
+          subject: item.subject,
+          classroom: item.classroom,
+        }));
+
+        setSchedules(data);
+      });
+  };
+
+  useEffect(() => {
+    handleGetSchedule();
+  }, [props.semester, props.class]);
+
+  return (
+    <Space
+      style={{
+        border: '1px solid #f0f0f0',
+        width: '100%',
+        padding: 30,
+      }}
+      direction="vertical"
+    >
+      <Typography style={{ fontWeight: 'bold', textAlign: 'center' }}>
+        LỊCH GIẢNG DẠY - HỌC TẬP (Lớp: {props.class?.name})
+      </Typography>
+      <Space
+        size="large"
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+      >
+        <Table
+          columns={props.columns}
+          dataSource={schedules}
+          bordered={true}
+          pagination={false}
+          size="large"
+          scroll={{ y: '35vh' }}
+        />
+      </Space>
+    </Space>
+  );
+};
+
+export default TableScheduleAdmin;

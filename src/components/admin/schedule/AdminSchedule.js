@@ -15,6 +15,7 @@ import { DateSelect } from './components/DateSelect';
 import { CategorySelect } from './components/CategorySelect';
 import { SessionSelect } from './components/SessionSelect';
 import { DateFormat } from '../../../common/interface';
+import TableScheduleAdmin from './components/TableScheduleAdmin';
 
 const { Option } = Select;
 const mappingDay = [
@@ -159,7 +160,9 @@ const AdminSchedule = () => {
       .then((res) => {
         message.success('Thêm thời khóa biểu thành công');
       })
-      .catch((err) => message.error(err.response.message));
+      .catch((err) => {
+        message.error(err.message);
+      });
   };
 
   const handleChangeSubject = (value) => {
@@ -182,9 +185,6 @@ const AdminSchedule = () => {
     setTeacher(ses);
   };
 
-  // get schedule in right
-  const [schedules, setSchedules] = useState([]);
-
   const newSchedule = [
     {
       id: 0,
@@ -198,27 +198,7 @@ const AdminSchedule = () => {
     },
   ];
 
-  const handleGetSchedule = () => {
-    axiosClient
-      .get(`/schedule?semesterId=${semester?.id}&classId=${classObject?.id}`)
-      .then((res) => {
-        const data = res.data.map((item) => ({
-          id: item.id,
-          learnDate: item.date,
-          category: item.category,
-          session: item.session.title,
-          lession: item.lession,
-          teacher: `${item.teacher.name} (${item.teacher.phone})`,
-          subject: item.subject,
-          classroom: item.classroom,
-        }));
-
-        setSchedules(data);
-      });
-  };
-
   useEffect(() => {
-    handleGetSchedule();
     handleGetSemesters();
     handleGetClassrooms();
     handleGetClass();
@@ -233,10 +213,11 @@ const AdminSchedule = () => {
           <Space>
             <Typography>Chọn Học kỳ:</Typography>
             <Select
-              defaultValue={semester && semester.id && ''}
-              style={{ width: '20vw' }}
+              defaultValue={semesters[0]?.id}
+              value={semester?.id}
               size="large"
               onChange={handleChangeSemester}
+              style={{ minWidth: '15vw' }}
             >
               {semesters &&
                 semesters.map((data) => (
@@ -248,7 +229,7 @@ const AdminSchedule = () => {
             <Typography>Chọn Lớp:</Typography>
             <Select
               defaultValue={classObject?.id}
-              value={classes[0]?.id}
+              value={classObject?.id}
               size="large"
               style={{ width: '7vw' }}
               onChange={(value) => handleChangeClass(value)}
@@ -384,34 +365,11 @@ const AdminSchedule = () => {
                 />
               </Space>
             </Space>
-            <Space
-              style={{
-                border: '1px solid #f0f0f0',
-                width: '100%',
-                padding: 30,
-              }}
-              direction="vertical"
-            >
-              <Typography style={{ fontWeight: 'bold', textAlign: 'center' }}>
-                LỊCH GIẢNG DẠY - HỌC TẬP (Lớp: {classObject?.name})
-              </Typography>
-              <Space
-                size="large"
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                }}
-              >
-                <Table
-                  columns={columns}
-                  dataSource={schedules}
-                  bordered={true}
-                  pagination={false}
-                  size="large"
-                  scroll={{ y: '35vh' }}
-                />
-              </Space>
-            </Space>
+            <TableScheduleAdmin
+              class={classObject}
+              columns={columns}
+              semester={semester}
+            />
           </Col>
         </Row>
       )}

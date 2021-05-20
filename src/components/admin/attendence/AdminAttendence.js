@@ -5,6 +5,8 @@ import { axiosClient } from '../../../api/config';
 import moment from 'moment';
 import { DateFormat } from '../../../common/interface';
 
+const limit = 15;
+
 const AdminAttendence = () => {
   const [auth, setAuth] = useState({});
   const [attendenceData, setAttendenceData] = useState({
@@ -35,7 +37,7 @@ const AdminAttendence = () => {
           searchNameAttendence
         )}&date=${encodeURIComponent(
           dateAttendence
-        )}&limit=15&offset=${offsetAttendence}`
+        )}&limit=${limit}&offset=${offsetAttendence}`
       )
       .then((res) => {
         const data = res.data.data.map((attendence, index) => ({
@@ -66,6 +68,7 @@ const AdminAttendence = () => {
         setSearchNameAttendence={setSearchNameAttendence}
         setDateAttendence={setDateAttendence}
         setOffsetAttendence={setOffsetAttendence}
+        dateAttendence={dateAttendence}
       />
     </div>
   );

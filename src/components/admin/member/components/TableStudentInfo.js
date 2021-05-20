@@ -4,6 +4,7 @@ import 'date-fns';
 import { useEffect, useState } from 'react';
 import { axiosClient } from '../../../../api';
 import { CreateUser } from '../components/CreateUser';
+import ExportStudent from './ExportStudent';
 
 const columns = [
   {
@@ -120,14 +121,7 @@ export const TableStudentInfo = () => {
 
         <Space style={{ display: 'flex', justifyContent: 'flex-end' }}>
           <CreateUser title="Thêm học viên" />
-          <Upload>
-            <Button
-              icon={<FileExcelFilled style={{ color: '#366F38' }} />}
-              size="large"
-            >
-              Export
-            </Button>
-          </Upload>
+          <ExportStudent />
         </Space>
       </div>
       <Table

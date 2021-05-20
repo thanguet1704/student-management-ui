@@ -111,23 +111,8 @@ const Report = () => {
         </Space>
       </Row>
       <Row style={{ marginBottom: 20 }}>
-        <TotalCard
-          title={'Tổng lượt điểm danh'}
-          stat={statAtendence?.total}
-          icon={
-            <PeopleAltOutlinedIcon style={{ fontSize: 50, color: '#5BC3B2' }} />
-          }
-        />
-        <TotalCard
-          title={'Tổng lượt có mặt'}
-          stat={statAtendence?.attend}
-          icon={
-            <IconFont
-              type="icon-tuichu"
-              style={{ fontSize: 50, color: '#5BC3B2' }}
-            />
-          }
-        />
+        <TotalCard title={'Tổng lượt điểm danh'} stat={statAtendence?.total} />
+        <TotalCard title={'Tổng lượt có mặt'} stat={statAtendence?.attend} />
         <TotalCard title={'Tổng lượt muộn'} stat={statAtendence?.late} />
         <TotalCard title={'Tổng lượt vắng'} stat={statAtendence?.absent} />
       </Row>
