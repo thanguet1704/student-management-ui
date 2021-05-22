@@ -1,5 +1,3 @@
-import PeopleAltOutlinedIcon from '@material-ui/icons/PeopleAltOutlined';
-import { createFromIconfontCN } from '@ant-design/icons';
 import { Card, Col, Row, Space, Typography, Select } from 'antd';
 import 'date-fns';
 import { useEffect, useState } from 'react';
@@ -8,11 +6,7 @@ import { TableReport } from './components/TableReport';
 import { TotalCard } from './components/TotalCard';
 import { Selection } from '../../../common/components/Selection';
 import { axiosClient } from '../../../api/config';
-import ReactPlayer from 'react-player';
-
-const IconFont = createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js',
-});
+import SelectSemester from './components/SelectSemester';
 
 const { Option } = Select;
 
@@ -21,37 +15,22 @@ const Report = () => {
   const [schoolYear, setSchoolYear] = useState({ id: 1 });
 
   const [statAtendence, setStatAttendence] = useState();
-  const [classIdChart, setClassIdChart] = useState();
+  // const [classIdChart, setClassIdChart] = useState();
 
   const [students, setStudents] = useState([]);
-  const [showCamera, setShowCamera] = useState(false);
+  // const [showCamera, setShowCamera] = useState(false);
   const [charts, setCharts] = useState([]);
   const [semester, setSemester] = useState();
-  const [semesters, setSemesters] = useState([]);
-
-  const hanldeGetSemesters = () => {
-    axiosClient.get('/semesters').then((res) => {
-      setSemesters(res.data);
-      setSemester(res.data[0]);
-    });
-  };
-
-  const handleChangeSemester = (value) => {
-    const newSemester = semesters.find((item) => item.id === value);
-    setSemester(newSemester);
-  };
 
   const handleGetStatAttendence = () => {
-    if (semester && schoolYear) {
-      axiosClient
-        .get(
-          `/attendence/attendenceStats?semester=${semester?.id}&schoolYearId=${schoolYear.id}`
-        )
-        .then((res) => {
-          setStatAttendence(res.data.stat);
-          setCharts(res.data.charts);
-        });
-    }
+    axiosClient
+      .get(
+        `/attendence/attendenceStats?semesterId=${semester?.id}&schoolYearId=${schoolYear.id}`
+      )
+      .then((res) => {
+        setStatAttendence(res.data.stat);
+        setCharts(res.data.charts);
+      });
   };
 
   const handleGetSchoolYears = () => {
@@ -60,20 +39,21 @@ const Report = () => {
 
   const handleGetTopAbsent = () => {
     axiosClient
-      .get(`attendence/topAbsent?schoolYearId=${schoolYear.id}`)
+      .get(
+        `attendence/topAbsent?schoolYearId=${schoolYear.id}&semesterId=${semester?.id}`
+      )
       .then((res) => setStudents(res.data))
       .catch((error) => {});
   };
 
   useEffect(() => {
-    hanldeGetSemesters();
     handleGetSchoolYears();
-  }, []);
+  }, [semester]);
 
   useEffect(() => {
     handleGetStatAttendence();
     handleGetTopAbsent();
-  }, [schoolYear, classIdChart, semester]);
+  }, [schoolYear, semester]);
   return (
     <div>
       <Row
@@ -86,26 +66,12 @@ const Report = () => {
         }}
       >
         <Space size="large">
-          <Space>
-            <Typography>Chọn Học kỳ:</Typography>
-            <Select
-              defaultValue={semester && semester.id}
-              value={semester?.id}
-              style={{ width: '20vw' }}
-              size="large"
-              onChange={handleChangeSemester}
-            >
-              {semesters &&
-                semesters.map((data) => (
-                  <Option value={data.id}>{data.name}</Option>
-                ))}
-            </Select>
-          </Space>
+          <SelectSemester setSemester={setSemester} semester={semester} />
           <Selection
             title={'Khóa'}
             schoolYear={schoolYear}
             setSchoolYear={setSchoolYear}
-            showCamera={showCamera}
+            // showCamera={showCamera}
             schoolYears={schoolYears}
           />
         </Space>
@@ -127,8 +93,8 @@ const Report = () => {
             }}
           >
             <Chart
-              setClassIdChart={setClassIdChart}
-              setShowCamera={setShowCamera}
+              // setClassIdChart={setClassIdChart}
+              // setShowCamera={setShowCamera}
               charts={charts}
             />
           </Card>
@@ -147,7 +113,7 @@ const Report = () => {
           </Card>
         </Col>
       </Row>
-      {showCamera && (
+      {/* {showCamera && (
         <div>
           <Row
             style={{
@@ -178,7 +144,7 @@ const Report = () => {
             />
           </Row>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

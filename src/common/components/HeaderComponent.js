@@ -10,10 +10,6 @@ import { DownOutlined } from '@ant-design/icons';
 export const HeaderComponent = (props) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { auth } = useContext(AuthContext);
-  const [username, setUserName] = useState('');
-  const [password, setPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [error, setError] = useState(false);
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -39,15 +35,7 @@ export const HeaderComponent = (props) => {
           isModalVisible,
           showModal,
           handleCancel,
-          setUserName,
-          setPassword,
-          setNewPassword,
-          error,
           setIsModalVisible,
-          setError,
-          username,
-          password,
-          newPassword,
         })}
       >
         <div

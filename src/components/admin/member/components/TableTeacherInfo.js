@@ -1,7 +1,7 @@
 import { SearchOutlined } from '@ant-design/icons';
 import { Input, Space, Table } from 'antd';
 import 'date-fns';
-import { CreateUser } from '../components/CreateUser';
+import { CreateTeacher } from '../components/CreateTeacher';
 import { useEffect, useState } from 'react';
 import { axiosClient } from '../../../../api';
 
@@ -58,11 +58,10 @@ export const TableTeacherInfo = () => {
   };
 
   const handleOnChange = (value) => {
-    if (value) setCurrentPage(value.current);
+    setCurrentPage(value?.current);
   };
 
   useEffect(() => {
-    handleOnChange();
     handleGetTeachers();
   }, [searchName, currentPage]);
 
@@ -88,7 +87,7 @@ export const TableTeacherInfo = () => {
           />
         </Space>
         <Space style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <CreateUser title="Thêm giảng viên" />
+          <CreateTeacher handleGetTeachers={handleGetTeachers} />
         </Space>
       </div>
       <Table

@@ -2,7 +2,9 @@
   "extends": ["react-app", "plugin:prettier/recommended"],
   "rules": {
       "prettier/prettier": "error",
-      "no-console": ["warn"]
+      "no-console": ["warn"],
+      "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "off"
   },
   "plugins": ["import", "auto-import"],
   "parser": "babel-eslint"

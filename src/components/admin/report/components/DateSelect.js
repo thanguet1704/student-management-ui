@@ -14,6 +14,7 @@ export const DateSelect = (props) => {
         onChange={(date, dateString) => {
           props.setDate(new Date(dateString).toISOString());
         }}
+        clearIcon={false}
       />
     </Space>
   );

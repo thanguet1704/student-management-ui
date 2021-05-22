@@ -1,9 +1,8 @@
-import { FileExcelFilled, SearchOutlined } from '@ant-design/icons';
-import { Button, Input, Space, Table, Tag, Upload } from 'antd';
-import 'date-fns';
+import { SearchOutlined } from '@ant-design/icons';
+import { Input, Space, Table, Tag } from 'antd';
 import { useEffect, useState } from 'react';
 import { axiosClient } from '../../../../api';
-import { CreateUser } from '../components/CreateUser';
+import { CreateStudent } from '../components/CreateStudent';
 import ExportStudent from './ExportStudent';
 
 const columns = [
@@ -78,7 +77,11 @@ export const TableStudentInfo = () => {
 
   const handleGetStudents = () => {
     axiosClient
-      .get(`/users/students?search=${searchName}`)
+      .get(
+        `/users/students?search=${searchName}&limit=${pageSize}&offset=${
+          (currentPage - 1) * pageSize
+        }`
+      )
       .then((res) => {
         const data = res.data.data.map((student, index) => ({
           stt: index + 1,
@@ -90,11 +93,10 @@ export const TableStudentInfo = () => {
   };
 
   const handleOnChange = (value) => {
-    if (value) setCurrentPage(value.current);
+    setCurrentPage(value?.current);
   };
 
   useEffect(() => {
-    handleOnChange();
     handleGetStudents();
   }, [searchName, currentPage]);
 
@@ -120,7 +122,7 @@ export const TableStudentInfo = () => {
         </Space>
 
         <Space style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <CreateUser title="Thêm học viên" />
+          <CreateStudent title="Thêm học viên" role="student" />
           <ExportStudent />
         </Space>
       </div>

@@ -1,6 +1,6 @@
 import { Alert, Button, Col, Form, Input, Row, Typography } from 'antd';
 import 'antd/dist/antd.css';
-import React, { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { axiosClient } from '../../api/config';
 import backgroundImage from '../../assets/background.svg';
@@ -8,20 +8,6 @@ import logo from '../../assets/logo.png';
 import { AuthContext } from '../../contexts/AuthProvider';
 import './login.css';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-
-const layout = {
-  labelCol: {
-    span: 8,
-  },
-  wrapperCol: {
-    span: 16,
-  },
-};
-
-// const formItemLayout = {
-//   labelCol: { span: 4 },
-//   wrapperCol: { span: 14 },
-// };
 
 export const Login = (props) => {
   const { setAuth } = useContext(AuthContext);

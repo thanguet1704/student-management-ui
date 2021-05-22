@@ -12,6 +12,7 @@ const headers = [
   { label: 'Chuyên đề', key: 'category' },
   { label: 'Thời gian vào', key: 'timeIn' },
   { label: 'Thời gian ra', key: 'timeOut' },
+  { label: 'Lớp', key: 'class' },
   { label: 'Ngày', key: 'date' },
   { label: 'Trạng thái', key: 'status' },
 ];
@@ -22,31 +23,36 @@ const ExportFile = (props) => {
   const csvReport = {
     filename: `Điểm danh ${moment(props.dateAttendence).format(
       'DD-MM-YYYY'
-    )}.csv`,
+    )} Lớp ${props.classObject.name}.xlsx`,
     headers,
     data,
   };
 
   const hanleGetDate = () => {
-    axiosClient.get(`/attendence?date=${props.dateAttendence}`).then((res) => {
-      const mappingDate = res.data.data.map((item, index) => ({
-        stt: index + 1,
-        name: item.name,
-        msv: item.msv,
-        category: item.category,
-        timeIn: moment(item.timeIn).format('HH:MM:SS'),
-        timeOut: moment(item.timeOut).format('HH:MM:SS'),
-        date: moment(new Date(item.date)).format('DD:MM:YYYY'),
-        status:
-          item.status === 'attend'
-            ? 'Có mặt'
-            : item.status === 'absent'
-            ? 'Vắng'
-            : 'Muộn',
-      }));
+    axiosClient
+      .get(
+        `/attendence?date=${props.dateAttendence}&semesterId=${props.semester?.id}&classId=${props.classObject?.id}`
+      )
+      .then((res) => {
+        const mappingDate = res.data.data.map((item, index) => ({
+          stt: index + 1,
+          name: item.name,
+          msv: item.msv,
+          category: item.category,
+          timeIn: moment(item.timeIn).format('HH:MM:SS'),
+          timeOut: moment(item.timeOut).format('HH:MM:SS'),
+          class: props.classObject.name,
+          date: moment(new Date(item.date)).format('DD-MM-YYYY'),
+          status:
+            item.status === 'attend'
+              ? 'Có mặt'
+              : item.status === 'absent'
+              ? 'Vắng'
+              : 'Muộn',
+        }));
 
-      setData(mappingDate);
-    });
+        setData(mappingDate);
+      });
   };
 
   useEffect(() => {

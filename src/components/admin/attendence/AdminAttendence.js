@@ -5,7 +5,7 @@ import { axiosClient } from '../../../api/config';
 import moment from 'moment';
 import { DateFormat } from '../../../common/interface';
 
-const limit = 15;
+const limit = 12;
 
 const AdminAttendence = () => {
   const [auth, setAuth] = useState({});
@@ -18,6 +18,8 @@ const AdminAttendence = () => {
     new Date(moment(new Date()).format(DateFormat)).toISOString()
   );
   const [offsetAttendence, setOffsetAttendence] = useState(0);
+  const [semester, setSemester] = useState(0);
+  const [classObject, setClassObject] = useState(0);
 
   const handleAuthorization = () => {
     axiosClient
@@ -33,7 +35,9 @@ const AdminAttendence = () => {
   const handleGetAttendences = () => {
     axiosClient
       .get(
-        `/attendence?searchName=${encodeURIComponent(
+        `/attendence?semesterId=${semester?.id}&classId=${
+          classObject?.id
+        }&searchName=${encodeURIComponent(
           searchNameAttendence
         )}&date=${encodeURIComponent(
           dateAttendence
@@ -58,7 +62,13 @@ const AdminAttendence = () => {
   useEffect(() => {
     handleAuthorization();
     handleGetAttendences();
-  }, [searchNameAttendence, dateAttendence, offsetAttendence]);
+  }, [
+    searchNameAttendence,
+    dateAttendence,
+    offsetAttendence,
+    semester,
+    classObject,
+  ]);
 
   return (
     <div>
@@ -69,6 +79,11 @@ const AdminAttendence = () => {
         setDateAttendence={setDateAttendence}
         setOffsetAttendence={setOffsetAttendence}
         dateAttendence={dateAttendence}
+        auth={auth}
+        semester={semester}
+        classObject={classObject}
+        setSemester={setSemester}
+        setClassObject={setClassObject}
       />
     </div>
   );

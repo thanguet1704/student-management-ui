@@ -1,5 +1,5 @@
-import { Button, Form, Input, Modal } from 'antd';
-import { useContext, useEffect } from 'react';
+import { Button, Form, Input, message, Modal } from 'antd';
+import { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { axiosClient } from '../../api/config';
 import { AuthContext } from '../../contexts/AuthProvider';
@@ -7,8 +7,10 @@ import Cookies from 'js-cookie';
 
 export const UserOption = (props) => {
   const authCt = useContext(AuthContext);
-  const [form] = Form.useForm();
   const history = useHistory();
+  const [username, setUserName] = useState('');
+  const [password, setPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
 
   const handleLogout = () => {
     Cookies.remove('hcmaid', { path: '/' });
@@ -20,10 +22,10 @@ export const UserOption = (props) => {
 
   const handleOk = () => {
     axiosClient
-      .patch({
-        username: props.username,
-        oldPassword: props.password,
-        newPassword: props.newPassword,
+      .patch('/users', {
+        username,
+        oldPassword: password,
+        newPassword,
       })
       .then((res) => {
         Cookies.remove('hcmaid', { path: '/' });
@@ -33,14 +35,19 @@ export const UserOption = (props) => {
         window.location.reload();
       })
       .catch((err) => {
-        form.resetFields();
-        props.setError(true);
+        if (
+          err.response.status === 404 ||
+          err.response.status === 401 ||
+          err.response.status === 500
+        ) {
+          message.error(err.response.data.message);
+        }
+
+        if (err.response.status === 400) {
+          window.location.reload();
+        }
       });
   };
-
-  useEffect(() => {
-    form.resetFields();
-  }, []);
 
   return (
     <div
@@ -55,41 +62,43 @@ export const UserOption = (props) => {
       <Modal
         visible={props.isModalVisible}
         title="Đổi mật khẩu"
-        okText="Cập nhật"
-        cancelText="Hủy"
-        onCancel={props.handleCancel}
-        onOk={() => {
-          form
-            .validateFields()
-            .then((values) => {
-              // onCreate(values);
-              handleOk();
-              form.resetFields();
-            })
-            .catch((info) => {
-              form.resetFields();
-            });
-        }}
+        footer={[
+          <Button
+            key="back"
+            onClick={props.handleCancel}
+            style={{ borderRadius: 5 }}
+          >
+            Hủy
+          </Button>,
+          <Button
+            type="primary"
+            onClick={handleOk}
+            style={{
+              backgroundColor: 'rgb(76, 124, 253)',
+              color: '#fff',
+              borderRadius: 5,
+            }}
+          >
+            Cập nhật
+          </Button>,
+        ]}
       >
-        <Form form={form} layout="vertical" name="form_in_modal">
+        <Form layout="vertical" name="form_in_modal">
           <Form.Item
-            name="username"
-            label="Tên đăng nhập"
-            rules={[
-              {
-                required: true,
-                message: 'Tên đăng nhập không được bỏ trống!',
-              },
-            ]}
+            label="Mã Học viên"
+            name="mhv"
+            rules={[{ required: true, message: 'Nhập tên đăng nhập!' }]}
           >
             <Input
-              onChange={(e) => props.setUserName(e.target.value)}
+              onChange={(e) => {
+                setUserName(e.target.value);
+              }}
               allowClear={true}
             />
           </Form.Item>
           <Form.Item
-            name="password"
-            label="Mật khẩu cũ"
+            name="pass"
+            label="Mật khẩu hiện tại"
             rules={[
               {
                 required: true,
@@ -98,8 +107,7 @@ export const UserOption = (props) => {
             ]}
           >
             <Input.Password
-              type="textarea"
-              onChange={(e) => props.setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
               allowClear={true}
             />
           </Form.Item>
@@ -114,8 +122,7 @@ export const UserOption = (props) => {
             ]}
           >
             <Input.Password
-              type="textarea"
-              onChange={(e) => props.setNewPassword(e.target.value)}
+              onChange={(e) => setNewPassword(e.target.value)}
               allowClear={true}
             />
           </Form.Item>
