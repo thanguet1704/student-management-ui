@@ -79,9 +79,6 @@ export const Login = (props) => {
             initialValues={{
               remember: true,
             }}
-            style={{
-              width: '100%',
-            }}
           >
             <Form.Item>
               {error ? (

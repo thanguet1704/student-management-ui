@@ -1,9 +1,21 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, Form, Input, message, Modal, Row, Select } from 'antd';
+import {
+  Button,
+  Form,
+  Input,
+  message,
+  Modal,
+  Row,
+  Select,
+  Tabs,
+  Upload,
+} from 'antd';
 import React, { useEffect, useState } from 'react';
 import { axiosClient } from '../../../../api';
+import { UploadOutlined } from '@ant-design/icons';
 
 const { Option } = Select;
+const { TabPane } = Tabs;
 
 export const CreateTeacher = (props) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -18,7 +30,7 @@ export const CreateTeacher = (props) => {
     setIsModalVisible(true);
   };
 
-  const handleCreate = () => {
+  const handleCreateTeacher = () => {
     axiosClient
       .post(`/users/teacher`, {
         name,
@@ -38,6 +50,7 @@ export const CreateTeacher = (props) => {
   };
 
   const handleCancel = () => {
+    setFileList();
     setIsModalVisible(false);
   };
 
@@ -50,6 +63,51 @@ export const CreateTeacher = (props) => {
   const handleChangeInstitua = (value) => {
     const institua = instituas.find((ins) => ins.id === value);
     setInstitua(institua);
+  };
+
+  const [fileList, setFileList] = useState([]);
+  const [currentTab, setCurrentTab] = useState(1);
+
+  const handleUpload = (e) => {
+    const formData = new FormData();
+    formData.append('file', fileList);
+
+    axiosClient
+      .post(`/users/teachers`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then((res) => {
+        setFileList();
+
+        message.success('Tải file lên thành công');
+      })
+      .catch((error) => {
+        message.error(error.response.data.error);
+      });
+  };
+
+  const handleOnChange = (e) => {
+    setFileList(e.file);
+  };
+
+  const upload = {
+    onRemove: (file) => {
+      setFileList();
+    },
+    beforeUpload: (file) => {
+      setFileList(...fileList, file);
+    },
+  };
+
+  const handleCreate = () => {
+    if (currentTab === 1) {
+      handleCreateTeacher();
+    } else {
+      handleUpload();
+    }
+    props.handleGetTeachers();
   };
 
   useEffect(() => {
@@ -95,58 +153,91 @@ export const CreateTeacher = (props) => {
             </Button>,
           ]}
         >
-          <Form name="register" layout="vertical">
-            <Form.Item
-              label="Email"
-              name="email"
-              rules={[{ required: true, message: 'Nhập Email!' }]}
-            >
-              <Input
-                onChange={(e) => {
-                  setUserName(e.target.value);
+          <Tabs
+            defaultActiveKey="1"
+            type="card"
+            onChange={(value) => setCurrentTab(value)}
+          >
+            <TabPane tab="Thêm Giảng viên" key="1">
+              <Form name="register" layout="vertical">
+                <Form.Item
+                  label="Email"
+                  name="email"
+                  rules={[{ required: true, message: 'Nhập Email!' }]}
+                >
+                  <Input
+                    onChange={(e) => {
+                      setUserName(e.target.value);
+                    }}
+                    type="email"
+                  />
+                </Form.Item>
+                <Form.Item
+                  label="Số điện thoại"
+                  name="password"
+                  rules={[
+                    { required: true, message: 'Hãy nhập số điện thoại!' },
+                  ]}
+                >
+                  <Input onChange={(e) => setPassword(e.target.value)} />
+                </Form.Item>
+                <Form.Item
+                  label="Họ và tên"
+                  name="name"
+                  rules={[{ required: true, message: 'Hãy nhập họ và tên!' }]}
+                >
+                  <Input onChange={(e) => setName(e.target.value)} />
+                </Form.Item>
+                <Form.Item
+                  label="Viện"
+                  name="institua"
+                  rules={[{ required: true, message: 'Hãy chọn viện!' }]}
+                >
+                  <Select
+                    defaultValue={institua?.id}
+                    value={institua?.id}
+                    size="large"
+                    onChange={(value) => handleChangeInstitua(value)}
+                  >
+                    {instituas.length > 0 &&
+                      instituas.map((institua) => {
+                        return (
+                          <Option value={institua.id}>{institua.name}</Option>
+                        );
+                      })}
+                  </Select>
+                </Form.Item>
+                <Form.Item
+                  label="Địa chỉ"
+                  name="address"
+                  rules={[{ required: true, message: 'Hãy chọn viện!' }]}
+                >
+                  <Input onChange={(e) => setAddress(e.target.value)} />
+                </Form.Item>
+              </Form>
+            </TabPane>
+            <TabPane tab="Chọn File" key="2">
+              <Upload
+                {...upload}
+                maxCount={1}
+                accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                onChange={handleOnChange}
+                progress={{
+                  strokeColor: {
+                    '0%': '#108ee9',
+                    '100%': '#87d068',
+                  },
+                  strokeWidth: 3,
+                  format: (percent) => `${parseFloat(percent.toFixed(2))}%`,
                 }}
-                type="email"
-              />
-            </Form.Item>
-            <Form.Item
-              label="Số điện thoại"
-              name="password"
-              rules={[{ required: true, message: 'Hãy nhập số điện thoại!' }]}
-            >
-              <Input onChange={(e) => setPassword(e.target.value)} />
-            </Form.Item>
-            <Form.Item
-              label="Họ và tên"
-              name="name"
-              rules={[{ required: true, message: 'Hãy nhập họ và tên!' }]}
-            >
-              <Input onChange={(e) => setName(e.target.value)} />
-            </Form.Item>
-            <Form.Item
-              label="Viện"
-              name="institua"
-              rules={[{ required: true, message: 'Hãy chọn viện!' }]}
-            >
-              <Select
-                defaultValue={institua?.id}
-                value={institua?.id}
-                size="large"
-                onChange={(value) => handleChangeInstitua(value)}
+                action={handleUpload}
               >
-                {instituas.length > 0 &&
-                  instituas.map((institua) => {
-                    return <Option value={institua.id}>{institua.name}</Option>;
-                  })}
-              </Select>
-            </Form.Item>
-            <Form.Item
-              label="Địa chỉ"
-              name="address"
-              rules={[{ required: true, message: 'Hãy chọn viện!' }]}
-            >
-              <Input onChange={(e) => setAddress(e.target.value)} />
-            </Form.Item>
-          </Form>
+                <Button icon={<UploadOutlined />} style={{ borderRadius: 5 }}>
+                  Chọn file
+                </Button>
+              </Upload>
+            </TabPane>
+          </Tabs>
         </Modal>
       </Row>
     </>

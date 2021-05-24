@@ -1,16 +1,16 @@
-import { Card, Col, Row, Space, Typography, Select } from 'antd';
+import { Card, Col, Row, Space } from 'antd';
 import 'date-fns';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Chart } from './components/Chart';
 import { TableReport } from './components/TableReport';
 import { TotalCard } from './components/TotalCard';
 import { Selection } from '../../../common/components/Selection';
 import { axiosClient } from '../../../api/config';
 import SelectSemester from './components/SelectSemester';
-
-const { Option } = Select;
+import { AuthContext } from '../../../contexts/AuthProvider';
 
 const Report = () => {
+  const { auth } = useContext(AuthContext);
   const [schoolYears, setSchoolYears] = useState([{ id: 1, name: 'K70' }]);
   const [schoolYear, setSchoolYear] = useState({ id: 1 });
 
@@ -67,13 +67,17 @@ const Report = () => {
       >
         <Space size="large">
           <SelectSemester setSemester={setSemester} semester={semester} />
-          <Selection
-            title={'Khóa'}
-            schoolYear={schoolYear}
-            setSchoolYear={setSchoolYear}
-            // showCamera={showCamera}
-            schoolYears={schoolYears}
-          />
+          {auth.role === 'admin' ? (
+            <Selection
+              title={'Khóa'}
+              schoolYear={schoolYear}
+              setSchoolYear={setSchoolYear}
+              // showCamera={showCamera}
+              schoolYears={schoolYears}
+            />
+          ) : (
+            <></>
+          )}
         </Space>
       </Row>
       <Row style={{ marginBottom: 20 }}>

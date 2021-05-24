@@ -42,6 +42,6 @@ export const ListMenuAdmin = [
     path: '/admin/schedule',
     display: 'Thời khóa biểu',
     icon: <ScheduleOutlined />,
-    public: false,
+    public: true,
   },
 ];

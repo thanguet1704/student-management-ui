@@ -1,4 +1,4 @@
-import { Table, Tag, Space, Input } from 'antd';
+import { Table, Tag, Space, Input, Typography, Select } from 'antd';
 import { useEffect, useState } from 'react';
 import { axiosClient } from '../../../api/config';
 import moment from 'moment';
@@ -14,6 +14,7 @@ const columns = [
     title: 'MSV',
     dataIndex: 'msv',
     key: 'msv',
+    sortDirections: ['descend', 'ascend'],
   },
   {
     title: 'Họ và tên',
@@ -86,11 +87,14 @@ const columns = [
     },
   },
 ];
+const { Option } = Select;
 
 export const TableStudentAttendence = (props) => {
   const [current, setCurrent] = useState(1);
   const pageSize = 10;
   const [data, setData] = useState({ totalPage: 0, data: [] });
+  const [semesters, setSemesters] = useState([]);
+  const [semester, setSemester] = useState(0);
 
   const handleOnChange = (value) => {
     setCurrent(value.current);
@@ -99,7 +103,7 @@ export const TableStudentAttendence = (props) => {
   const handleGetData = () => {
     axiosClient
       .get(
-        `/attendence?searchName=${encodeURIComponent(
+        `/attendence?semesterId=${semester?.id}&searchName=${encodeURIComponent(
           props.searchName
         )}&limit=${pageSize}&offset=${(current - 1) * pageSize}`
       )
@@ -113,31 +117,48 @@ export const TableStudentAttendence = (props) => {
       .catch((err) => {});
   };
 
+  const handleGetSemesters = () => {
+    axiosClient.get('/semesters').then((res) => setSemesters(res.data));
+  };
+
+  const handleChangeSemester = (value) => {
+    const s = semesters?.find((item) => item.id === value);
+    setSemester(s);
+  };
+
   useEffect(() => {
+    handleGetSemesters();
     handleGetData();
-  }, [current, props.searchName]);
+  }, [current, props.searchName, semester]);
 
   return (
     <div>
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'auto auto',
-          paddingBottom: 20,
-        }}
-      >
+      <Space size="large" style={{ marginTop: 20, marginBottom: 20 }}>
         <Space>
           <Input
             size="large"
-            placeholder="Tìm kiếm học viên hoặc chuyên đề"
+            placeholder="Tìm kiếm theo chuyên đề"
             prefix={<SearchOutlined />}
-            style={{ borderRadius: 5, width: '120%', marginTop: 20 }}
-            onChange={(e) => {
-              props.setSearchName(e.target.value);
-            }}
+            style={{ borderRadius: 5, width: '100%' }}
+            onChange={(e) => props.setSearchName(e.target.value)}
           />
         </Space>
-      </div>
+        <Space>
+          <Typography>Học kỳ:</Typography>
+          <Select
+            defaultValue={props.semester?.id}
+            value={props.semester?.id}
+            size="large"
+            onChange={handleChangeSemester}
+            style={{ minWidth: '15vw' }}
+          >
+            {semesters &&
+              semesters.map((data) => (
+                <Option value={data.id}>{data.name}</Option>
+              ))}
+          </Select>
+        </Space>
+      </Space>
       <Table
         columns={columns}
         dataSource={data.data}

@@ -1,5 +1,5 @@
 import { SearchOutlined } from '@ant-design/icons';
-import { Input, Space, Table, Tag } from 'antd';
+import { Input, Space, Table, Tag, Typography, Select } from 'antd';
 import { useEffect, useState } from 'react';
 import { axiosClient } from '../../../../api';
 import { CreateStudent } from '../components/CreateStudent';
@@ -68,6 +68,7 @@ const columns = [
     },
   },
 ];
+const { Option } = Select;
 
 export const TableStudentInfo = () => {
   const [students, setStudents] = useState([]);
@@ -78,7 +79,9 @@ export const TableStudentInfo = () => {
   const handleGetStudents = () => {
     axiosClient
       .get(
-        `/users/students?search=${searchName}&limit=${pageSize}&offset=${
+        `/users/students?classId=${
+          classObject?.id
+        }&search=${searchName}&limit=${pageSize}&offset=${
           (currentPage - 1) * pageSize
         }`
       )
@@ -96,9 +99,27 @@ export const TableStudentInfo = () => {
     setCurrentPage(value?.current);
   };
 
+  const [classes, setClasses] = useState([]);
+  const [classObject, setClassObject] = useState();
+
+  const handleGetClass = async () => {
+    const res = await axiosClient.get('/class');
+    setClasses(res.data);
+    setClassObject(res.data[0]);
+  };
+
+  const handleChangeClass = async (value) => {
+    const cla = classes.find((classs) => classs.id === value);
+    setClassObject(cla);
+  };
+
+  useEffect(() => {
+    handleGetClass();
+  }, []);
+
   useEffect(() => {
     handleGetStudents();
-  }, [searchName, currentPage]);
+  }, [searchName, currentPage, classObject]);
 
   return (
     <div style={{ marginTop: 20 }}>
@@ -119,8 +140,22 @@ export const TableStudentInfo = () => {
               setSearchName(e.target.value);
             }}
           />
+          <Space>
+            <Typography>Chọn Lớp:</Typography>
+            <Select
+              defaultValue={classObject?.id}
+              value={classObject?.id}
+              size="large"
+              style={{ width: '7vw' }}
+              onChange={(value) => handleChangeClass(value)}
+            >
+              {classes.length > 0 &&
+                classes.map((classs) => {
+                  return <Option value={classs.id}>{classs.name}</Option>;
+                })}
+            </Select>
+          </Space>
         </Space>
-
         <Space style={{ display: 'flex', justifyContent: 'flex-end' }}>
           <CreateStudent title="Thêm học viên" role="student" />
           <ExportStudent />

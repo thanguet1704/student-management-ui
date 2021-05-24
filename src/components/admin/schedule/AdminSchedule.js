@@ -9,13 +9,14 @@ import {
   Button,
 } from 'antd';
 import moment from 'moment';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { axiosClient } from '../../../api/config';
 import { DateSelect } from './components/DateSelect';
 import { CategorySelect } from './components/CategorySelect';
 import { SessionSelect } from './components/SessionSelect';
 import { DateFormat } from '../../../common/interface';
 import TableScheduleAdmin from './components/TableScheduleAdmin';
+import { AuthContext } from '../../../contexts/AuthProvider';
 
 const { Option } = Select;
 const mappingDay = [
@@ -79,6 +80,7 @@ const columns = [
 ];
 
 const AdminSchedule = () => {
+  const { auth } = useContext(AuthContext);
   const [subjects, setSubjects] = useState([]);
   const [subject, setSubject] = useState();
   const [category, setCategory] = useState();
@@ -107,6 +109,7 @@ const AdminSchedule = () => {
 
   const [classroom, setClassroom] = useState();
   const [classrooms, setClassrooms] = useState([]);
+  const [span, setSpan] = useState(16);
 
   const handleGetSemesters = () => {
     axiosClient.get('/semesters').then((res) => setSemesters(res.data));
@@ -156,6 +159,7 @@ const AdminSchedule = () => {
         startDate: startDate,
         endDate: endDate,
         finalExamDate: finalExamDate,
+        semesterId: semester?.id,
       })
       .then((res) => {
         message.success('Thêm thời khóa biểu thành công');
@@ -199,6 +203,11 @@ const AdminSchedule = () => {
   ];
 
   useEffect(() => {
+    if (auth.role === 'admin') {
+      setSpan(16);
+    } else {
+      setSpan(24);
+    }
     handleGetSemesters();
     handleGetClassrooms();
     handleGetClass();
@@ -244,127 +253,136 @@ const AdminSchedule = () => {
       </div>
       {semester && classObject && (
         <Row>
-          <Col span={8} style={{ padding: 20, backgroundColor: '#fff' }}>
-            <Space
-              direction="vertical"
-              style={{
-                border: '1px solid #f0f0f0',
-                padding: 30,
-                boxSizing: 'border-box',
-                borderRadius: 5,
-              }}
-            >
-              <Space style={{ marginBottom: 20, display: 'flex' }}>
-                <Typography style={{ width: '4vw' }}>Môn học:</Typography>
-                <Select
-                  // defaultValue={subject?.name}
-                  size="large"
-                  style={{ width: '19.7vw' }}
-                  onChange={(value) => {
-                    handleChangeSubject(value);
-                  }}
-                >
-                  {subjects?.map((subject) => {
-                    return <Option value={subject.id}>{subject.name}</Option>;
-                  })}
-                </Select>
-              </Space>
-              <Space style={{ marginBottom: 20 }} size="large">
-                <DateSelect title={'Bắt đầu'} setDate={setStartDate} />
-                <DateSelect title={'Kết thúc'} setDate={setEndDate} />
-              </Space>
-              {subject && (
-                <CategorySelect
-                  subjectId={subject?.id}
-                  category={category}
-                  setCategory={setCategory}
-                />
-              )}
-
-              <Space style={{ marginBottom: 20 }} size="large">
-                <DateSelect title={'Ngày học'} setDate={setLearnDate} />
-                <SessionSelect session={session} setSession={setSession} />
-              </Space>
-              <Space size="large" style={{ marginBottom: 20 }}>
-                <Typography style={{ width: '3.1vw' }}>Giảng viên:</Typography>
-                <Select
-                  defaultValue={teacher?.id}
-                  style={{ width: '19.7vw' }}
-                  size="large"
-                  value={teachers[0]?.id}
-                  onChange={(value) => handleChangeTeacher(value)}
-                >
-                  {teachers.length > 0 &&
-                    teachers?.map((s) => {
-                      return <Option value={s.id}>{s.name}</Option>;
-                    })}
-                </Select>
-              </Space>
-              <Space size="large">
-                <Space>
-                  <Typography style={{ width: '4vw' }}>Phòng học:</Typography>
+          {auth.role === 'admin' ? (
+            <Col span={8} style={{ padding: 20, backgroundColor: '#fff' }}>
+              <Space
+                direction="vertical"
+                style={{
+                  border: '1px solid #f0f0f0',
+                  padding: 30,
+                  boxSizing: 'border-box',
+                  borderRadius: 5,
+                }}
+              >
+                <Space style={{ marginBottom: 20, display: 'flex' }}>
+                  <Typography style={{ width: '4vw' }}>Môn học:</Typography>
                   <Select
-                    defaultValue={classroom?.id}
+                    // defaultValue={subject?.name}
+                    // value={subject?.name}
                     size="large"
-                    value={classroom?.id}
-                    style={{ width: '7vw' }}
-                    onChange={(value) => handleChangeClassroom(value)}
+                    style={{ width: '19.7vw' }}
+                    onChange={(value) => {
+                      handleChangeSubject(value);
+                    }}
                   >
-                    {classrooms.length > 0 &&
-                      classrooms.map((cl) => {
-                        return <Option value={cl.id}>{cl.name}</Option>;
+                    {subjects?.map((subject) => {
+                      return <Option value={subject.id}>{subject.name}</Option>;
+                    })}
+                  </Select>
+                </Space>
+                <Space style={{ marginBottom: 20 }} size="large">
+                  <DateSelect title={'Bắt đầu'} setDate={setStartDate} />
+                  <DateSelect title={'Kết thúc'} setDate={setEndDate} />
+                </Space>
+                {subject && (
+                  <CategorySelect
+                    subjectId={subject?.id}
+                    category={category}
+                    setCategory={setCategory}
+                  />
+                )}
+
+                <Space style={{ marginBottom: 20 }} size="large">
+                  <DateSelect title={'Ngày học'} setDate={setLearnDate} />
+                  <SessionSelect session={session} setSession={setSession} />
+                </Space>
+                <Space size="large" style={{ marginBottom: 20 }}>
+                  <Typography style={{ width: '3.1vw' }}>
+                    Giảng viên:
+                  </Typography>
+                  <Select
+                    defaultValue={teacher?.id}
+                    style={{ width: '19.7vw' }}
+                    size="large"
+                    onChange={(value) => handleChangeTeacher(value)}
+                  >
+                    {teachers.length > 0 &&
+                      teachers?.map((s) => {
+                        return <Option value={s.id}>{s.name}</Option>;
                       })}
                   </Select>
                 </Space>
+                <Space size="large">
+                  <Space>
+                    <Typography style={{ width: '4vw' }}>Phòng học:</Typography>
+                    <Select
+                      defaultValue={classroom?.id}
+                      size="large"
+                      style={{ width: '7vw' }}
+                      onChange={(value) => handleChangeClassroom(value)}
+                    >
+                      {classrooms.length > 0 &&
+                        classrooms.map((cl) => {
+                          return <Option value={cl.id}>{cl.name}</Option>;
+                        })}
+                    </Select>
+                  </Space>
 
-                <DateSelect title={'Kiếm tra'} setDate={setFinalExamDate} />
+                  <DateSelect title={'Kiếm tra'} setDate={setFinalExamDate} />
+                </Space>
               </Space>
-            </Space>
-            <Button
-              type="primary"
-              style={{
-                float: 'right',
-                borderRadius: 10,
-                marginTop: 10,
-                width: '5vw',
-                backgroundColor: 'rgb(76, 124, 253)',
-              }}
-              size="large"
-              onClick={handleCreateSchedle}
-            >
-              Tạo
-            </Button>
-          </Col>
-          <Col span={16} style={{ padding: 20, backgroundColor: '#fff' }}>
-            <Space
-              style={{
-                border: '1px solid #f0f0f0',
-                width: '100%',
-                padding: 30,
-                display: 'flex',
-                justifyContent: 'center',
-              }}
-              direction="vertical"
-            >
-              <Typography style={{ fontWeight: 'bold', textAlign: 'center' }}>
-                THÊM MỚI THỜI KHÓA BIỂU
-              </Typography>
-              <Space
-                size="large"
+              <Button
+                type="primary"
                 style={{
+                  float: 'right',
+                  borderRadius: 10,
+                  marginTop: 10,
+                  width: '5vw',
+                  backgroundColor: 'rgb(76, 124, 253)',
+                }}
+                size="large"
+                onClick={handleCreateSchedle}
+              >
+                Tạo
+              </Button>
+            </Col>
+          ) : (
+            <></>
+          )}
+          <Col span={span} style={{ padding: 20, backgroundColor: '#fff' }}>
+            {auth.role === 'admin' ? (
+              <Space
+                style={{
+                  border: '1px solid #f0f0f0',
+                  width: '100%',
+                  padding: 30,
                   display: 'flex',
                   justifyContent: 'center',
                 }}
+                direction="vertical"
               >
-                <Table
-                  columns={columns}
-                  dataSource={newSchedule}
-                  bordered={true}
-                  pagination={false}
+                <Typography style={{ fontWeight: 'bold', textAlign: 'center' }}>
+                  THÊM MỚI THỜI KHÓA BIỂU
+                </Typography>
+                <Space
                   size="large"
-                />
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <Table
+                    columns={columns}
+                    dataSource={newSchedule}
+                    bordered={true}
+                    pagination={false}
+                    size="large"
+                  />
+                </Space>
               </Space>
-            </Space>
+            ) : (
+              <></>
+            )}
             <TableScheduleAdmin
               class={classObject}
               columns={columns}

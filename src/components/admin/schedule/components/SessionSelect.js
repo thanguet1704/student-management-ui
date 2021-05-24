@@ -10,6 +10,7 @@ export const SessionSelect = (props) => {
   const handleGetSession = async () => {
     const res = await axiosClient.get('/sessions');
     setSessions(res.data);
+    props.setSession(res.data[0]);
   };
 
   const handleChangeSession = (value) => {

@@ -1,9 +1,12 @@
 import { Space, Typography, Table } from 'antd';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { axiosClient } from '../../../../api';
+import { AuthContext } from '../../../../contexts/AuthProvider';
 
 const TableScheduleAdmin = (props) => {
   const [schedules, setSchedules] = useState([]);
+  const { auth } = useContext(AuthContext);
+  const [scroll, setScroll] = useState('35vh');
 
   const handleGetSchedule = () => {
     axiosClient
@@ -27,6 +30,11 @@ const TableScheduleAdmin = (props) => {
   };
 
   useEffect(() => {
+    if (auth.role === 'admin') {
+      setScroll('35vh');
+    } else {
+      setScroll('60vh');
+    }
     handleGetSchedule();
   }, [props.semester, props.class]);
 
@@ -55,7 +63,7 @@ const TableScheduleAdmin = (props) => {
           bordered={true}
           pagination={false}
           size="large"
-          scroll={{ y: '35vh' }}
+          scroll={{ y: scroll }}
         />
       </Space>
     </Space>

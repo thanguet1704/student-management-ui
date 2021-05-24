@@ -112,7 +112,7 @@ export const TableStudentSchedule = (props) => {
       <Space style={{ marginBottom: 20 }}>
         <Typography>Chọn Học kỳ:</Typography>
         <Select
-          // defaultValue={semesters[0]?.id}
+          defaultValue={semester?.id}
           style={{ width: '20vw' }}
           size="large"
           onChange={handleChangeSemester}
@@ -129,6 +129,7 @@ export const TableStudentSchedule = (props) => {
         bordered={true}
         pagination={false}
         size="large"
+        scroll={{ y: '75vh' }}
       />
     </div>
   );

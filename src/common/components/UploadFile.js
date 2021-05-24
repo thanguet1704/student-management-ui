@@ -27,7 +27,7 @@ const UploadFile = (props) => {
       })
       .catch((error) => {
         setUploading(false);
-        message.error('Lỗi tải lên file');
+        message.error(error.response.data.message);
       });
   };
 
