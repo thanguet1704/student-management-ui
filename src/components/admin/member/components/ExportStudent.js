@@ -34,7 +34,7 @@ const ExportStudent = (props) => {
     )}.csv`,
     headers,
     data,
-    onclick: handelGetData(),
+    onclick: handelGetData,
   };
 
   return (

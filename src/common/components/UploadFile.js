@@ -22,6 +22,8 @@ const UploadFile = (props) => {
       .then((res) => {
         setFileList();
         setUploading(false);
+        props.setIsModalVisible(false);
+        props.handleGetAttendences();
 
         message.success('Tải file lên thành công');
       })

@@ -153,7 +153,7 @@ export const CreateStudent = (props) => {
             type="card"
             onChange={(value) => setCurrentTab(value)}
           >
-            <TabPane tab="Thêm một" key="1">
+            <TabPane tab="Thêm Học viên" key="1">
               <Form name="register" layout="vertical">
                 <Form.Item
                   label="Mã Học viên"
@@ -206,7 +206,7 @@ export const CreateStudent = (props) => {
                 </Form.Item>
               </Form>
             </TabPane>
-            <TabPane tab="Thêm bằng file" key="2">
+            <TabPane tab="Chọn file" key="2">
               <Upload
                 {...upload}
                 maxCount={1}

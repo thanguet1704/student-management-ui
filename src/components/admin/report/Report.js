@@ -40,7 +40,7 @@ const Report = () => {
   const handleGetTopAbsent = () => {
     axiosClient
       .get(
-        `attendence/topAbsent?schoolYearId=${schoolYear.id}&semesterId=${semester?.id}`
+        `attendence/topAbsent?schoolYearId=${schoolYear?.id}&semesterId=${semester?.id}`
       )
       .then((res) => setStudents(res.data))
       .catch((error) => {});

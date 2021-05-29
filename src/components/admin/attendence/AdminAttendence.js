@@ -84,6 +84,7 @@ const AdminAttendence = () => {
         classObject={classObject}
         setSemester={setSemester}
         setClassObject={setClassObject}
+        handleGetAttendences={handleGetAttendences}
       />
     </div>
   );

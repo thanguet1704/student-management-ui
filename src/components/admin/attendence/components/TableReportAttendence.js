@@ -198,6 +198,7 @@ export const TableReportAttendence = (props) => {
           <UploadFile
             isModalVisible={isModalVisible}
             setIsModalVisible={setIsModalVisible}
+            handleGetAttendences={props.handleGetAttendences}
           />
           {props.attendenceData.data.length > 0 ? (
             <ExportFile

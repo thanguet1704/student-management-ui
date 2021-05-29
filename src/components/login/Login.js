@@ -46,7 +46,10 @@ export const Login = (props) => {
         <Col
           xs={24}
           xl={12}
-          style={{ padding: 100, boxSizing: 'border-box' }}
+          style={{
+            boxSizing: 'border-box',
+            padding: 50,
+          }}
           className="left"
         >
           <img src={backgroundImage} alt="background" />
