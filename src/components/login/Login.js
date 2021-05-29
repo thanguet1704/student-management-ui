@@ -124,6 +124,7 @@ export const Login = (props) => {
             >
               <Input.Password
                 style={{ borderRadius: 10 }}
+                placeholder="Mật khẩu"
                 prefix={<LockOutlined className="site-form-item-icon" />}
                 size="large"
                 onChange={(e) => setPassword(e.target.value)}

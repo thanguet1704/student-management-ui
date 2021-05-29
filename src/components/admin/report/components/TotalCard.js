@@ -1,4 +1,5 @@
 import { Card, Col, Row, Typography } from 'antd';
+import { round } from 'lodash';
 import React from 'react';
 
 export const TotalCard = (props) => {
@@ -35,7 +36,12 @@ export const TotalCard = (props) => {
                 {props.stat?.value}
               </Typography>
               {props.title !== 'Tổng lượt điểm danh' && (
-                <Typography>{props.stat?.percent && 0}%</Typography>
+                <Typography>
+                  {isNaN(props.stat?.percent)
+                    ? 0
+                    : round(props.stat?.percent * 100, 0)}
+                  %
+                </Typography>
               )}
             </Typography>
           </Col>
