@@ -1,22 +1,23 @@
-import {
-  BarChartOutlined,
-  ScheduleOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
+import { UserOutlined } from '@ant-design/icons';
+import { createFromIconfontCN } from '@ant-design/icons';
+
+const IconFont = createFromIconfontCN({
+  scriptUrl: '//at.alicdn.com/t/font_2580724_yq2m3dj17b.js',
+});
 
 export const ListMenuAdmin = [
   {
     key: 1,
     path: '/admin/studentManagement',
     display: 'Quản lý điểm danh',
-    icon: <ScheduleOutlined />,
+    icon: <IconFont type="icon-Management" />,
     public: true,
   },
   {
     key: 2,
     path: '/admin/report',
     display: 'Báo cáo điểm danh',
-    icon: <BarChartOutlined />,
+    icon: <IconFont type="icon-datareport" />,
     public: true,
   },
   {
@@ -41,7 +42,7 @@ export const ListMenuAdmin = [
     key: 6,
     path: '/admin/schedule',
     display: 'Thời khóa biểu',
-    icon: <ScheduleOutlined />,
+    icon: <IconFont type="icon-schedule" />,
     public: true,
   },
 ];

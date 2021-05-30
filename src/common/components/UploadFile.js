@@ -63,6 +63,7 @@ const UploadFile = (props) => {
         visible={props.isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}
+        destroyOnClose={true}
         footer={[
           <Button key="back" onClick={handleCancel} style={{ borderRadius: 5 }}>
             Hủy

@@ -62,6 +62,7 @@ export const UserOption = (props) => {
       <Modal
         visible={props.isModalVisible}
         title="Đổi mật khẩu"
+        destroyOnClose={true}
         footer={[
           <Button
             key="back"

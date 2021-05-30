@@ -1,73 +1,25 @@
 import { SearchOutlined } from '@ant-design/icons';
-import { Input, Space, Table, Tag, Typography, Select } from 'antd';
+import {
+  Input,
+  Space,
+  Table,
+  Tag,
+  Typography,
+  Select,
+  Modal,
+  Button,
+} from 'antd';
 import { useEffect, useState } from 'react';
 import { axiosClient } from '../../../../api';
 import { CreateStudent } from '../components/CreateStudent';
 import ExportStudent from './ExportStudent';
+import { UpdateStudent } from './UpdateStudent';
+import { createFromIconfontCN } from '@ant-design/icons';
 
-const columns = [
-  {
-    title: 'STT',
-    dataIndex: 'stt',
-    key: 'stt',
-  },
-  {
-    title: 'MSV',
-    dataIndex: 'msv',
-    key: 'msv',
-  },
-  {
-    title: 'Họ và tên',
-    dataIndex: 'name',
-    key: 'name',
-  },
-  {
-    title: 'Lớp',
-    dataIndex: 'class',
-    key: 'class',
-  },
-  {
-    title: 'Viện',
-    dataIndex: 'institua',
-    key: 'institua',
-  },
+const IconFont = createFromIconfontCN({
+  scriptUrl: '//at.alicdn.com/t/font_2580724_poq8awqndj.js',
+});
 
-  {
-    title: 'Địa chỉ',
-    dataIndex: 'address',
-    key: 'address',
-  },
-  {
-    title: 'Trạng thái',
-    dataIndex: 'isActive',
-    key: 'isActive',
-    render: (status) => {
-      let color;
-      let display;
-      switch (status) {
-        case true: {
-          color = 'green';
-          display = 'Hoạt động';
-          break;
-        }
-
-        case false: {
-          color = 'red';
-          display = 'Đã khóa';
-          break;
-        }
-        default:
-          break;
-      }
-
-      return (
-        <Tag color={color} key={status}>
-          {display}
-        </Tag>
-      );
-    },
-  },
-];
 const { Option } = Select;
 
 export const TableStudentInfo = () => {
@@ -75,6 +27,107 @@ export const TableStudentInfo = () => {
   const [searchName, setSearchName] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+  const columns = [
+    {
+      title: 'STT',
+      dataIndex: 'stt',
+      key: 'stt',
+    },
+    {
+      title: 'MSV',
+      dataIndex: 'msv',
+      key: 'msv',
+    },
+    {
+      title: 'Họ và tên',
+      dataIndex: 'name',
+      key: 'name',
+    },
+    {
+      title: 'Lớp',
+      dataIndex: 'class',
+      key: 'class',
+    },
+    {
+      title: 'Ngày sinh',
+      dataIndex: 'birthday',
+      key: 'birthday',
+      render: () => '17-04-1999',
+    },
+    {
+      title: 'Giới tính',
+      dataIndex: 'gender',
+      key: 'gender',
+      render: () => 'Nam',
+    },
+    {
+      title: 'Viện',
+      dataIndex: 'institua',
+      key: 'institua',
+    },
+    {
+      title: 'Địa chỉ',
+      dataIndex: 'address',
+      key: 'address',
+    },
+    {
+      title: 'Trạng thái',
+      dataIndex: 'isActive',
+      key: 'isActive',
+      render: (status) => {
+        let color;
+        let display;
+        switch (status) {
+          case true: {
+            color = 'green';
+            display = 'Hoạt động';
+            break;
+          }
+
+          case false: {
+            color = 'red';
+            display = 'Đã khóa';
+            break;
+          }
+          default:
+            break;
+        }
+
+        return (
+          <Tag color={color} key={status}>
+            {display}
+          </Tag>
+        );
+      },
+    },
+    {
+      title: 'Hành động',
+      dataIndex: 'action',
+      key: 'action',
+      render: () => {
+        return (
+          <IconFont
+            type="icon-sharpicons_edit-user-profile"
+            onClick={showModal}
+          />
+        );
+      },
+    },
+  ];
 
   const handleGetStudents = () => {
     axiosClient
@@ -172,6 +225,29 @@ export const TableStudentInfo = () => {
           total: students.totalPage * pageSize,
         }}
       />
+      <Modal
+        title="Cập nhật thông tin"
+        visible={isModalVisible}
+        destroyOnClose={true}
+        footer={[
+          <Button key="back" onClick={handleCancel} style={{ borderRadius: 5 }}>
+            Hủy
+          </Button>,
+          <Button
+            type="primary"
+            // onClick={handleCreate}
+            style={{
+              backgroundColor: 'rgb(76, 124, 253)',
+              color: '#fff',
+              borderRadius: 5,
+            }}
+          >
+            Cập nhật
+          </Button>,
+        ]}
+      >
+        <UpdateStudent />
+      </Modal>
     </div>
   );
 };

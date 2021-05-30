@@ -6,6 +6,11 @@ import { SideBar } from '../../common/components/SideBar';
 import { TableStudentAttendence } from './components/TableStudentAttendence';
 import { TableStudentSchedule } from './components/TableStudentSchedule';
 import { HeaderComponent } from '../../common/components/HeaderComponent';
+import { createFromIconfontCN } from '@ant-design/icons';
+
+const IconFont = createFromIconfontCN({
+  scriptUrl: '//at.alicdn.com/t/font_2580724_yq81g4eg939.js',
+});
 
 const { Content } = Layout;
 
@@ -14,14 +19,14 @@ const listMenu = [
     key: 'attendence',
     path: '/attendence',
     display: 'Thông tin điểm danh',
-    icon: <AppstoreOutlined />,
+    icon: <IconFont type="icon-information" />,
     public: true,
   },
   {
     key: 'schedule',
     path: '/schedule',
     display: 'Thời khóa biểu',
-    icon: <ScheduleOutlined />,
+    icon: <IconFont type="icon-schedule" />,
     public: true,
   },
 ];

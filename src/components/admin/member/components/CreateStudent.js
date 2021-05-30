@@ -9,13 +9,20 @@ import {
   Select,
   Tabs,
   Upload,
+  DatePicker,
+  Radio,
+  Space,
 } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { axiosClient } from '../../../../api';
 import { UploadOutlined } from '@ant-design/icons';
+import moment from 'moment';
 
 const { Option } = Select;
 const { TabPane } = Tabs;
+const plainOptions = ['Nam', 'Nữ'];
+
+const dateFormat = 'YYYY-MM-DD';
 
 export const CreateStudent = (props) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -127,6 +134,7 @@ export const CreateStudent = (props) => {
         <Modal
           title="Thêm Học Viên"
           visible={isModalVisible}
+          destroyOnClose={true}
           footer={[
             <Button
               key="back"
@@ -204,6 +212,20 @@ export const CreateStudent = (props) => {
                 >
                   <Input onChange={(e) => setPhone(e.target.value)} />
                 </Form.Item>
+                <Space size="large">
+                  <Form.Item label="Ngày sinh" name="birthday">
+                    <DatePicker
+                      defaultValue={moment('2015-06-06', dateFormat)}
+                    />
+                  </Form.Item>
+                  <Form.Item label="Giới tính" name="gender">
+                    <Radio.Group
+                      options={plainOptions}
+                      // onChange={this.onChange1}
+                      // value={value1}
+                    />
+                  </Form.Item>
+                </Space>
               </Form>
             </TabPane>
             <TabPane tab="Chọn file" key="2">

@@ -93,13 +93,13 @@ const Report = () => {
               borderRadius: 10,
               border: '1px solid rgb(227, 235, 246)',
               boxShadow: 'rgb(18 38 63 / 3%) 0px 3px 3px 0px !important',
-              height: '50vh',
+              height: '60vh',
             }}
           >
             <Chart
               // setClassIdChart={setClassIdChart}
-              // setShowCamera={setShowCamera}
               charts={charts}
+              semester={semester}
             />
           </Card>
         </Col>
@@ -109,7 +109,7 @@ const Report = () => {
               borderRadius: 10,
               border: '1px solid rgb(227, 235, 246)',
               boxShadow: 'rgb(18 38 63 / 3%) 0px 3px 3px 0px !important',
-              height: '50vh',
+              height: '60vh',
             }}
             className="hightchart"
           >
@@ -117,38 +117,6 @@ const Report = () => {
           </Card>
         </Col>
       </Row>
-      {/* {showCamera && (
-        <div>
-          <Row
-            style={{
-              fontWeight: 'bold',
-              fontSize: '1.5em',
-              color: '#F7EB7F',
-              padding: 20,
-            }}
-          >
-            <Typography>GIÁM SÁT LỚP</Typography>
-          </Row>
-          <Row
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              paddingLeft: 20,
-              paddingRight: 20,
-            }}
-          >
-            <ReactPlayer
-              url="https://www.youtube.com/watch?v=iTRM_5v2GVQ"
-              style={{ width: '100%' }}
-            />
-            <ReactPlayer
-              url="https://www.youtube.com/watch?v=iTRM_5v2GVQ"
-              style={{ width: '100%' }}
-            />
-          </Row>
-        </div>
-      )} */}
     </div>
   );
 };
