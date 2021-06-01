@@ -1,4 +1,3 @@
-import { MailOutlined } from '@material-ui/icons';
 import {
   Avatar,
   List,
@@ -31,7 +30,6 @@ export const TableReport = (props) => {
 
   const showModal = (e) => {
     setIsModalVisible(true);
-    console.log(e);
   };
 
   const handleOk = async () => {
@@ -61,6 +59,7 @@ export const TableReport = (props) => {
       </Typography>
       <InfiniteScroll initialLoad={false} pageStart={0}>
         <List
+          rowKey={(value) => value.id}
           itemLayout="horizontal"
           dataSource={props.students}
           renderItem={(item) => (

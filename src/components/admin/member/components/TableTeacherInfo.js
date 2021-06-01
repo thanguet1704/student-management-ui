@@ -46,8 +46,6 @@ export const TableTeacherInfo = () => {
   const showModal = (value) => {
     setIsModalVisible(true);
 
-    console.log(value);
-
     setId(value.id);
     setInstituaId(value.institua.id);
     setName(value.name);

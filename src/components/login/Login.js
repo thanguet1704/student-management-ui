@@ -8,7 +8,6 @@ import logo from '../../assets/logo.png';
 import { AuthContext } from '../../contexts/AuthProvider';
 import './login.css';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import TextEditor from '../../common/components/TextEditor';
 
 export const Login = (props) => {
   const { setAuth } = useContext(AuthContext);

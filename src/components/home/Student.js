@@ -1,4 +1,3 @@
-import { AppstoreOutlined, ScheduleOutlined } from '@ant-design/icons';
 import { Layout } from 'antd';
 import { useState } from 'react';
 import { Route, Switch } from 'react-router-dom';

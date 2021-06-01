@@ -7,6 +7,7 @@ export const DateSelect = (props) => {
     <Space>
       <Typography style={{ width: '4vw' }}>{props.title}:</Typography>
       <DatePicker
+        disabledDate={(current) => current && current < moment().endOf('day')}
         size="large"
         defaultValue={moment(new Date(), DateFormat)}
         format={DateFormat}
