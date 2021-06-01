@@ -62,6 +62,7 @@ const AdminAttendence = () => {
   useEffect(() => {
     handleAuthorization();
     handleGetAttendences();
+    console.log(dateAttendence);
   }, [
     searchNameAttendence,
     dateAttendence,

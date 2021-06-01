@@ -179,7 +179,11 @@ export const TableReportAttendence = (props) => {
             </Select>
           </Space>
           <Space>
-            <DateSelect title={`Lọc ngày`} setDate={props.setDateAttendence} />
+            <DateSelect
+              title={`Lọc ngày`}
+              setDate={props.setDateAttendence}
+              date={props.dateAttendence}
+            />
           </Space>
         </Space>
         <Space style={{ display: 'flex', justifyContent: 'flex-end' }}>

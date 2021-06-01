@@ -1,17 +1,28 @@
 import { SearchOutlined } from '@ant-design/icons';
-import { Input, Space, Table, Modal, Button } from 'antd';
-import { EditTwoTone } from '@material-ui/icons';
+import {
+  Input,
+  Space,
+  Table,
+  Modal,
+  Button,
+  Form,
+  Radio,
+  Select,
+  DatePicker,
+  message,
+} from 'antd';
 import 'date-fns';
 import { CreateTeacher } from '../components/CreateTeacher';
 import { useEffect, useState } from 'react';
 import { axiosClient } from '../../../../api';
-import Icon from '@ant-design/icons';
-import { UpdateTeacher } from './UpdateTeacher';
 import { createFromIconfontCN } from '@ant-design/icons';
+import moment from 'moment';
 
 const IconFont = createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/font_2580724_poq8awqndj.js',
 });
+const { Option } = Select;
+const dateFormat = 'YYYY-MM-DD';
 
 export const TableTeacherInfo = () => {
   const [teachers, setTeachers] = useState([]);
@@ -20,12 +31,31 @@ export const TableTeacherInfo = () => {
   const pageSize = 10;
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
+  const [id, setId] = useState();
+  const [instituaId, setInstituaId] = useState([]);
+  const [instituas, setInstituas] = useState([]);
+  const [name, setName] = useState('');
+  const [address, setAddress] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [gender, setGender] = useState('');
+  const [birthday, setBirthday] = useState(
+    moment(new Date().toISOString(), dateFormat)
+  );
 
-  const handleOk = () => {
-    setIsModalVisible(false);
+  const showModal = (value) => {
+    setIsModalVisible(true);
+
+    console.log(value);
+
+    setId(value.id);
+    setInstituaId(value.institua.id);
+    setName(value.name);
+    setAddress(value.address);
+    setPhone(value.phone);
+    setGender(value.gender);
+    setEmail(value.email);
+    setBirthday(moment(value.birthday, dateFormat));
   };
 
   const handleCancel = () => {
@@ -48,6 +78,49 @@ export const TableTeacherInfo = () => {
   const handleOnChange = (value) => {
     setCurrentPage(value?.current);
   };
+
+  const handleGetInstituas = async () => {
+    const res = await axiosClient.get('/instituas');
+    setInstituas(res.data);
+    setInstituaId(res.data[0]);
+  };
+
+  const handleChangeInstitua = async (value) => {
+    const ins = instituas.find((institua) => institua.id === value);
+    setInstituaId(ins.id);
+  };
+
+  const onChangeGender = async (e) => {
+    setGender(e.target.value);
+  };
+
+  const handleOnChangeDate = (date) => {
+    setBirthday(moment(date, dateFormat).format());
+  };
+
+  const handleUpdateStudent = () => {
+    axiosClient
+      .patch(`/users/info`, {
+        id,
+        name,
+        address,
+        instituaId,
+        birthday,
+        phone,
+        gender,
+      })
+      .then((res) => {
+        message.success('Thêm thành công');
+
+        setIsModalVisible(false);
+        handleGetTeachers();
+      })
+      .catch((error) => message.error(error.response.data.error));
+  };
+
+  useEffect(() => {
+    handleGetInstituas();
+  }, []);
 
   useEffect(() => {
     handleGetTeachers();
@@ -74,6 +147,7 @@ export const TableTeacherInfo = () => {
       title: 'Viện',
       dataIndex: 'institua',
       key: 'institua',
+      render: (institua) => institua.name,
     },
     {
       title: 'Số điện thoại',
@@ -94,11 +168,11 @@ export const TableTeacherInfo = () => {
       title: 'Hành động',
       dataIndex: 'action',
       key: 'action',
-      render: () => {
+      render: (text, row) => {
         return (
           <IconFont
             type="icon-sharpicons_edit-user-profile"
-            onClick={showModal}
+            onClick={() => showModal(row)}
           />
         );
       },
@@ -117,7 +191,7 @@ export const TableTeacherInfo = () => {
         <Space>
           <Input
             size="large"
-            placeholder="Tìm kiếm theo tên học viên"
+            placeholder="Tìm kiếm tên Giảng viên"
             prefix={<SearchOutlined />}
             style={{
               borderRadius: 5,
@@ -151,7 +225,7 @@ export const TableTeacherInfo = () => {
           </Button>,
           <Button
             type="primary"
-            // onClick={handleCreate}
+            onClick={handleUpdateStudent}
             style={{
               backgroundColor: 'rgb(76, 124, 253)',
               color: '#fff',
@@ -162,7 +236,77 @@ export const TableTeacherInfo = () => {
           </Button>,
         ]}
       >
-        <UpdateTeacher />
+        <Form name="register" layout="vertical">
+          <Form.Item label="Email" name="email">
+            <Input type="email" defaultValue={email} disabled />
+          </Form.Item>
+          <Form.Item
+            label="Họ và tên"
+            name="name"
+            rules={[{ required: true, message: 'Hãy nhập họ và tên!' }]}
+          >
+            <Input
+              onChange={(e) => setName(e.target.value)}
+              defaultValue={name}
+            />
+          </Form.Item>
+          <Form.Item
+            label="Số điện thoại"
+            name="phone"
+            rules={[{ required: true, message: 'Hãy nhập số điện thoại!' }]}
+          >
+            <Input
+              onChange={(e) => setPhone(e.target.value)}
+              defaultValue={phone}
+            />
+          </Form.Item>
+          <Form.Item
+            label="Viện"
+            name="institua"
+            rules={[{ required: true, message: 'Hãy chọn viện!' }]}
+          >
+            <Select
+              defaultValue={instituaId}
+              value={instituaId}
+              size="large"
+              onChange={(value) => handleChangeInstitua(value)}
+            >
+              {instituas.length > 0 &&
+                instituas.map((institua) => {
+                  return <Option value={institua.id}>{institua.name}</Option>;
+                })}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            label="Địa chỉ"
+            name="address"
+            rules={[{ required: true, message: 'Hãy chọn viện!' }]}
+          >
+            <Input
+              onChange={(e) => setAddress(e.target.value)}
+              defaultValue={address}
+            />
+          </Form.Item>
+          <Space size="large">
+            <Form.Item label="Ngày sinh" name="birthday">
+              <DatePicker
+                defaultValue={moment(new Date().toISOString(), dateFormat)}
+                onChange={(date, dateString) => handleOnChangeDate(dateString)}
+                format="DD-MM-YYYY"
+              />
+            </Form.Item>
+            <Form.Item label="Giới tính" name="gender">
+              <Radio.Group
+                name="radiogroup"
+                defaultValue={gender}
+                onChange={(e) => onChangeGender(e)}
+              >
+                <Radio value="male">Nam</Radio>
+                <Radio value="female">Nữ</Radio>
+              </Radio.Group>
+            </Form.Item>
+          </Space>
+        </Form>
       </Modal>
     </div>
   );

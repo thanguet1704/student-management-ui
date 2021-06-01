@@ -8,19 +8,23 @@ import {
   Select,
   Modal,
   Button,
+  Form,
+  DatePicker,
+  Radio,
+  message,
 } from 'antd';
 import { useEffect, useState } from 'react';
 import { axiosClient } from '../../../../api';
 import { CreateStudent } from '../components/CreateStudent';
 import ExportStudent from './ExportStudent';
-import { UpdateStudent } from './UpdateStudent';
 import { createFromIconfontCN } from '@ant-design/icons';
+import moment from 'moment';
 
+const { Option } = Select;
+const dateFormat = 'YYYY-MM-DD';
 const IconFont = createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/font_2580724_poq8awqndj.js',
 });
-
-const { Option } = Select;
 
 export const TableStudentInfo = () => {
   const [students, setStudents] = useState([]);
@@ -29,17 +33,17 @@ export const TableStudentInfo = () => {
   const pageSize = 10;
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
-
-  const handleOk = () => {
-    setIsModalVisible(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
+  const [id, setId] = useState();
+  const [classId, setClassId] = useState('');
+  const [classes, setClasses] = useState([]);
+  const [name, setName] = useState('');
+  const [address, setAddress] = useState('');
+  const [email, setEmail] = useState('');
+  const [mhv, setMhv] = useState('');
+  const [gender, setGender] = useState('');
+  const [birthday, setBirthday] = useState(
+    moment(new Date().toISOString(), dateFormat)
+  );
 
   const columns = [
     {
@@ -58,21 +62,21 @@ export const TableStudentInfo = () => {
       key: 'name',
     },
     {
-      title: 'Lớp',
-      dataIndex: 'class',
-      key: 'class',
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email',
     },
     {
       title: 'Ngày sinh',
       dataIndex: 'birthday',
       key: 'birthday',
-      render: () => '17-04-1999',
+      render: (date) => moment(date).format('DD-MM-YYYY'),
     },
     {
       title: 'Giới tính',
       dataIndex: 'gender',
       key: 'gender',
-      render: () => 'Nam',
+      render: (gender) => (gender === 'male' ? 'Nam' : 'Nữ'),
     },
     {
       title: 'Viện',
@@ -118,16 +122,33 @@ export const TableStudentInfo = () => {
       title: 'Hành động',
       dataIndex: 'action',
       key: 'action',
-      render: () => {
+      render: (text, row) => {
         return (
           <IconFont
             type="icon-sharpicons_edit-user-profile"
-            onClick={showModal}
+            onClick={() => showModal(row)}
           />
         );
       },
     },
   ];
+
+  const showModal = (text) => {
+    setIsModalVisible(true);
+
+    setId(text.id);
+    setClassId(text.class.id);
+    setName(text.name);
+    setAddress(text.address);
+    setEmail(text.email);
+    setMhv(text.msv);
+    setGender(text.gender);
+    setBirthday(moment(text.birthday, dateFormat).format());
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
 
   const handleGetStudents = () => {
     axiosClient
@@ -152,7 +173,6 @@ export const TableStudentInfo = () => {
     setCurrentPage(value?.current);
   };
 
-  const [classes, setClasses] = useState([]);
   const [classObject, setClassObject] = useState();
 
   const handleGetClass = async () => {
@@ -164,6 +184,35 @@ export const TableStudentInfo = () => {
   const handleChangeClass = async (value) => {
     const cla = classes.find((classs) => classs.id === value);
     setClassObject(cla);
+    setClassId(cla.id);
+  };
+
+  const onChangeGender = async (e) => {
+    setGender(e.target.value);
+  };
+
+  const handleOnChangeDate = (date) => {
+    setBirthday(moment(date, 'YYYY-MM-DD').format());
+  };
+
+  const handleUpdateStudent = () => {
+    axiosClient
+      .patch(`/users/info`, {
+        id,
+        name,
+        address,
+        email,
+        classId,
+        birthday,
+        gender,
+      })
+      .then((res) => {
+        message.success('Thêm thành công');
+
+        setIsModalVisible(false);
+        handleGetStudents();
+      })
+      .catch((error) => message.error(error.response.data.error));
   };
 
   useEffect(() => {
@@ -211,7 +260,7 @@ export const TableStudentInfo = () => {
         </Space>
         <Space style={{ display: 'flex', justifyContent: 'flex-end' }}>
           <CreateStudent title="Thêm học viên" role="student" />
-          <ExportStudent />
+          <ExportStudent classObject={classObject} />
         </Space>
       </div>
       <Table
@@ -235,7 +284,7 @@ export const TableStudentInfo = () => {
           </Button>,
           <Button
             type="primary"
-            // onClick={handleCreate}
+            onClick={handleUpdateStudent}
             style={{
               backgroundColor: 'rgb(76, 124, 253)',
               color: '#fff',
@@ -246,7 +295,81 @@ export const TableStudentInfo = () => {
           </Button>,
         ]}
       >
-        <UpdateStudent />
+        <Form name="register" layout="vertical">
+          <Form.Item label="Mã Học viên" name="mhv">
+            <Input
+              onChange={(e) => {
+                setMhv(e.target.value);
+              }}
+              disabled
+              defaultValue={mhv}
+            />
+          </Form.Item>
+          <Form.Item
+            label="Họ và tên"
+            name="name"
+            rules={[
+              { required: true, message: 'Học và tên không được bỏ trống' },
+            ]}
+          >
+            <Input
+              onChange={(e) => setName(e.target.value)}
+              defaultValue={name}
+            />
+          </Form.Item>
+          <Form.Item label="Lớp" name="class">
+            <Select
+              defaultValue={classId}
+              value={classId}
+              size="large"
+              onChange={(value) => handleChangeClass(value)}
+            >
+              {classes.length > 0 &&
+                classes.map((classs) => {
+                  return <Option value={classs.id}>{classs.name}</Option>;
+                })}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            label="Địa chỉ"
+            name="address"
+            rules={[{ required: true, message: 'Địa chỉ không được bỏ trống' }]}
+          >
+            <Input
+              onChange={(e) => setAddress(e.target.value)}
+              defaultValue={address}
+            />
+          </Form.Item>
+          <Form.Item
+            label="Email"
+            name="email"
+            rules={[{ required: true, message: 'Email không được bỏ trống' }]}
+          >
+            <Input
+              onChange={(e) => setEmail(e.target.value)}
+              defaultValue={email}
+            />
+          </Form.Item>
+          <Space size="large">
+            <Form.Item label="Ngày sinh" name="birthday">
+              <DatePicker
+                defaultValue={moment(birthday, dateFormat)}
+                onChange={(date, dateString) => handleOnChangeDate(dateString)}
+                format="YYYY-MM-DD"
+              />
+            </Form.Item>
+            <Form.Item label="Giới tính" name="gender">
+              <Radio.Group
+                name="radiogroup"
+                defaultValue={gender}
+                onChange={(e) => onChangeGender(e)}
+              >
+                <Radio value="male">Nam</Radio>
+                <Radio value="female">Nữ</Radio>
+              </Radio.Group>
+            </Form.Item>
+          </Space>
+        </Form>
       </Modal>
     </div>
   );

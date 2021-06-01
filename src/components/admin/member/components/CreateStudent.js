@@ -20,8 +20,6 @@ import moment from 'moment';
 
 const { Option } = Select;
 const { TabPane } = Tabs;
-const plainOptions = ['Nam', 'Nữ'];
-
 const dateFormat = 'YYYY-MM-DD';
 
 export const CreateStudent = (props) => {
@@ -32,6 +30,8 @@ export const CreateStudent = (props) => {
   const [name, setName] = useState();
   const [address, setAddress] = useState();
   const [phone, setPhone] = useState();
+  const [gender, setGender] = useState('male');
+  const [birthday, setBirthday] = useState();
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -40,11 +40,13 @@ export const CreateStudent = (props) => {
   const handleCreateStudent = () => {
     axiosClient
       .post(`/users/student`, {
-        username,
+        msv: username,
         name,
         address,
         phone,
         classId: classObject.id,
+        birthday,
+        gender,
       })
       .then((res) => {
         message.success('Thêm thành công');
@@ -110,6 +112,10 @@ export const CreateStudent = (props) => {
     beforeUpload: (file) => {
       setFileList(...fileList, file);
     },
+  };
+
+  const onChangeGender = (e) => {
+    setGender(e.target.value);
   };
 
   useEffect(() => {
@@ -216,14 +222,20 @@ export const CreateStudent = (props) => {
                   <Form.Item label="Ngày sinh" name="birthday">
                     <DatePicker
                       defaultValue={moment('2015-06-06', dateFormat)}
+                      size="large"
+                      onChange={(date, dateString) => {
+                        setBirthday(new Date(dateString).toISOString());
+                      }}
                     />
                   </Form.Item>
                   <Form.Item label="Giới tính" name="gender">
                     <Radio.Group
-                      options={plainOptions}
-                      // onChange={this.onChange1}
-                      // value={value1}
-                    />
+                      onChange={onChangeGender}
+                      defaultValue={gender}
+                    >
+                      <Radio value={'male'}>Nam</Radio>
+                      <Radio value={'female'}>Nữ</Radio>
+                    </Radio.Group>
                   </Form.Item>
                 </Space>
               </Form>

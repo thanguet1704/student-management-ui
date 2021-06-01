@@ -35,16 +35,10 @@ export const UserOption = (props) => {
         window.location.reload();
       })
       .catch((err) => {
-        if (
-          err.response.status === 404 ||
-          err.response.status === 401 ||
-          err.response.status === 500
-        ) {
-          message.error(err.response.data.message);
-        }
-
         if (err.response.status === 400) {
           window.location.reload();
+        } else {
+          message.error(err.response.data.message);
         }
       });
   };
@@ -86,8 +80,8 @@ export const UserOption = (props) => {
       >
         <Form layout="vertical" name="form_in_modal">
           <Form.Item
-            label="Mã Học viên"
-            name="mhv"
+            label="Tên đăng nhập"
+            name="username"
             rules={[{ required: true, message: 'Nhập tên đăng nhập!' }]}
           >
             <Input

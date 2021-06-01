@@ -12,20 +12,32 @@ const headers = [
   { label: 'Lớp', key: 'class' },
   { label: 'Viện', key: 'institua' },
   { label: 'Địa chỉ', key: 'address' },
+  { label: 'Email', key: 'email' },
+  { label: 'Giới tính', key: 'gender' },
+  { label: 'Ngày sinh', key: 'birthday' },
 ];
 
 const ExportStudent = (props) => {
   const [data, setData] = useState([]);
 
   const handelGetData = () => {
-    axiosClient.get('/users/students').then((res) => {
-      const data = res.data.data.map((item, index) => ({
-        stt: index + 1,
-        ...item,
-      }));
+    axiosClient
+      .get(`/users/students?classId=${props.classObject.id}`)
+      .then((res) => {
+        const data = res.data.data.map((item, index) => ({
+          stt: index + 1,
+          name: item.name,
+          msv: item.msv,
+          email: item.email,
+          gender: item.gender,
+          class: item.class.name,
+          institua: item.institua,
+          address: item.address,
+          birthday: item.birthday,
+        }));
 
-      setData(data);
-    });
+        setData(data);
+      });
   };
 
   const csvReport = {

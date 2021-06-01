@@ -11,7 +11,7 @@ export const Chart = (props) => {
       zoomType: 'xy',
     },
     title: {
-      text: `Biểu đồ thống kê điểm danh ${props.semester.name}`,
+      text: `Biểu đồ thống kê điểm danh ${props.semester?.name}`,
     },
     creadits: {
       enable: false,
