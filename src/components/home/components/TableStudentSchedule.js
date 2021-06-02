@@ -2,8 +2,8 @@ import { Table, Typography, Space, Select } from 'antd';
 import { useEffect, useState } from 'react';
 import moment from 'moment';
 import { axiosClient } from '../../../api';
-import { DateFormat } from '../../../common/interface';
 
+const disableColor = '#d6d6d4';
 const { Option } = Select;
 const mappingDay = [
   { value: 'Monday', display: 'Thứ 2' },
@@ -16,52 +16,180 @@ const mappingDay = [
 ];
 const columns = [
   {
-    title: 'Thứ.Ngày',
+    title: (
+      <Typography style={{ textAlign: 'center', fontWeight: 'bold' }}>
+        Thứ.Ngày
+      </Typography>
+    ),
     dataIndex: 'learnDate',
     key: 'learnDate',
-    render: (date) => {
+    render: (date, row) => {
+      const condition =
+        moment(row.learnDate) < moment(new Date().toISOString());
+
+      let style = {};
+      if (condition) {
+        style = {
+          color: disableColor,
+        };
+      }
+
       const day = mappingDay.find(
         (d) => d.value === moment(new Date()).locale('vi').format('dddd')
       );
 
       return (
         <div>
-          <Typography>{day.display}</Typography>
-          <Typography>{moment(new Date(date)).format(DateFormat)}</Typography>
+          <Typography style={style}>{day.display}</Typography>
+          <Typography style={style}>
+            {moment(new Date(date)).format('DD-MM-YYYY')}
+          </Typography>
         </div>
       );
-      // return `${day.display}.${moment(new Date(date)).format(DateFormat)}`;
     },
+    align: 'center',
+    width: '7vw',
   },
   {
-    title: 'Môn học',
+    title: (
+      <Typography style={{ textAlign: 'center', fontWeight: 'bold' }}>
+        Môn học
+      </Typography>
+    ),
     dataIndex: 'subject',
     key: 'subject',
+    render: (value, row) => {
+      const condition =
+        moment(row.learnDate) < moment(new Date().toISOString());
+
+      let style = {};
+      if (condition) {
+        style = {
+          color: disableColor,
+        };
+      }
+
+      return <Typography style={style}>{value}</Typography>;
+    },
+    align: 'center',
   },
   {
-    title: 'Chuyên đề',
+    title: (
+      <Typography style={{ textAlign: 'center', fontWeight: 'bold' }}>
+        Chuyên đề
+      </Typography>
+    ),
     dataIndex: 'category',
     key: 'category',
+    render: (value, row) => {
+      const condition =
+        moment(row.learnDate) < moment(new Date().toISOString());
+
+      let style = {};
+      if (condition) {
+        style = {
+          color: disableColor,
+        };
+      }
+
+      return <Typography style={style}>{value}</Typography>;
+    },
+    align: 'center',
   },
   {
-    title: 'Buổi',
+    title: (
+      <Typography style={{ textAlign: 'center', fontWeight: 'bold' }}>
+        Buổi
+      </Typography>
+    ),
     dataIndex: 'session',
     key: 'session',
+    render: (value, row) => {
+      const condition =
+        moment(row.learnDate) < moment(new Date().toISOString());
+
+      let style = {};
+      if (condition) {
+        style = {
+          color: disableColor,
+        };
+      }
+
+      return <Typography style={style}>{value}</Typography>;
+    },
+    align: 'center',
+    width: '5vw',
   },
   {
-    title: 'Số tiết',
+    title: (
+      <Typography style={{ textAlign: 'center', fontWeight: 'bold' }}>
+        Số tiết
+      </Typography>
+    ),
     dataIndex: 'lession',
     key: 'lession',
+    render: (value, row) => {
+      const condition =
+        moment(row.learnDate) < moment(new Date().toISOString());
+
+      let style = {};
+      if (condition) {
+        style = {
+          color: disableColor,
+        };
+      }
+
+      return <Typography style={style}>{value}</Typography>;
+    },
+    align: 'center',
+    width: '5vw',
   },
   {
-    title: 'Giảng viên (Điện thoại)',
+    title: (
+      <Typography style={{ textAlign: 'center', fontWeight: 'bold' }}>
+        Giảng viên (điện thoại)
+      </Typography>
+    ),
     dataIndex: 'teacher',
     key: 'teacher',
+    render: (value, row) => {
+      const condition =
+        moment(row.learnDate) < moment(new Date().toISOString());
+
+      let style = {};
+      if (condition) {
+        style = {
+          color: disableColor,
+        };
+      }
+
+      return <Typography style={style}>{value}</Typography>;
+    },
+    align: 'center',
   },
   {
-    title: 'Địa điểm',
+    title: (
+      <Typography style={{ textAlign: 'center', fontWeight: 'bold' }}>
+        Địa điểm
+      </Typography>
+    ),
     dataIndex: 'classroom',
     key: 'classroom',
+    render: (value, row) => {
+      const condition =
+        moment(row.learnDate) < moment(new Date().toISOString());
+
+      let style = {};
+      if (condition) {
+        style = {
+          color: disableColor,
+        };
+      }
+
+      return <Typography style={style}>{value}</Typography>;
+    },
+    align: 'center',
+    width: '7vw',
   },
 ];
 

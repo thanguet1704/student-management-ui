@@ -10,48 +10,95 @@ import { axiosClient } from '../../../../api';
 
 const columns = [
   {
-    title: 'STT',
+    title: (
+      <Typography style={{ textAlign: 'center', fontWeight: 'bold' }}>
+        STT
+      </Typography>
+    ),
     dataIndex: 'stt',
     key: 'stt',
+    align: 'center',
+    width: '5%',
   },
   {
-    title: 'MSV',
+    title: (
+      <Typography style={{ textAlign: 'center', fontWeight: 'bold' }}>
+        Mã học viên
+      </Typography>
+    ),
     dataIndex: 'msv',
     key: 'msv',
+    align: 'center',
+    width: '7%',
   },
   {
-    title: 'Họ và tên',
+    title: (
+      <Typography style={{ textAlign: 'center', fontWeight: 'bold' }}>
+        Họ và tên
+      </Typography>
+    ),
     dataIndex: 'name',
     key: 'name',
+    align: 'center',
   },
   {
-    title: 'Chuyên đề',
+    title: (
+      <Typography style={{ textAlign: 'center', fontWeight: 'bold' }}>
+        Chuyên đề
+      </Typography>
+    ),
     dataIndex: 'category',
     key: 'category',
+    align: 'center',
   },
   {
-    title: 'Thời gian vào',
+    title: (
+      <Typography style={{ textAlign: 'center', fontWeight: 'bold' }}>
+        Thời gian vào
+      </Typography>
+    ),
     dataIndex: 'timeIn',
     key: 'timeIn',
     render: (time) => {
-      return moment(time).format('HH:MM');
+      return moment(time).format('HH:MM:SS');
     },
+    align: 'center',
+    width: '7%',
   },
   {
-    title: 'Thời gian ra',
+    title: (
+      <Typography style={{ textAlign: 'center', fontWeight: 'bold' }}>
+        Thời gian ra
+      </Typography>
+    ),
     dataIndex: 'timeOut',
     key: 'timeOut',
     render: (time) => {
-      return moment(time).format('HH:MM');
+      return moment(time).format('HH:MM:SS');
     },
+    align: 'center',
+    width: '7%',
   },
   {
-    title: 'Ngày',
+    title: (
+      <Typography style={{ textAlign: 'center', fontWeight: 'bold' }}>
+        Ngày
+      </Typography>
+    ),
     dataIndex: 'date',
     key: 'date',
+    render: (time) => {
+      return moment(time).format('DD-MM-YYYY');
+    },
+    align: 'center',
+    width: '7%',
   },
   {
-    title: 'Trạng thái',
+    title: (
+      <Typography style={{ textAlign: 'center', fontWeight: 'bold' }}>
+        Trạng Thái
+      </Typography>
+    ),
     dataIndex: 'status',
     key: 'status',
     render: (status) => {
@@ -85,6 +132,8 @@ const columns = [
         </Tag>
       );
     },
+    align: 'center',
+    width: '7%',
   },
 ];
 

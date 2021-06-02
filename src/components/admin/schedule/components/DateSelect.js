@@ -12,7 +12,7 @@ export const DateSelect = (props) => {
         defaultValue={moment(new Date(), DateFormat)}
         format={DateFormat}
         onChange={(date, dateString) => {
-          props.setDate(new Date(dateString).toISOString());
+          props.setDate(new Date(date).toISOString());
         }}
         style={{ width: '7vw' }}
       />

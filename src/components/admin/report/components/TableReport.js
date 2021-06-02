@@ -69,7 +69,7 @@ export const TableReport = (props) => {
                 <Button
                   shape="circle"
                   icon={<IconFont type="icon-mail" />}
-                  onClick={(e) => showModal(e)}
+                  onClick={(e, text) => showModal(e)}
                 ></Button>,
               ]}
             >

@@ -88,13 +88,10 @@ export const Chart = (props) => {
         point: {
           events: {
             click: function (e) {
-              if (oldClass?.name !== e.point.category && !props.showCamera) {
-                props.setShowCamera(true);
-              } else {
-                props.setShowCamera(false);
-              }
+              const className = e.point.category;
+
               const click = props.charts.find(
-                (item) => item.name === e.point.category
+                (item) => item.name === className
               );
 
               props.setClassIdChart(click.id);

@@ -27,7 +27,7 @@ const IconFont = createFromIconfontCN({
 });
 
 export const TableStudentInfo = () => {
-  const [students, setStudents] = useState([]);
+  const [students, setStudents] = useState({});
   const [searchName, setSearchName] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
@@ -47,51 +47,100 @@ export const TableStudentInfo = () => {
 
   const columns = [
     {
-      title: 'STT',
+      title: (
+        <Typography style={{ textAlign: 'center', fontWeight: 'bold' }}>
+          STT
+        </Typography>
+      ),
       dataIndex: 'stt',
       key: 'stt',
+      align: 'center',
+      width: '4%',
     },
     {
-      title: 'MSV',
+      title: (
+        <Typography style={{ textAlign: 'center', fontWeight: 'bold' }}>
+          Mã học viên
+        </Typography>
+      ),
       dataIndex: 'msv',
       key: 'msv',
+      align: 'center',
+      width: '7%',
     },
     {
-      title: 'Họ và tên',
+      title: (
+        <Typography style={{ textAlign: 'center', fontWeight: 'bold' }}>
+          Họ và tên
+        </Typography>
+      ),
       dataIndex: 'name',
       key: 'name',
+      align: 'center',
     },
     {
-      title: 'Email',
+      title: (
+        <Typography style={{ textAlign: 'center', fontWeight: 'bold' }}>
+          Email
+        </Typography>
+      ),
       dataIndex: 'email',
       key: 'email',
+      align: 'center',
     },
     {
-      title: 'Ngày sinh',
+      title: (
+        <Typography style={{ textAlign: 'center', fontWeight: 'bold' }}>
+          Ngày sinh
+        </Typography>
+      ),
       dataIndex: 'birthday',
       key: 'birthday',
       render: (date) => moment(date).format('DD-MM-YYYY'),
+      align: 'center',
     },
     {
-      title: 'Giới tính',
+      title: (
+        <Typography style={{ textAlign: 'center', fontWeight: 'bold' }}>
+          Giới tính
+        </Typography>
+      ),
       dataIndex: 'gender',
       key: 'gender',
       render: (gender) => (gender === 'male' ? 'Nam' : 'Nữ'),
+      align: 'center',
+      width: '7%',
     },
     {
-      title: 'Viện',
+      title: (
+        <Typography style={{ textAlign: 'center', fontWeight: 'bold' }}>
+          Viện
+        </Typography>
+      ),
       dataIndex: 'institua',
       key: 'institua',
+      align: 'center',
     },
     {
-      title: 'Địa chỉ',
+      title: (
+        <Typography style={{ textAlign: 'center', fontWeight: 'bold' }}>
+          Địa chỉ
+        </Typography>
+      ),
       dataIndex: 'address',
       key: 'address',
+      align: 'center',
     },
     {
-      title: 'Trạng thái',
+      title: (
+        <Typography style={{ textAlign: 'center', fontWeight: 'bold' }}>
+          Trạng thái
+        </Typography>
+      ),
       dataIndex: 'isActive',
       key: 'isActive',
+      align: 'center',
+      width: '7%',
       render: (status) => {
         let color;
         let display;
@@ -119,9 +168,15 @@ export const TableStudentInfo = () => {
       },
     },
     {
-      title: 'Hành động',
+      title: (
+        <Typography style={{ textAlign: 'center', fontWeight: 'bold' }}>
+          Hành động
+        </Typography>
+      ),
       dataIndex: 'action',
       key: 'action',
+      align: 'center',
+      width: '5%',
       render: (text, row) => {
         return (
           <IconFont
@@ -164,7 +219,7 @@ export const TableStudentInfo = () => {
           stt: index + 1,
           ...student,
         }));
-        setStudents(data);
+        setStudents({ totalPage: res.data.totalPage, data });
       })
       .catch((error) => {});
   };
@@ -265,7 +320,7 @@ export const TableStudentInfo = () => {
       </div>
       <Table
         columns={columns}
-        dataSource={students}
+        dataSource={students.data}
         bordered={true}
         onChange={(value) => handleOnChange(value)}
         pagination={{

@@ -8,11 +8,11 @@ export const DateSelect = (props) => {
       <Typography>{props.title}:</Typography>
       <DatePicker
         size="large"
-        defaultValue={moment(new Date(), DateFormat)}
+        defaultValue={moment(new Date(), 'YYYY-MM-DD')}
         format={DateFormat}
         style={{ width: 179 }}
         onChange={(date, dateString) => {
-          props.setDate(new Date(dateString).toISOString());
+          props.setDate(new Date(date).toISOString());
         }}
         clearIcon={false}
       />

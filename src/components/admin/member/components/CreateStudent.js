@@ -1,4 +1,4 @@
-import { PlusOutlined } from '@ant-design/icons';
+import { ConsoleSqlOutlined, PlusOutlined } from '@ant-design/icons';
 import {
   Button,
   Form,
@@ -61,7 +61,6 @@ export const CreateStudent = (props) => {
     } else {
       handleUpload();
     }
-    // props.handleGetStudents();
   };
 
   const handleCancel = () => {

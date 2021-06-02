@@ -10,6 +10,7 @@ import {
   Select,
   DatePicker,
   message,
+  Typography,
 } from 'antd';
 import 'date-fns';
 import { CreateTeacher } from '../components/CreateTeacher';
@@ -25,7 +26,7 @@ const { Option } = Select;
 const dateFormat = 'YYYY-MM-DD';
 
 export const TableTeacherInfo = () => {
-  const [teachers, setTeachers] = useState([]);
+  const [teachers, setTeachers] = useState({});
   const [searchName, setSearchName] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
@@ -62,13 +63,17 @@ export const TableTeacherInfo = () => {
 
   const handleGetTeachers = () => {
     axiosClient
-      .get(`/users/teachers?search=${searchName}`)
+      .get(
+        `/users/teachers?search=${searchName}&limit=${pageSize}&offset=${
+          (currentPage - 1) * pageSize
+        }`
+      )
       .then((res) => {
         const data = res.data.data.map((teacher, index) => ({
           stt: index + 1,
           ...teacher,
         }));
-        setTeachers(data);
+        setTeachers({ totalPage: res.data.totalPage, data });
       })
       .catch((error) => {});
   };
@@ -93,7 +98,7 @@ export const TableTeacherInfo = () => {
   };
 
   const handleOnChangeDate = (date) => {
-    setBirthday(moment(date, dateFormat).format());
+    setBirthday(moment(date, 'YYYY-MM-DD').format());
   };
 
   const handleUpdateStudent = () => {
@@ -126,44 +131,86 @@ export const TableTeacherInfo = () => {
 
   const columns = [
     {
-      title: 'STT',
+      title: (
+        <Typography style={{ textAlign: 'center', fontWeight: 'bold' }}>
+          STT
+        </Typography>
+      ),
       dataIndex: 'stt',
       key: 'stt',
+      align: 'center',
+      width: '4%',
     },
     {
-      title: 'Họ và tên',
+      title: (
+        <Typography style={{ textAlign: 'center', fontWeight: 'bold' }}>
+          Họ và tên
+        </Typography>
+      ),
       dataIndex: 'name',
       key: 'name',
+      align: 'center',
     },
     {
-      title: 'Giới tính',
+      title: (
+        <Typography style={{ textAlign: 'center', fontWeight: 'bold' }}>
+          Giới tính
+        </Typography>
+      ),
       dataIndex: 'gender',
       key: 'gender',
-      render: () => 'Nam',
+      render: (value) => (value === 'male' ? 'Nam' : 'Nữ'),
+      align: 'center',
+      width: '6%',
     },
     {
-      title: 'Viện',
+      title: (
+        <Typography style={{ textAlign: 'center', fontWeight: 'bold' }}>
+          Viện
+        </Typography>
+      ),
       dataIndex: 'institua',
       key: 'institua',
       render: (institua) => institua.name,
+      align: 'center',
     },
     {
-      title: 'Số điện thoại',
+      title: (
+        <Typography style={{ textAlign: 'center', fontWeight: 'bold' }}>
+          Số điện thoại
+        </Typography>
+      ),
       dataIndex: 'phone',
       key: 'phone',
+      align: 'center',
+      width: '10%',
     },
     {
-      title: 'Email',
+      title: (
+        <Typography style={{ textAlign: 'center', fontWeight: 'bold' }}>
+          Email
+        </Typography>
+      ),
       dataIndex: 'email',
       key: 'email',
+      align: 'center',
     },
     {
-      title: 'Địa chỉ',
+      title: (
+        <Typography style={{ textAlign: 'center', fontWeight: 'bold' }}>
+          Địa chỉ
+        </Typography>
+      ),
       dataIndex: 'address',
       key: 'address',
+      align: 'center',
     },
     {
-      title: 'Hành động',
+      title: (
+        <Typography style={{ textAlign: 'center', fontWeight: 'bold' }}>
+          Hành động
+        </Typography>
+      ),
       dataIndex: 'action',
       key: 'action',
       render: (text, row) => {
@@ -174,6 +221,8 @@ export const TableTeacherInfo = () => {
           />
         );
       },
+      align: 'center',
+      width: '5%',
     },
   ];
 
@@ -204,7 +253,7 @@ export const TableTeacherInfo = () => {
       </div>
       <Table
         columns={columns}
-        dataSource={teachers}
+        dataSource={teachers.data}
         bordered={true}
         onChange={(value) => handleOnChange(value)}
         pagination={{
@@ -288,9 +337,9 @@ export const TableTeacherInfo = () => {
           <Space size="large">
             <Form.Item label="Ngày sinh" name="birthday">
               <DatePicker
-                defaultValue={moment(new Date().toISOString(), dateFormat)}
+                defaultValue={moment(birthday, dateFormat)}
                 onChange={(date, dateString) => handleOnChangeDate(dateString)}
-                format="DD-MM-YYYY"
+                format="YYYY-MM-DD"
               />
             </Form.Item>
             <Form.Item label="Giới tính" name="gender">

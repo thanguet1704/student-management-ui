@@ -15,7 +15,7 @@ const Report = () => {
   const [schoolYear, setSchoolYear] = useState({ id: 1 });
 
   const [statAtendence, setStatAttendence] = useState();
-  // const [classIdChart, setClassIdChart] = useState();
+  const [classIdChart, setClassIdChart] = useState();
 
   const [students, setStudents] = useState([]);
   // const [showCamera, setShowCamera] = useState(false);
@@ -97,7 +97,8 @@ const Report = () => {
             }}
           >
             <Chart
-              // setClassIdChart={setClassIdChart}
+              setClassIdChart={setClassIdChart}
+              classIdChart={classIdChart}
               charts={charts}
               semester={semester}
             />
