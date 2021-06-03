@@ -13,7 +13,6 @@ import 'date-fns';
 import _ from 'lodash';
 import { useState } from 'react';
 import TextEditor from '../../../../common/components/TextEditor';
-import InfiniteScroll from 'react-infinite-scroller';
 import { axiosClient } from '../../../../api';
 import { SendOutlined } from '@ant-design/icons';
 import { createFromIconfontCN } from '@ant-design/icons';
@@ -57,41 +56,40 @@ export const TableReport = (props) => {
       <Typography style={{ fontWeight: 'bold' }}>
         Danh sách nghỉ học nhiều nhất
       </Typography>
-      <InfiniteScroll initialLoad={false} pageStart={0}>
-        <List
-          rowKey={(value) => value.id}
-          itemLayout="horizontal"
-          dataSource={props.students}
-          renderItem={(item) => (
-            <List.Item
-              id={item.id}
-              actions={[
-                <Button
-                  shape="circle"
-                  icon={<IconFont type="icon-mail" />}
-                  onClick={(e, text) => showModal(e)}
-                ></Button>,
-              ]}
-            >
-              <Skeleton avatar title={false} loading={item.loading} active>
-                <List.Item.Meta
-                  avatar={
-                    <Avatar
-                      shape="square"
-                      size={'1vw'}
-                      style={{ color: '#4C7CFD', backgroundColor: '#E1F0FF' }}
-                    >
-                      {_.chain(item.name).words().last().value().slice(0, 1)}
-                    </Avatar>
-                  }
-                  title={item.name}
-                  description={`Lớp: ${item.class}. vắng: ${item.absent}`}
-                />
-              </Skeleton>
-            </List.Item>
-          )}
-        />
-      </InfiniteScroll>
+
+      <List
+        rowKey={(value) => value.id}
+        itemLayout="horizontal"
+        dataSource={props.students}
+        renderItem={(item) => (
+          <List.Item
+            id={item.id}
+            actions={[
+              <Button
+                shape="circle"
+                icon={<IconFont type="icon-mail" />}
+                onClick={(e, text) => showModal(e)}
+              ></Button>,
+            ]}
+          >
+            <Skeleton avatar title={false} loading={item.loading} active>
+              <List.Item.Meta
+                avatar={
+                  <Avatar
+                    shape="square"
+                    size={'1vw'}
+                    style={{ color: '#4C7CFD', backgroundColor: '#E1F0FF' }}
+                  >
+                    {_.chain(item.name).words().last().value().slice(0, 1)}
+                  </Avatar>
+                }
+                title={item.name}
+                description={`Lớp: ${item.class}. vắng: ${item.absent}`}
+              />
+            </Skeleton>
+          </List.Item>
+        )}
+      />
       <Modal
         title="Tin nhắn mới"
         cancelText="Hủy"

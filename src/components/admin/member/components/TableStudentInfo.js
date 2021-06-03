@@ -319,6 +319,7 @@ export const TableStudentInfo = () => {
         </Space>
       </div>
       <Table
+        rowKey={1}
         columns={columns}
         dataSource={students.data}
         bordered={true}

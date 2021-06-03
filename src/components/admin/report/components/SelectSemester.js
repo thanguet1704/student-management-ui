@@ -22,12 +22,13 @@ const SelectSemester = (props) => {
   useEffect(() => {
     hanldeGetSemesters();
   }, []);
+
   return (
     <Space>
       <Typography>Chọn Học kỳ:</Typography>
       <Select
-        // defaultValue={props.semester?.id}
-        // value={props.semester?.id}
+        defaultValue={props.semester?.id}
+        value={props.semester?.id}
         style={{ width: '20vw' }}
         size="large"
         onChange={(value) => handleChangeSemester(value)}

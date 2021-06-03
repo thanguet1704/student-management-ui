@@ -1,7 +1,7 @@
 import { CSVLink } from 'react-csv';
 import { Button } from 'antd';
 import { FileExcelFilled } from '@ant-design/icons';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import moment from 'moment';
 import { axiosClient } from '../../../../api';
 
@@ -22,7 +22,7 @@ const ExportStudent = (props) => {
 
   const handelGetData = () => {
     axiosClient
-      .get(`/users/students?classId=${props.classObject.id}`)
+      .get(`/users/students?classId=${props.classObject?.id}`)
       .then((res) => {
         const data = res.data.data.map((item, index) => ({
           stt: index + 1,
@@ -40,17 +40,20 @@ const ExportStudent = (props) => {
       });
   };
 
+  useEffect(() => {
+    handelGetData();
+  }, [props.classObject]);
+
   const csvReport = {
     filename: `Danh sách học viên ${moment(new Date()).format(
       'DD-MM-YYYY'
     )}.csv`,
     headers,
     data,
-    onclick: handelGetData,
   };
 
   return (
-    <CSVLink {...csvReport}>
+    <CSVLink {...csvReport} onClick={() => handelGetData()}>
       <Button
         icon={<FileExcelFilled style={{ color: '#366F38' }} />}
         size="large"

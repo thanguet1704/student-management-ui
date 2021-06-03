@@ -12,20 +12,19 @@ import { AuthContext } from '../../../contexts/AuthProvider';
 const Report = () => {
   const { auth } = useContext(AuthContext);
   const [schoolYears, setSchoolYears] = useState([{ id: 1, name: 'K70' }]);
-  const [schoolYear, setSchoolYear] = useState({ id: 1 });
+  const [schoolYear, setSchoolYear] = useState();
 
   const [statAtendence, setStatAttendence] = useState();
   const [classIdChart, setClassIdChart] = useState();
 
   const [students, setStudents] = useState([]);
-  // const [showCamera, setShowCamera] = useState(false);
   const [charts, setCharts] = useState([]);
   const [semester, setSemester] = useState();
 
   const handleGetStatAttendence = () => {
     axiosClient
       .get(
-        `/attendence/attendenceStats?semesterId=${semester?.id}&schoolYearId=${schoolYear.id}`
+        `/attendence/attendenceStats?semesterId=${semester?.id}&schoolYearId=${schoolYear?.id}`
       )
       .then((res) => {
         setStatAttendence(res.data.stat);
@@ -34,13 +33,16 @@ const Report = () => {
   };
 
   const handleGetSchoolYears = () => {
-    axiosClient.get('/schoolYears').then((res) => setSchoolYears(res.data));
+    axiosClient.get('/schoolYears').then((res) => {
+      setSchoolYears(res.data);
+      setSchoolYear(res.data[0]);
+    });
   };
 
   const handleGetTopAbsent = () => {
     axiosClient
       .get(
-        `attendence/topAbsent?schoolYearId=${schoolYear?.id}&semesterId=${semester?.id}`
+        `attendence/topAbsent?schoolYearId=${schoolYear?.id}&semesterId=${semester?.id}&classId=${classIdChart}`
       )
       .then((res) => setStudents(res.data))
       .catch((error) => {});
@@ -48,12 +50,13 @@ const Report = () => {
 
   useEffect(() => {
     handleGetSchoolYears();
-  }, [semester]);
+  }, []);
 
   useEffect(() => {
     handleGetStatAttendence();
     handleGetTopAbsent();
-  }, [schoolYear, semester]);
+  }, [schoolYear, semester, classIdChart]);
+
   return (
     <div>
       <Row
@@ -72,7 +75,6 @@ const Report = () => {
               title={'Khóa'}
               schoolYear={schoolYear}
               setSchoolYear={setSchoolYear}
-              // showCamera={showCamera}
               schoolYears={schoolYears}
             />
           ) : (

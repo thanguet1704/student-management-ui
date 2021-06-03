@@ -88,7 +88,7 @@ const columns = [
     dataIndex: 'date',
     key: 'date',
     render: (time) => {
-      return moment(time).format('DD-MM-YYYY');
+      return time;
     },
     align: 'center',
     width: '7%',
@@ -200,8 +200,7 @@ export const TableReportAttendence = (props) => {
           <Space>
             <Typography>Học kỳ:</Typography>
             <Select
-              defaultValue={props.semester?.id}
-              value={props.semester?.id}
+              defaultValue={props.semester.id}
               size="large"
               onChange={handleChangeSemester}
               style={{ minWidth: '15vw' }}
@@ -232,6 +231,7 @@ export const TableReportAttendence = (props) => {
               title={`Lọc ngày`}
               setDate={props.setDateAttendence}
               date={props.dateAttendence}
+              semester={props.semester}
             />
           </Space>
         </Space>
@@ -265,6 +265,7 @@ export const TableReportAttendence = (props) => {
         </Space>
       </div>
       <Table
+        rowKey={1}
         columns={columns}
         dataSource={props.attendenceData.data}
         size="middle"

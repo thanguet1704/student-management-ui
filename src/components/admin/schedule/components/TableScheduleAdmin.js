@@ -58,6 +58,7 @@ const TableScheduleAdmin = (props) => {
         }}
       >
         <Table
+          rowKey={1}
           columns={props.columns}
           dataSource={schedules}
           bordered={true}
