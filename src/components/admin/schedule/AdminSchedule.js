@@ -11,12 +11,13 @@ import {
 import moment from 'moment';
 import { useContext, useEffect, useState } from 'react';
 import { axiosClient } from '../../../api/config';
-import { DateSelect } from './components/DateSelect';
+import { DateSelect } from '../report/components/DateSelect';
 import { CategorySelect } from './components/CategorySelect';
 import { SessionSelect } from './components/SessionSelect';
 import { DateFormat } from '../../../common/interface';
 import TableScheduleAdmin from './components/TableScheduleAdmin';
 import { AuthContext } from '../../../contexts/AuthProvider';
+import { DateFilter } from '../../../common/components/DateFilter';
 
 const disableColor = '#d6d6d4';
 const { Option } = Select;
@@ -200,6 +201,14 @@ const columns = [
     width: '7vw',
   },
 ];
+const dateOptions = [
+  { key: 0, value: 'Tất cả' },
+  { key: 7, value: '7 Ngày sau' },
+  { key: 14, value: '14 Ngày sau' },
+  { key: 30, value: '30 Ngày sau' },
+  { key: 1, value: 'Tùy chọn' },
+];
+
 const AdminSchedule = () => {
   const { auth } = useContext(AuthContext);
   const [subjects, setSubjects] = useState([]);
@@ -229,6 +238,14 @@ const AdminSchedule = () => {
   const [classroom, setClassroom] = useState();
   const [classrooms, setClassrooms] = useState([]);
   const [span, setSpan] = useState(16);
+
+  const [dateOption, setDateOption] = useState(dateOptions[0]);
+  const [startDateFilter, setStartDateFilter] = useState(
+    moment(moment(new Date()).format('YYYY-MM-DD')).toISOString()
+  );
+  const [endDateFilter, setEndDateFilter] = useState(
+    moment(moment(new Date()).format('YYYY-MM-DD')).toISOString()
+  );
 
   const handleGetSemesters = () => {
     axiosClient.get('/semesters').then((res) => {
@@ -328,6 +345,11 @@ const AdminSchedule = () => {
     },
   ];
 
+  const handleChangeDate = (value) => {
+    const date = dateOptions.find((option) => option.key === value);
+    setDateOption(date);
+  };
+
   useEffect(() => {
     if (auth.role === 'admin') {
       setSpan(16);
@@ -378,6 +400,44 @@ const AdminSchedule = () => {
                 })}
             </Select>
           </Space>
+          {auth.role === 'teacher' ? (
+            <Space>
+              <Typography>Ngày:</Typography>
+              <Select
+                defaultValue={dateOption.key}
+                value={dateOption.key}
+                size="large"
+                style={{ width: '7vw' }}
+                onChange={(value) => handleChangeDate(value)}
+              >
+                {dateOptions.map((option) => {
+                  return <Option value={option.key}>{option.value}</Option>;
+                })}
+              </Select>
+            </Space>
+          ) : (
+            <></>
+          )}
+          {auth.role === 'teacher' && dateOption.key === 1 ? (
+            <Space>
+              <DateFilter
+                title={'Bắt đầu'}
+                setDate={setStartDateFilter}
+                dateOption={dateOption}
+                setDateOption={setDateOption}
+                dateOptions={dateOptions}
+              />
+              <DateFilter
+                title={'Kết thúc'}
+                setDate={setEndDateFilter}
+                dateOption={dateOption}
+                setDateOption={setDateOption}
+                dateOptions={dateOptions}
+              />
+            </Space>
+          ) : (
+            <></>
+          )}
         </Space>
       </div>
       {semester && classObject && (
@@ -517,6 +577,9 @@ const AdminSchedule = () => {
               class={classObject}
               columns={columns}
               semester={semester}
+              dateOption={dateOption}
+              startDateFilter={startDateFilter}
+              endDateFilter={endDateFilter}
             />
           </Col>
         </Row>

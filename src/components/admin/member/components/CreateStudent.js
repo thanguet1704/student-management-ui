@@ -1,4 +1,4 @@
-import { ConsoleSqlOutlined, PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined } from '@ant-design/icons';
 import {
   Button,
   Form,

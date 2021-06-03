@@ -139,7 +139,7 @@ export const TableStudentAttendence = (props) => {
   const pageSize = 10;
   const [data, setData] = useState({ totalPage: 0, data: [] });
   const [semesters, setSemesters] = useState([]);
-  const [semester, setSemester] = useState(0);
+  const [semester, setSemester] = useState();
 
   const handleOnChange = (value) => {
     setCurrent(value.current);
@@ -163,7 +163,10 @@ export const TableStudentAttendence = (props) => {
   };
 
   const handleGetSemesters = () => {
-    axiosClient.get('/semesters').then((res) => setSemesters(res.data));
+    axiosClient.get('/semesters').then((res) => {
+      setSemesters(res.data);
+      setSemester(res.data[0]);
+    });
   };
 
   const handleChangeSemester = (value) => {
@@ -174,7 +177,7 @@ export const TableStudentAttendence = (props) => {
   useEffect(() => {
     handleGetSemesters();
     handleGetData();
-  }, [current, props.searchName, semester]);
+  }, [current, props.searchName]);
 
   return (
     <div>
@@ -191,8 +194,8 @@ export const TableStudentAttendence = (props) => {
         <Space>
           <Typography>Học kỳ:</Typography>
           <Select
-            defaultValue={props.semester?.id}
-            value={props.semester?.id}
+            defaultValue={semester?.id}
+            value={semester?.id}
             size="large"
             onChange={handleChangeSemester}
             style={{ minWidth: '15vw' }}

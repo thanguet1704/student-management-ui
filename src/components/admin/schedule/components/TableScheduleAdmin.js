@@ -2,6 +2,7 @@ import { Space, Typography, Table } from 'antd';
 import { useContext, useEffect, useState } from 'react';
 import { axiosClient } from '../../../../api';
 import { AuthContext } from '../../../../contexts/AuthProvider';
+import moment from 'moment';
 
 const TableScheduleAdmin = (props) => {
   const [schedules, setSchedules] = useState([]);
@@ -9,9 +10,37 @@ const TableScheduleAdmin = (props) => {
   const [scroll, setScroll] = useState('35vh');
 
   const handleGetSchedule = () => {
+    let startDate;
+    let endDate;
+    if (props.dateOption.key === 1) {
+      startDate = moment(
+        moment(new Date(props.startDateFilter))
+          .subtract(1, 'day')
+          .format('YYYY-MM-DD')
+      )
+        .subtract(1, 'day')
+        .toISOString();
+      endDate = moment(
+        moment(new Date(props.endDateFilter)).add(1, 'day').format('YYYY-MM-DD')
+      )
+        .add(props.dateOption.key, 'day')
+        .toISOString();
+    } else if (props.dateOption.key !== 0) {
+      startDate = moment(moment(new Date()).format('YYYY-MM-DD'))
+        .subtract(1, 'day')
+        .toISOString();
+      endDate = moment(moment(new Date()).format('YYYY-MM-DD'))
+        .add(props.dateOption.key + 1, 'day')
+        .toISOString();
+    }
+
     axiosClient
       .get(
-        `/schedule?semesterId=${props.semester?.id}&classId=${props.class?.id}`
+        `/schedule?semesterId=${props.semester?.id}&classId=${
+          props.class?.id
+        }&startDate=${encodeURIComponent(
+          startDate
+        )}&endDate=${encodeURIComponent(endDate)}`
       )
       .then((res) => {
         const data = res.data.map((item) => ({
@@ -36,7 +65,13 @@ const TableScheduleAdmin = (props) => {
       setScroll('60vh');
     }
     handleGetSchedule();
-  }, [props.semester, props.class]);
+  }, [
+    props.semester,
+    props.class,
+    props.dateOption,
+    props.startDateFilter,
+    props.endDateFilter,
+  ]);
 
   return (
     <Space

@@ -2,7 +2,6 @@ import {
   Avatar,
   List,
   Typography,
-  Skeleton,
   Button,
   Modal,
   Input,
@@ -31,6 +30,7 @@ export const TableReport = (props) => {
 
   const showModal = (e) => {
     setIsModalVisible(true);
+    setTo(e.email);
   };
 
   const handleOk = async () => {
@@ -60,7 +60,6 @@ export const TableReport = (props) => {
       </Typography>
 
       <List
-        rowKey={(value) => value.id}
         itemLayout="horizontal"
         dataSource={props.students}
         renderItem={(item) => (
@@ -72,7 +71,7 @@ export const TableReport = (props) => {
                   <Button
                     shape="circle"
                     icon={<IconFont type="icon-mail" />}
-                    onClick={(e, text) => showModal(e)}
+                    onClick={() => showModal(item)}
                   ></Button>,
                 ]
               ) : (
@@ -80,21 +79,19 @@ export const TableReport = (props) => {
               )
             }
           >
-            <Skeleton avatar title={false} loading={item.loading} active>
-              <List.Item.Meta
-                avatar={
-                  <Avatar
-                    shape="square"
-                    size={'1vw'}
-                    style={{ color: '#4C7CFD', backgroundColor: '#E1F0FF' }}
-                  >
-                    {_.chain(item.name).words().last().value().slice(0, 1)}
-                  </Avatar>
-                }
-                title={item.name}
-                description={`Lớp: ${item.class}. vắng: ${item.absent}`}
-              />
-            </Skeleton>
+            <List.Item.Meta
+              avatar={
+                <Avatar
+                  shape="square"
+                  size={'1vw'}
+                  style={{ color: '#4C7CFD', backgroundColor: '#E1F0FF' }}
+                >
+                  {_.chain(item.name).words().last().value().slice(0, 1)}
+                </Avatar>
+              }
+              title={item.name}
+              description={`Lớp: ${item.class}. vắng: ${item.absent}`}
+            />
           </List.Item>
         )}
       />
@@ -128,6 +125,7 @@ export const TableReport = (props) => {
             <Input
               placeholder="Gửi tới"
               size="large"
+              defaultValue={to}
               onChange={(e) => setTo(e.target.value)}
               style={{ borderRadius: 5 }}
             />

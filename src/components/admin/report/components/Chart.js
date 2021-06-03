@@ -1,10 +1,7 @@
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import { useState } from 'react';
 
 export const Chart = (props) => {
-  const [oldClass, setOldClass] = useState();
-
   const options = {
     chart: {
       type: 'column',
@@ -95,7 +92,6 @@ export const Chart = (props) => {
               );
 
               props.setClassIdChart(click.id);
-              setOldClass(click.name);
             },
           },
         },
