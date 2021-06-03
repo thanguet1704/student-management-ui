@@ -7,6 +7,8 @@ import {
   Input,
   Form,
   message,
+  Spin,
+  Alert,
 } from 'antd';
 import 'date-fns';
 import _ from 'lodash';
@@ -27,13 +29,16 @@ export const TableReport = (props) => {
   const [messageState, setMessage] = useState('');
   const [to, setTo] = useState();
   const [subject, setSubject] = useState();
+  const [isSpin, setIsSpin] = useState(false);
 
   const showModal = (e) => {
+    setIsSpin(false);
     setIsModalVisible(true);
     setTo(e.email);
   };
 
   const handleOk = async () => {
+    setIsSpin(true);
     const body = {
       to,
       subject,
@@ -43,13 +48,16 @@ export const TableReport = (props) => {
     try {
       await axiosClient.post('/sendEmail', body);
       message.success('Gửi email thành công');
+      setIsSpin(false);
       setIsModalVisible(false);
     } catch (error) {
+      setIsSpin(false);
       message.error('Mời nhập đầy đủ thông tin');
     }
   };
 
   const handleCancel = () => {
+    setIsSpin(false);
     setIsModalVisible(false);
   };
 
@@ -148,8 +156,15 @@ export const TableReport = (props) => {
             />
           </Form.Item>
         </Form>
-
         <TextEditor setMessage={setMessage} to={to} subject={subject} />
+        {isSpin ? (
+          <Spin
+            tip="Đang gửi tin..."
+            style={{ marginTop: 20, width: '100%' }}
+          ></Spin>
+        ) : (
+          <></>
+        )}
       </Modal>
     </div>
   );

@@ -17,7 +17,10 @@ export const UserOption = (props) => {
     Cookies.remove('name', { path: '/' });
     Cookies.remove('role', { path: '/' });
     authCt.setAuth({ name: '', role: '' });
-    history.push('/');
+    message.success('Đăng xuất thành công');
+    setTimeout(() => {
+      history.push('/');
+    }, 1000);
   };
 
   const handleOk = () => {
@@ -32,7 +35,10 @@ export const UserOption = (props) => {
         Cookies.remove('name', { path: '/' });
         Cookies.remove('role', { path: '/' });
         props.setIsModalVisible(false);
-        window.location.reload();
+        message.success('Đổi mạt khẩu thành công mời đăng nhập lại');
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       })
       .catch((err) => {
         if (err.response.status === 400) {
