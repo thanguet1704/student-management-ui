@@ -26,6 +26,7 @@ export const SessionSelect = (props) => {
       <Typography>Buổi:</Typography>
       <Select
         defaultValue={props.session?.id}
+        value={props.session?.id}
         style={{ width: '9.3vw' }}
         size="large"
         onChange={(value) => handleChangeSession(value)}

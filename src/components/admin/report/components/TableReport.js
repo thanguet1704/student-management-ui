@@ -11,17 +11,19 @@ import {
 } from 'antd';
 import 'date-fns';
 import _ from 'lodash';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import TextEditor from '../../../../common/components/TextEditor';
 import { axiosClient } from '../../../../api';
 import { SendOutlined } from '@ant-design/icons';
 import { createFromIconfontCN } from '@ant-design/icons';
+import { AuthContext } from '../../../../contexts/AuthProvider';
 
 const IconFont = createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/font_2580724_poq8awqndj.js',
 });
 
 export const TableReport = (props) => {
+  const { auth } = useContext(AuthContext);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [messageState, setMessage] = useState('');
   const [to, setTo] = useState();
@@ -64,13 +66,19 @@ export const TableReport = (props) => {
         renderItem={(item) => (
           <List.Item
             id={item.id}
-            actions={[
-              <Button
-                shape="circle"
-                icon={<IconFont type="icon-mail" />}
-                onClick={(e, text) => showModal(e)}
-              ></Button>,
-            ]}
+            actions={
+              auth.role === 'admin' ? (
+                [
+                  <Button
+                    shape="circle"
+                    icon={<IconFont type="icon-mail" />}
+                    onClick={(e, text) => showModal(e)}
+                  ></Button>,
+                ]
+              ) : (
+                <></>
+              )
+            }
           >
             <Skeleton avatar title={false} loading={item.loading} active>
               <List.Item.Meta

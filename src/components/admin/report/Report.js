@@ -11,7 +11,7 @@ import { AuthContext } from '../../../contexts/AuthProvider';
 
 const Report = () => {
   const { auth } = useContext(AuthContext);
-  const [schoolYears, setSchoolYears] = useState([{ id: 1, name: 'K70' }]);
+  const [schoolYears, setSchoolYears] = useState([]);
   const [schoolYear, setSchoolYear] = useState();
 
   const [statAtendence, setStatAttendence] = useState();

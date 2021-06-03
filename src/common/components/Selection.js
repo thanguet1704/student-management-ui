@@ -12,7 +12,6 @@ export const Selection = (props) => {
     <Space>
       <Typography>Khóa: </Typography>
       <Select
-        key={1}
         defaultValue={props.schoolYear?.id}
         value={props.schoolYear?.id}
         style={{

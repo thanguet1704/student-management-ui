@@ -28,7 +28,7 @@ export const CategorySelect = (props) => {
       <Typography style={{ width: '4vw' }}>Chuyên đề:</Typography>
       <Select
         defaultValue={category?.id}
-        value={categories[0]?.id}
+        value={category?.id}
         size="large"
         style={{ width: '19.7vw' }}
         onChange={(value) => handleChangeCategory(value)}

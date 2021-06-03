@@ -221,9 +221,7 @@ const AdminSchedule = () => {
   const [classObject, setClassObject] = useState();
   const [teacher, setTeacher] = useState();
 
-  const [teachers, setTeachers] = useState([
-    { id: 51, name: 'Trịnh Hữu Thắng' },
-  ]);
+  const [teachers, setTeachers] = useState([]);
 
   const [semesters, setSemesters] = useState([]);
   const [semester, setSemester] = useState();
@@ -233,7 +231,10 @@ const AdminSchedule = () => {
   const [span, setSpan] = useState(16);
 
   const handleGetSemesters = () => {
-    axiosClient.get('/semesters').then((res) => setSemesters(res.data));
+    axiosClient.get('/semesters').then((res) => {
+      setSemesters(res.data);
+      setSemester(res.data[0]);
+    });
   };
 
   const handleChangeSemester = (value) => {
@@ -250,10 +251,11 @@ const AdminSchedule = () => {
 
   const [classes, setClasses] = useState([]);
 
-  const handleGetClass = async () => {
-    const res = await axiosClient.get('/class');
-    setClasses(res.data);
-    setClassObject(res.data[0]);
+  const handleGetClass = () => {
+    axiosClient.get('/class').then((res) => {
+      setClasses(res.data);
+      setClassObject(res.data[0]);
+    });
   };
 
   const handleChangeClass = async (value) => {
@@ -261,10 +263,11 @@ const AdminSchedule = () => {
     setClassObject(cla);
   };
 
-  const handleGetTeachers = async () => {
-    const res = await axiosClient.get('/users/teachers');
-    setTeachers(res.data.data);
-    setTeacher(res.data.data[0]);
+  const handleGetTeachers = () => {
+    axiosClient.get('/users/teachers').then((res) => {
+      setTeachers(res.data.data);
+      setTeacher(res.data.data[0]);
+    });
   };
 
   const handleCreateSchedle = () => {
@@ -295,9 +298,11 @@ const AdminSchedule = () => {
     setSubject({ id: value, name: subject.name });
   };
 
-  const handleGetSubjects = async () => {
-    const getSubjects = await axiosClient.get('/subjects');
-    setSubjects(getSubjects.data);
+  const handleGetSubjects = () => {
+    axiosClient.get('/subjects').then((res) => {
+      setSubjects(res.data);
+      setSubject(res.data[0]);
+    });
   };
 
   const handleChangeClassroom = (value) => {
@@ -334,7 +339,7 @@ const AdminSchedule = () => {
     handleGetClass();
     handleGetTeachers();
     handleGetSubjects();
-  }, [semester]);
+  }, []);
 
   return (
     <div>
@@ -343,10 +348,10 @@ const AdminSchedule = () => {
           <Space>
             <Typography>Chọn Học kỳ:</Typography>
             <Select
-              defaultValue={semesters[0]?.id}
+              defaultValue={semester?.id}
               value={semester?.id}
               size="large"
-              onChange={handleChangeSemester}
+              onChange={(value) => handleChangeSemester(value)}
               style={{ minWidth: '15vw' }}
               dropdownStyle={{
                 border: '1px solid #fff',
@@ -391,8 +396,8 @@ const AdminSchedule = () => {
                 <Space style={{ marginBottom: 20, display: 'flex' }}>
                   <Typography style={{ width: '4vw' }}>Môn học:</Typography>
                   <Select
-                    // defaultValue={subject?.name}
-                    // value={subject?.name}
+                    defaultValue={subject?.name}
+                    value={subject?.name}
                     size="large"
                     style={{ width: '19.7vw' }}
                     onChange={(value) => {
@@ -426,6 +431,7 @@ const AdminSchedule = () => {
                   </Typography>
                   <Select
                     defaultValue={teacher?.id}
+                    value={teacher?.id}
                     style={{ width: '19.7vw' }}
                     size="large"
                     onChange={(value) => handleChangeTeacher(value)}

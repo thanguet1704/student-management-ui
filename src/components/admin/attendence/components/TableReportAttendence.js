@@ -165,7 +165,10 @@ export const TableReportAttendence = (props) => {
   };
 
   const handleGetSemesters = () => {
-    axiosClient.get('/semesters').then((res) => setSemesters(res.data));
+    axiosClient.get('/semesters').then((res) => {
+      setSemesters(res.data);
+      props.setSemester(res.data[0]);
+    });
   };
 
   const handleChangeSemester = (value) => {
@@ -201,6 +204,7 @@ export const TableReportAttendence = (props) => {
             <Typography>Học kỳ:</Typography>
             <Select
               defaultValue={props.semester.id}
+              value={props.semester.id}
               size="large"
               onChange={handleChangeSemester}
               style={{ minWidth: '15vw' }}
@@ -265,7 +269,6 @@ export const TableReportAttendence = (props) => {
         </Space>
       </div>
       <Table
-        rowKey={1}
         columns={columns}
         dataSource={props.attendenceData.data}
         size="middle"
