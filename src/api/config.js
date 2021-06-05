@@ -6,7 +6,7 @@ import Cookies from 'js-cookie';
 dotenv.config();
 
 export const axiosClient = axios.create({
-  baseURL: `http://localhost:3400`,
+  baseURL: `https://517ab3fc4c4a.ngrok.io`,
   headers: {
     'content-type': 'application/json',
     Authorization: `Bearer ${Cookies.get('hcmaid')}`,
