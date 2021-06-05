@@ -8,6 +8,7 @@ dotenv.config();
 export const axiosClient = axios.create({
   baseURL: `https://c6212f6c1523.ngrok.io`,
   headers: {
+    'Access-Control-Allow-Origin': 'https://c6212f6c1523.ngrok.io',
     'content-type': 'application/json',
     Authorization: `Bearer ${Cookies.get('hcmaid')}`,
   },
