@@ -159,7 +159,8 @@ export const TableTeacherInfo = () => {
       ),
       dataIndex: 'gender',
       key: 'gender',
-      render: (value) => (value === 'male' ? 'Nam' : 'Nữ'),
+      render: (value) =>
+        value === 'male' ? 'Nam' : value === 'female' ? 'Nữ' : '',
       align: 'center',
       width: '6%',
     },

@@ -57,17 +57,17 @@ export const TableStudentInfo = () => {
       align: 'center',
       width: '4%',
     },
-    {
-      title: (
-        <Typography style={{ textAlign: 'center', fontWeight: 'bold' }}>
-          Mã học viên
-        </Typography>
-      ),
-      dataIndex: 'msv',
-      key: 'msv',
-      align: 'center',
-      width: '7%',
-    },
+    // {
+    //   title: (
+    //     <Typography style={{ textAlign: 'center', fontWeight: 'bold' }}>
+    //       Mã học viên
+    //     </Typography>
+    //   ),
+    //   dataIndex: 'msv',
+    //   key: 'msv',
+    //   align: 'center',
+    //   width: '7%',
+    // },
     {
       title: (
         <Typography style={{ textAlign: 'center', fontWeight: 'bold' }}>
@@ -96,7 +96,8 @@ export const TableStudentInfo = () => {
       ),
       dataIndex: 'birthday',
       key: 'birthday',
-      render: (date) => moment(date).format('DD-MM-YYYY'),
+      render: (date) =>
+        moment(date).isValid() ? moment(date).format('DD-MM-YYYY') : '',
       align: 'center',
     },
     {
@@ -107,7 +108,8 @@ export const TableStudentInfo = () => {
       ),
       dataIndex: 'gender',
       key: 'gender',
-      render: (gender) => (gender === 'male' ? 'Nam' : 'Nữ'),
+      render: (gender) =>
+        gender === 'male' ? 'Nam' : gender === 'female' ? 'Nữ' : '',
       align: 'center',
       width: '7%',
     },
@@ -303,7 +305,7 @@ export const TableStudentInfo = () => {
               defaultValue={classObject?.id}
               value={classObject?.id}
               size="large"
-              style={{ width: '7vw' }}
+              style={{ minWidth: '15vw' }}
               onChange={(value) => handleChangeClass(value)}
             >
               {classes.length > 0 &&
@@ -314,7 +316,11 @@ export const TableStudentInfo = () => {
           </Space>
         </Space>
         <Space style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <CreateStudent title="Thêm học viên" role="student" />
+          <CreateStudent
+            title="Thêm học viên"
+            role="student"
+            handleGetStudents={handleGetStudents}
+          />
           <ExportStudent classObject={classObject} />
         </Space>
       </div>

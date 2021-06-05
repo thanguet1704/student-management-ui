@@ -19,7 +19,7 @@ const columns = [
   {
     title: (
       <Typography style={{ textAlign: 'center', fontWeight: 'bold' }}>
-        Mã học viên
+        Email
       </Typography>
     ),
     dataIndex: 'msv',

@@ -391,7 +391,7 @@ const AdminSchedule = () => {
               defaultValue={classObject?.id}
               value={classObject?.id}
               size="large"
-              style={{ width: '7vw' }}
+              style={{ minWidth: '10vw' }}
               onChange={(value) => handleChangeClass(value)}
             >
               {classes.length > 0 &&

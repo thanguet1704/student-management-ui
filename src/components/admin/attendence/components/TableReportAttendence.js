@@ -23,7 +23,7 @@ const columns = [
   {
     title: (
       <Typography style={{ textAlign: 'center', fontWeight: 'bold' }}>
-        Mã học viên
+        Email
       </Typography>
     ),
     dataIndex: 'msv',
@@ -207,7 +207,7 @@ export const TableReportAttendence = (props) => {
               value={props.semester.id}
               size="large"
               onChange={handleChangeSemester}
-              style={{ minWidth: '15vw' }}
+              style={{ minWidth: '10vw' }}
             >
               {semesters &&
                 semesters.map((data) => (
@@ -221,7 +221,7 @@ export const TableReportAttendence = (props) => {
               defaultValue={props.classObject?.id}
               value={props.classObject?.id}
               size="large"
-              style={{ width: '7vw' }}
+              style={{ minWidth: '10vw' }}
               onChange={(value) => handleChangeClass(value)}
             >
               {classes.length > 0 &&

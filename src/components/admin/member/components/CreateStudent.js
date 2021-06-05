@@ -51,6 +51,7 @@ export const CreateStudent = (props) => {
       .then((res) => {
         message.success('Thêm thành công');
         setIsModalVisible(false);
+        props.handleGetStudents();
       })
       .catch((error) => message.error(error.response.data.error));
   };
@@ -94,6 +95,8 @@ export const CreateStudent = (props) => {
       .then((res) => {
         setFileList();
         message.success('Tải file lên thành công');
+        // setIsModalVisible(false);
+        props.handleGetStudents();
       })
       .catch((error) => {
         message.error(error.response.data.error);

@@ -15,7 +15,7 @@ export const Selection = (props) => {
         defaultValue={props.schoolYear?.id}
         value={props.schoolYear?.id}
         style={{
-          width: 120,
+          minWidth: '10vw',
         }}
         size="large"
         onChange={(value) => {
