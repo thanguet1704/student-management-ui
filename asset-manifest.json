@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "//hcma-management.me/static/css/main.b770a692.chunk.css",
-    "main.js": "//hcma-management.me/static/js/main.e66e3801.chunk.js",
-    "main.js.map": "//hcma-management.me/static/js/main.e66e3801.chunk.js.map",
-    "runtime-main.js": "//hcma-management.me/static/js/runtime-main.b693b1d4.js",
-    "runtime-main.js.map": "//hcma-management.me/static/js/runtime-main.b693b1d4.js.map",
-    "static/css/2.558413a2.chunk.css": "//hcma-management.me/static/css/2.558413a2.chunk.css",
-    "static/js/2.f672b340.chunk.js": "//hcma-management.me/static/js/2.f672b340.chunk.js",
-    "static/js/2.f672b340.chunk.js.map": "//hcma-management.me/static/js/2.f672b340.chunk.js.map",
-    "index.html": "//hcma-management.me/index.html",
-    "static/css/2.558413a2.chunk.css.map": "//hcma-management.me/static/css/2.558413a2.chunk.css.map",
-    "static/css/main.b770a692.chunk.css.map": "//hcma-management.me/static/css/main.b770a692.chunk.css.map",
-    "static/js/2.f672b340.chunk.js.LICENSE.txt": "//hcma-management.me/static/js/2.f672b340.chunk.js.LICENSE.txt",
-    "static/media/background.cf89db52.svg": "//hcma-management.me/static/media/background.cf89db52.svg"
+    "main.css": "/static/css/main.b770a692.chunk.css",
+    "main.js": "/static/js/main.e66e3801.chunk.js",
+    "main.js.map": "/static/js/main.e66e3801.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.4d23bfe9.js",
+    "runtime-main.js.map": "/static/js/runtime-main.4d23bfe9.js.map",
+    "static/css/2.558413a2.chunk.css": "/static/css/2.558413a2.chunk.css",
+    "static/js/2.af06f8db.chunk.js": "/static/js/2.af06f8db.chunk.js",
+    "static/js/2.af06f8db.chunk.js.map": "/static/js/2.af06f8db.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/2.558413a2.chunk.css.map": "/static/css/2.558413a2.chunk.css.map",
+    "static/css/main.b770a692.chunk.css.map": "/static/css/main.b770a692.chunk.css.map",
+    "static/js/2.af06f8db.chunk.js.LICENSE.txt": "/static/js/2.af06f8db.chunk.js.LICENSE.txt",
+    "static/media/background.cf89db52.svg": "/static/media/background.cf89db52.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.b693b1d4.js",
+    "static/js/runtime-main.4d23bfe9.js",
     "static/css/2.558413a2.chunk.css",
-    "static/js/2.f672b340.chunk.js",
+    "static/js/2.af06f8db.chunk.js",
     "static/css/main.b770a692.chunk.css",
     "static/js/main.e66e3801.chunk.js"
   ]
