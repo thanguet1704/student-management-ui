@@ -6,8 +6,9 @@ import Cookies from 'js-cookie';
 dotenv.config();
 
 export const axiosClient = axios.create({
-  baseURL: `https://517ab3fc4c4a.ngrok.io`,
+  baseURL: `https://1acaea053e73.ngrok.io`,
   headers: {
+    'Access-Control-Allow-Origin': '*',
     'content-type': 'application/json',
     Authorization: `Bearer ${Cookies.get('hcmaid')}`,
   },
