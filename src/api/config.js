@@ -3,7 +3,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 export const axiosClient = axios.create({
-  baseURL: `https://3d2badaf18c2.ngrok.io`,
+  baseURL: `https://7d4a73fca8de.ngrok.io`,
   headers: {
     'content-type': 'application/json',
     Authorization: `Bearer ${Cookies.get('hcmaid')}`,
