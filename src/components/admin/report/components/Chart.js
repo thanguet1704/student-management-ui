@@ -2,13 +2,14 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 
 export const Chart = (props) => {
+  const khoa = props.schoolYear ? `Khóa ${props.schoolYear.name}` : '';
   const options = {
     chart: {
       type: 'column',
       zoomType: 'xy',
     },
     title: {
-      text: `Biểu đồ thống kê điểm danh ${props.semester?.name}`,
+      text: `Biểu đồ thống kê điểm danh ${props.semester?.name} ${khoa}`,
     },
     creadits: {
       enable: false,
@@ -90,7 +91,6 @@ export const Chart = (props) => {
               const click = props.charts.find(
                 (item) => item.name === className
               );
-
               props.setClassIdChart(click.id);
             },
           },

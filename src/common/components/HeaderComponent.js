@@ -76,7 +76,7 @@ export const HeaderComponent = (props) => {
         </div>
       </Popover>
 
-      <Title level={4}>
+      <Title level={4} style={{ display: 'flex', alignItems: 'center' }}>
         <img src={logo} alt="logo" style={{ height: '2rem' }} />
         {auth.role !== 'student' ? (
           <Typography style={{ color: 'black' }}>

@@ -12,6 +12,7 @@ import {
   DatePicker,
   Radio,
   message,
+  Spin,
 } from 'antd';
 import { useEffect, useState } from 'react';
 import { axiosClient } from '../../../../api';
@@ -19,7 +20,9 @@ import { CreateStudent } from '../components/CreateStudent';
 import ExportStudent from './ExportStudent';
 import { createFromIconfontCN } from '@ant-design/icons';
 import moment from 'moment';
+import { LoadingOutlined } from '@ant-design/icons';
 
+const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 const { Option } = Select;
 const dateFormat = 'YYYY-MM-DD';
 const IconFont = createFromIconfontCN({
@@ -32,6 +35,8 @@ export const TableStudentInfo = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isSpinTable, setIsSpinTable] = useState(true);
+  const [isLoadingUpdate, setLoadingUpdate] = useState(false);
 
   const [id, setId] = useState();
   const [classId, setClassId] = useState('');
@@ -208,6 +213,7 @@ export const TableStudentInfo = () => {
   };
 
   const handleGetStudents = () => {
+    setIsSpinTable(true);
     axiosClient
       .get(
         `/users/students?classId=${
@@ -218,12 +224,17 @@ export const TableStudentInfo = () => {
       )
       .then((res) => {
         const data = res.data.data.map((student, index) => ({
+          key: index,
           stt: index + 1,
           ...student,
         }));
         setStudents({ totalPage: res.data.totalPage, data });
+
+        setIsSpinTable(false);
       })
-      .catch((error) => {});
+      .catch((error) => {
+        setIsSpinTable(false);
+      });
   };
 
   const handleOnChange = (value) => {
@@ -253,6 +264,7 @@ export const TableStudentInfo = () => {
   };
 
   const handleUpdateStudent = () => {
+    setLoadingUpdate(true);
     axiosClient
       .patch(`/users/info`, {
         id,
@@ -264,12 +276,15 @@ export const TableStudentInfo = () => {
         gender,
       })
       .then((res) => {
-        message.success('Thêm thành công');
-
+        setLoadingUpdate(false);
+        message.success('Cập nhật thông tin Học viên thành công');
         setIsModalVisible(false);
         handleGetStudents();
       })
-      .catch((error) => message.error(error.response.data.error));
+      .catch((error) => {
+        message.error(error.response.data.error);
+        setLoadingUpdate(false);
+      });
   };
 
   useEffect(() => {
@@ -324,19 +339,27 @@ export const TableStudentInfo = () => {
           <ExportStudent classObject={classObject} />
         </Space>
       </div>
-      <Table
-        rowKey={1}
-        columns={columns}
-        dataSource={students.data}
-        bordered={true}
-        onChange={(value) => handleOnChange(value)}
-        pagination={{
-          simple: true,
-          defaultPageSize: pageSize,
-          total: students.totalPage * pageSize,
-        }}
-      />
+
+      {isSpinTable ? (
+        <Spin indicator={antIcon} style={{ width: '100%' }} />
+      ) : (
+        <Table
+          rowKey={1}
+          columns={columns}
+          dataSource={students.data}
+          bordered={true}
+          onChange={(value) => handleOnChange(value)}
+          pagination={{
+            simple: true,
+            defaultPageSize: pageSize,
+            total: students.totalPage * pageSize,
+            current: currentPage,
+          }}
+        />
+      )}
+
       <Modal
+        onCancel={() => setIsModalVisible(false)}
         title="Cập nhật thông tin"
         visible={isModalVisible}
         destroyOnClose={true}
@@ -432,6 +455,11 @@ export const TableStudentInfo = () => {
             </Form.Item>
           </Space>
         </Form>
+        {isLoadingUpdate ? (
+          <Spin indicator={antIcon} style={{ width: '100%' }} />
+        ) : (
+          <></>
+        )}
       </Modal>
     </div>
   );

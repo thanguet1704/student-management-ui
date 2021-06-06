@@ -1,8 +1,11 @@
-import { Table, Typography, Space, Select } from 'antd';
+import { Table, Typography, Space, Select, Spin } from 'antd';
 import { useEffect, useState } from 'react';
 import moment from 'moment';
 import { axiosClient } from '../../../api';
 import { DateFilter } from '../../../common/components/DateFilter';
+import { LoadingOutlined } from '@ant-design/icons';
+
+const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 const disableColor = '#d6d6d4';
 const { Option } = Select;
@@ -221,7 +224,10 @@ export const TableStudentSchedule = (props) => {
     });
   };
 
+  const [isLoadingTable, setLoadingTable] = useState(true);
+
   const handleGetSchedule = () => {
+    setLoadingTable(true);
     let startDate;
     let endDate;
     if (dateOption.key === 1) {
@@ -260,8 +266,10 @@ export const TableStudentSchedule = (props) => {
           classroom: item.classroom,
         }));
 
+        setLoadingTable(false);
         setSchedules(data);
-      });
+      })
+      .catch((error) => setLoadingTable(false));
   };
 
   const handleChangeSemester = (value) => {
@@ -283,7 +291,7 @@ export const TableStudentSchedule = (props) => {
   }, [semester, dateOption, startDateFilter, endDateFilter]);
 
   return (
-    <div>
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
       <Space style={{ marginBottom: 20 }}>
         <Typography>Chọn Học kỳ:</Typography>
         <Select
@@ -333,14 +341,18 @@ export const TableStudentSchedule = (props) => {
           <></>
         )}
       </Space>
-      <Table
-        columns={columns}
-        dataSource={schedules}
-        bordered={true}
-        pagination={false}
-        size="large"
-        scroll={{ y: '75vh' }}
-      />
+      {isLoadingTable ? (
+        <Spin indicator={antIcon} />
+      ) : (
+        <Table
+          columns={columns}
+          dataSource={schedules}
+          bordered={true}
+          pagination={false}
+          size="large"
+          scroll={{ y: '75vh' }}
+        />
+      )}
     </div>
   );
 };

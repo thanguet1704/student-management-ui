@@ -18,8 +18,10 @@ const AdminAttendence = () => {
     new Date(moment(new Date()).format(DateFormat)).toISOString()
   );
   const [offsetAttendence, setOffsetAttendence] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const [semester, setSemester] = useState(0);
   const [classObject, setClassObject] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleAuthorization = () => {
     axiosClient
@@ -33,6 +35,7 @@ const AdminAttendence = () => {
   };
 
   const handleGetAttendences = () => {
+    setIsLoading(true);
     axiosClient
       .get(
         `/attendence?semesterId=${semester?.id}&classId=${
@@ -54,9 +57,12 @@ const AdminAttendence = () => {
           timeIn: attendence.timeIn,
           timeOut: attendence.timeOut,
         }));
+        setIsLoading(false);
         setAttendenceData({ totalPage: res.data.totalPage, data });
       })
-      .catch((error) => {});
+      .catch((error) => {
+        setIsLoading(false);
+      });
   };
 
   useEffect(() => {
@@ -85,6 +91,10 @@ const AdminAttendence = () => {
         setSemester={setSemester}
         setClassObject={setClassObject}
         handleGetAttendences={handleGetAttendences}
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
       />
     </div>
   );

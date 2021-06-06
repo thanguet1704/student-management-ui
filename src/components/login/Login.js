@@ -1,4 +1,4 @@
-import { Alert, Button, Col, Form, Input, Row, Typography } from 'antd';
+import { Alert, Button, Col, Form, Input, Row, Typography, Spin } from 'antd';
 import 'antd/dist/antd.css';
 import { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
@@ -8,26 +8,32 @@ import logo from '../../assets/logo.png';
 import { AuthContext } from '../../contexts/AuthProvider';
 import './login.css';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import Cookies from 'js-cookie';
+import { setCookies } from '../../utils/Cookies';
+import { LoadingOutlined } from '@ant-design/icons';
 
-export const Login = (props) => {
+const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+
+export const Login = () => {
   const { setAuth } = useContext(AuthContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(false);
+  const [isLoading, setLoading] = useState(false);
 
   const history = useHistory();
 
   const handleLogin = () => {
+    setLoading(true);
     axiosClient
       .post('login', { username, password })
       .then((res) => {
+        setLoading(false);
         setAuth({
           name: res.data.name,
           role: res.data.role,
         });
 
-        Cookies.set('hcmaid', res.data.access_token);
+        setCookies(res.data.access_token, res.data.name, res.data.role);
 
         switch (res.data.role) {
           case 'student':
@@ -41,7 +47,10 @@ export const Login = (props) => {
             break;
         }
       })
-      .catch((error) => setError(true));
+      .catch((error) => {
+        setError(true);
+        setLoading(false);
+      });
   };
 
   return (
@@ -144,9 +153,16 @@ export const Login = (props) => {
                 style={{
                   borderRadius: 5,
                   backgroundColor: 'rgb(76, 124, 253)',
+                  minWidth: '5vw',
                 }}
               >
-                Đăng nhập
+                {isLoading ? (
+                  <Spin indicator={antIcon} style={{ color: '#fff' }}>
+                    Đăng nhập
+                  </Spin>
+                ) : (
+                  'Đăng nhập'
+                )}
               </Button>
             </Form.Item>
           </Form>

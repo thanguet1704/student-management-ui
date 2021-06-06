@@ -17,6 +17,9 @@ import { axiosClient } from '../../../../api';
 import { SendOutlined } from '@ant-design/icons';
 import { createFromIconfontCN } from '@ant-design/icons';
 import { AuthContext } from '../../../../contexts/AuthProvider';
+import { LoadingOutlined } from '@ant-design/icons';
+
+const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 const IconFont = createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/font_2580724_poq8awqndj.js',
@@ -66,42 +69,47 @@ export const TableReport = (props) => {
         Danh sách nghỉ học nhiều nhất
       </Typography>
 
-      <List
-        itemLayout="horizontal"
-        dataSource={props.students}
-        renderItem={(item) => (
-          <List.Item
-            id={item.id}
-            actions={
-              auth.role === 'admin' ? (
-                [
-                  <Button
-                    shape="circle"
-                    icon={<IconFont type="icon-mail" />}
-                    onClick={() => showModal(item)}
-                  ></Button>,
-                ]
-              ) : (
-                <></>
-              )
-            }
-          >
-            <List.Item.Meta
-              avatar={
-                <Avatar
-                  shape="square"
-                  size={'1vw'}
-                  style={{ color: '#4C7CFD', backgroundColor: '#E1F0FF' }}
-                >
-                  {_.chain(item.name).words().last().value().slice(0, 1)}
-                </Avatar>
+      {props.isLoadingTopAbsent ? (
+        <Spin indicator={antIcon} style={{ width: '100%' }} />
+      ) : (
+        <List
+          itemLayout="horizontal"
+          dataSource={props.students}
+          renderItem={(item) => (
+            <List.Item
+              id={item.id}
+              actions={
+                auth.role === 'admin' ? (
+                  [
+                    <Button
+                      shape="circle"
+                      icon={<IconFont type="icon-mail" />}
+                      onClick={() => showModal(item)}
+                    ></Button>,
+                  ]
+                ) : (
+                  <></>
+                )
               }
-              title={item.name}
-              description={`Lớp: ${item.class}. vắng: ${item.absent}`}
-            />
-          </List.Item>
-        )}
-      />
+            >
+              <List.Item.Meta
+                avatar={
+                  <Avatar
+                    shape="square"
+                    size={'1vw'}
+                    style={{ color: '#4C7CFD', backgroundColor: '#E1F0FF' }}
+                  >
+                    {_.chain(item.name).words().last().value().slice(0, 1)}
+                  </Avatar>
+                }
+                title={item.name}
+                description={`Lớp: ${item.class}. vắng: ${item.absent}`}
+              />
+            </List.Item>
+          )}
+        />
+      )}
+
       <Modal
         title="Tin nhắn mới"
         cancelText="Hủy"

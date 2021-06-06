@@ -1,7 +1,6 @@
 {
   "homepage": "http://hcma-management.me/",
   "name": "student-management-ui",
-  "proxy": "http://01b77fcb0891.ngrok.io",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

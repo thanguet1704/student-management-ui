@@ -440,7 +440,7 @@ const AdminSchedule = () => {
           )}
         </Space>
       </div>
-      {semester && classObject && (
+      {semester?.id && classObject?.id && (
         <Row>
           {auth.role === 'admin' ? (
             <Col span={8} style={{ padding: 20, backgroundColor: '#fff' }}>

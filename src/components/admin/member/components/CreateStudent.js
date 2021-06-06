@@ -12,11 +12,15 @@ import {
   DatePicker,
   Radio,
   Space,
+  Spin,
 } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { axiosClient } from '../../../../api';
 import { UploadOutlined } from '@ant-design/icons';
 import moment from 'moment';
+import { LoadingOutlined } from '@ant-design/icons';
+
+const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 const { Option } = Select;
 const { TabPane } = Tabs;
@@ -32,12 +36,15 @@ export const CreateStudent = (props) => {
   const [phone, setPhone] = useState();
   const [gender, setGender] = useState('male');
   const [birthday, setBirthday] = useState();
+  const [isLoadingCreateOne, setLoadingCreateOne] = useState(false);
+  const [isLoadingCreateMul, setLoadingCreateMul] = useState(false);
 
   const showModal = () => {
     setIsModalVisible(true);
   };
 
   const handleCreateStudent = () => {
+    setLoadingCreateOne(true);
     axiosClient
       .post(`/users/student`, {
         msv: username,
@@ -49,11 +56,15 @@ export const CreateStudent = (props) => {
         gender,
       })
       .then((res) => {
+        setLoadingCreateOne(false);
         message.success('Thêm thành công');
         setIsModalVisible(false);
         props.handleGetStudents();
       })
-      .catch((error) => message.error(error.response.data.error));
+      .catch((error) => {
+        message.error(error.response.data.error);
+        setLoadingCreateOne(false);
+      });
   };
 
   const handleCreate = () => {
@@ -83,6 +94,7 @@ export const CreateStudent = (props) => {
   const [currentTab, setCurrentTab] = useState(1);
 
   const handleUpload = (e) => {
+    setLoadingCreateMul(true);
     const formData = new FormData();
     formData.append('file', fileList);
 
@@ -97,9 +109,11 @@ export const CreateStudent = (props) => {
         message.success('Tải file lên thành công');
         // setIsModalVisible(false);
         props.handleGetStudents();
+        setLoadingCreateMul(false);
       })
       .catch((error) => {
         message.error(error.response.data.error);
+        setLoadingCreateMul(false);
       });
   };
 
@@ -140,6 +154,7 @@ export const CreateStudent = (props) => {
       </Button>
       <Row>
         <Modal
+          onCancel={() => setIsModalVisible(false)}
           title="Thêm Học Viên"
           visible={isModalVisible}
           destroyOnClose={true}
@@ -241,6 +256,11 @@ export const CreateStudent = (props) => {
                   </Form.Item>
                 </Space>
               </Form>
+              {isLoadingCreateOne ? (
+                <Spin indicator={antIcon} style={{ width: '100%' }} />
+              ) : (
+                <></>
+              )}
             </TabPane>
             <TabPane tab="Chọn file" key="2">
               <Upload
@@ -262,6 +282,11 @@ export const CreateStudent = (props) => {
                   Chọn file
                 </Button>
               </Upload>
+              {isLoadingCreateMul ? (
+                <Spin indicator={antIcon} style={{ width: '100%' }} />
+              ) : (
+                <></>
+              )}
             </TabPane>
           </Tabs>
         </Modal>

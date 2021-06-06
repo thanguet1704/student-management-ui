@@ -2,7 +2,6 @@ import { CSVLink } from 'react-csv';
 import { Button } from 'antd';
 import { FileExcelFilled } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
-import moment from 'moment';
 import { axiosClient } from '../../../../api';
 
 const headers = [
@@ -27,7 +26,6 @@ const ExportStudent = (props) => {
         const data = res.data.data.map((item, index) => ({
           stt: index + 1,
           name: item.name,
-          msv: item.msv,
           email: item.email,
           gender: item.gender,
           class: item.class.name,
@@ -45,9 +43,7 @@ const ExportStudent = (props) => {
   }, [props.classObject]);
 
   const csvReport = {
-    filename: `Danh sách học viên ${moment(new Date()).format(
-      'DD-MM-YYYY'
-    )}.csv`,
+    filename: `Danh sách học viên lớp ${props.classObject?.name}.xlsx`,
     headers,
     data,
   };

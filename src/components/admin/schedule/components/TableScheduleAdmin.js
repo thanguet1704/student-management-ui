@@ -1,15 +1,20 @@
-import { Space, Typography, Table } from 'antd';
+import { Space, Typography, Table, Spin } from 'antd';
 import { useContext, useEffect, useState } from 'react';
 import { axiosClient } from '../../../../api';
 import { AuthContext } from '../../../../contexts/AuthProvider';
 import moment from 'moment';
+import { LoadingOutlined } from '@ant-design/icons';
+
+const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 const TableScheduleAdmin = (props) => {
   const [schedules, setSchedules] = useState([]);
   const { auth } = useContext(AuthContext);
   const [scroll, setScroll] = useState('35vh');
+  const [isLoadingSchedule, setLoadingSchedule] = useState(false);
 
   const handleGetSchedule = () => {
+    setLoadingSchedule(true);
     let startDate;
     let endDate;
     if (props.dateOption.key === 1) {
@@ -53,8 +58,11 @@ const TableScheduleAdmin = (props) => {
           subject: item.subject,
           classroom: item.classroom,
         }));
-
+        setLoadingSchedule(false);
         setSchedules(data);
+      })
+      .catch((error) => {
+        setLoadingSchedule(false);
       });
   };
 
@@ -92,15 +100,18 @@ const TableScheduleAdmin = (props) => {
           justifyContent: 'center',
         }}
       >
-        <Table
-          rowKey={1}
-          columns={props.columns}
-          dataSource={schedules}
-          bordered={true}
-          pagination={false}
-          size="large"
-          scroll={{ y: scroll }}
-        />
+        {isLoadingSchedule ? (
+          <Spin indicator={antIcon} />
+        ) : (
+          <Table
+            columns={props.columns}
+            dataSource={schedules}
+            bordered={true}
+            pagination={false}
+            size="large"
+            scroll={{ y: scroll }}
+          />
+        )}
       </Space>
     </Space>
   );

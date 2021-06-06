@@ -1,5 +1,14 @@
 import { SearchOutlined, UploadOutlined } from '@ant-design/icons';
-import { Button, Input, Space, Table, Tag, Typography, Select } from 'antd';
+import {
+  Button,
+  Input,
+  Space,
+  Table,
+  Tag,
+  Typography,
+  Select,
+  Spin,
+} from 'antd';
 import 'date-fns';
 import { DateSelect } from '../../report/components/DateSelect';
 import moment from 'moment';
@@ -7,6 +16,7 @@ import UploadFile from '../../../../common/components/UploadFile';
 import { useEffect, useState } from 'react';
 import ExportFile from './ExportFile';
 import { axiosClient } from '../../../../api';
+import { LoadingOutlined } from '@ant-design/icons';
 
 const columns = [
   {
@@ -60,7 +70,9 @@ const columns = [
     dataIndex: 'timeIn',
     key: 'timeIn',
     render: (time) => {
-      return moment(time).format('HH:MM:SS');
+      return moment(time).format('HH:MM:SS') !== 'Invalid date'
+        ? moment(moment(time).format('LTS'), 'h:mm:ss A').format('HH:mm:ss')
+        : '';
     },
     align: 'center',
     width: '7%',
@@ -74,7 +86,9 @@ const columns = [
     dataIndex: 'timeOut',
     key: 'timeOut',
     render: (time) => {
-      return moment(time).format('HH:MM:SS');
+      return moment(time).format('HH:MM:SS') !== 'Invalid date'
+        ? moment(moment(time).format('LTS'), 'h:mm:ss A').format('HH:mm:ss')
+        : '';
     },
     align: 'center',
     width: '7%',
@@ -139,6 +153,7 @@ const columns = [
 
 const { Option } = Select;
 const limit = 12;
+const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 export const TableReportAttendence = (props) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -151,6 +166,7 @@ export const TableReportAttendence = (props) => {
 
   const handleOnChange = (value) => {
     props.setOffsetAttendence((value.current - 1) * limit);
+    props.setCurrentPage(value.current);
   };
 
   const handleGetClass = async () => {
@@ -268,18 +284,23 @@ export const TableReportAttendence = (props) => {
           )}
         </Space>
       </div>
-      <Table
-        columns={columns}
-        dataSource={props.attendenceData.data}
-        size="middle"
-        onChange={(value) => handleOnChange(value)}
-        bordered={true}
-        pagination={{
-          simple: true,
-          defaultPageSize: limit,
-          total: props.attendenceData.totalPage * limit,
-        }}
-      />
+      {props.isLoading ? (
+        <Spin indicator={antIcon} style={{ width: '100%' }} />
+      ) : (
+        <Table
+          columns={columns}
+          dataSource={props.attendenceData.data}
+          size="middle"
+          onChange={(value) => handleOnChange(value)}
+          bordered={true}
+          pagination={{
+            simple: true,
+            defaultPageSize: limit,
+            total: props.attendenceData.totalPage * limit,
+            current: props.currentPage,
+          }}
+        />
+      )}
     </div>
   );
 };

@@ -18,12 +18,15 @@ import { useEffect, useState } from 'react';
 import { axiosClient } from '../../../../api';
 import { createFromIconfontCN } from '@ant-design/icons';
 import moment from 'moment';
+import { Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 
 const IconFont = createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/font_2580724_poq8awqndj.js',
 });
 const { Option } = Select;
 const dateFormat = 'YYYY-MM-DD';
+const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 export const TableTeacherInfo = () => {
   const [teachers, setTeachers] = useState({});
@@ -43,6 +46,8 @@ export const TableTeacherInfo = () => {
   const [birthday, setBirthday] = useState(
     moment(new Date().toISOString(), dateFormat)
   );
+  const [isSpinTable, setIsSpinTable] = useState(true);
+  const [isLoadingUpdate, setLoadingUpdate] = useState(false);
 
   const showModal = (value) => {
     setIsModalVisible(true);
@@ -62,6 +67,7 @@ export const TableTeacherInfo = () => {
   };
 
   const handleGetTeachers = () => {
+    setIsSpinTable(true);
     axiosClient
       .get(
         `/users/teachers?search=${searchName}&limit=${pageSize}&offset=${
@@ -70,12 +76,16 @@ export const TableTeacherInfo = () => {
       )
       .then((res) => {
         const data = res.data.data.map((teacher, index) => ({
+          key: index,
           stt: index + 1,
           ...teacher,
         }));
+        setIsSpinTable(false);
         setTeachers({ totalPage: res.data.totalPage, data });
       })
-      .catch((error) => {});
+      .catch((error) => {
+        setIsSpinTable(false);
+      });
   };
 
   const handleOnChange = (value) => {
@@ -102,6 +112,7 @@ export const TableTeacherInfo = () => {
   };
 
   const handleUpdateStudent = () => {
+    setLoadingUpdate(true);
     axiosClient
       .patch(`/users/info`, {
         id,
@@ -113,12 +124,16 @@ export const TableTeacherInfo = () => {
         gender,
       })
       .then((res) => {
+        setLoadingUpdate(false);
         message.success('Thêm thành công');
 
         setIsModalVisible(false);
         handleGetTeachers();
       })
-      .catch((error) => message.error(error.response.data.error));
+      .catch((error) => {
+        message.error(error.response.data.error);
+        setLoadingUpdate(false);
+      });
   };
 
   useEffect(() => {
@@ -252,19 +267,26 @@ export const TableTeacherInfo = () => {
           <CreateTeacher handleGetTeachers={handleGetTeachers} />
         </Space>
       </div>
-      <Table
-        rowKey={1}
-        columns={columns}
-        dataSource={teachers.data}
-        bordered={true}
-        onChange={(value) => handleOnChange(value)}
-        pagination={{
-          simple: true,
-          defaultPageSize: pageSize,
-          total: teachers.totalPage * pageSize,
-        }}
-      />
+      {isSpinTable ? (
+        <Spin indicator={antIcon} style={{ width: '100%' }} />
+      ) : (
+        <Table
+          rowKey={1}
+          columns={columns}
+          dataSource={teachers.data}
+          bordered={true}
+          onChange={(value) => handleOnChange(value)}
+          pagination={{
+            simple: true,
+            defaultPageSize: pageSize,
+            total: teachers.totalPage * pageSize,
+            current: currentPage,
+          }}
+        />
+      )}
+
       <Modal
+        onCancel={() => setIsModalVisible(false)}
         title="Cập nhật thông tin"
         visible={isModalVisible}
         destroyOnClose={true}
@@ -356,6 +378,11 @@ export const TableTeacherInfo = () => {
             </Form.Item>
           </Space>
         </Form>
+        {isLoadingUpdate ? (
+          <Spin indicator={antIcon} style={{ width: '100%' }} />
+        ) : (
+          <></>
+        )}
       </Modal>
     </div>
   );

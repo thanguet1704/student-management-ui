@@ -12,11 +12,15 @@ import {
   DatePicker,
   Radio,
   Space,
+  Spin,
 } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { axiosClient } from '../../../../api';
 import { UploadOutlined } from '@ant-design/icons';
 import moment from 'moment';
+import { LoadingOutlined } from '@ant-design/icons';
+
+const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 const { Option } = Select;
 const { TabPane } = Tabs;
@@ -33,12 +37,15 @@ export const CreateTeacher = (props) => {
   const [instituas, setInstituas] = useState([]);
   const [name, setName] = useState();
   const [address, setAddress] = useState();
+  const [isLoadingCreateOne, setLoadingCreateOne] = useState(false);
+  const [isLoadingCreateMul, setLoadingCreateMul] = useState(false);
 
   const showModal = () => {
     setIsModalVisible(true);
   };
 
   const handleCreateTeacher = () => {
+    setLoadingCreateOne(true);
     axiosClient
       .post(`/users/teacher`, {
         name,
@@ -48,11 +55,13 @@ export const CreateTeacher = (props) => {
         phone: password,
       })
       .then((res) => {
+        setLoadingCreateOne(false);
         message.success('Thêm thành công');
         setIsModalVisible(false);
         props.handleGetTeachers();
       })
       .catch((error) => {
+        setLoadingCreateOne(false);
         message.error(error.response.data.error);
       });
   };
@@ -77,6 +86,7 @@ export const CreateTeacher = (props) => {
   const [currentTab, setCurrentTab] = useState(1);
 
   const handleUpload = (e) => {
+    setLoadingCreateMul(true);
     const formData = new FormData();
     formData.append('file', fileList);
 
@@ -87,11 +97,13 @@ export const CreateTeacher = (props) => {
         },
       })
       .then((res) => {
+        setLoadingCreateMul(false);
         setFileList();
 
         message.success('Tải file lên thành công');
       })
       .catch((error) => {
+        setLoadingCreateMul(false);
         message.error(error.response.data.error);
       });
   };
@@ -138,6 +150,7 @@ export const CreateTeacher = (props) => {
       </Button>
       <Row>
         <Modal
+          onCancel={() => setIsModalVisible(false)}
           title="Thêm Giảng viên"
           visible={isModalVisible}
           destroyOnClose={true}
@@ -238,6 +251,11 @@ export const CreateTeacher = (props) => {
                   </Form.Item>
                 </Space>
               </Form>
+              {isLoadingCreateOne ? (
+                <Spin indicator={antIcon} style={{ width: '100%' }} />
+              ) : (
+                <></>
+              )}
             </TabPane>
             <TabPane tab="Chọn File" key="2">
               <Upload
@@ -259,6 +277,11 @@ export const CreateTeacher = (props) => {
                   Chọn file
                 </Button>
               </Upload>
+              {isLoadingCreateMul ? (
+                <Spin indicator={antIcon} style={{ width: '100%' }} />
+              ) : (
+                <></>
+              )}
             </TabPane>
           </Tabs>
         </Modal>

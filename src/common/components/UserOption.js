@@ -1,9 +1,12 @@
-import { Button, Form, Input, message, Modal } from 'antd';
+import { Button, Form, Input, message, Modal, Spin } from 'antd';
 import { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { axiosClient } from '../../api/config';
 import { AuthContext } from '../../contexts/AuthProvider';
-import Cookies from 'js-cookie';
+import { removeCookies } from '../../utils/Cookies';
+import { LoadingOutlined } from '@ant-design/icons';
+
+const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 export const UserOption = (props) => {
   const authCt = useContext(AuthContext);
@@ -11,9 +14,10 @@ export const UserOption = (props) => {
   const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
+  const [isLoadingUpdatePassword, setLoadingUpdatePassword] = useState(false);
 
   const handleLogout = () => {
-    Cookies.remove('hcmaid', { path: '/' });
+    removeCookies();
     authCt.setAuth({ name: '', role: '' });
     message.success('Đăng xuất thành công');
     setTimeout(() => {
@@ -22,6 +26,7 @@ export const UserOption = (props) => {
   };
 
   const handleOk = () => {
+    setLoadingUpdatePassword(true);
     axiosClient
       .patch('/users', {
         username,
@@ -29,6 +34,7 @@ export const UserOption = (props) => {
         newPassword,
       })
       .then((res) => {
+        setLoadingUpdatePassword(false);
         props.setIsModalVisible(false);
         message.success('Đổi mạt khẩu thành công mời đăng nhập lại');
         setTimeout(() => {
@@ -36,6 +42,7 @@ export const UserOption = (props) => {
         }, 1000);
       })
       .catch((err) => {
+        setLoadingUpdatePassword(false);
         if (err.response.status === 400) {
           window.location.reload();
         } else {
@@ -56,6 +63,7 @@ export const UserOption = (props) => {
       </Button>
       <Modal
         visible={props.isModalVisible}
+        onCancel={() => props.setIsModalVisible(false)}
         title="Đổi mật khẩu"
         destroyOnClose={true}
         footer={[
@@ -123,6 +131,12 @@ export const UserOption = (props) => {
             />
           </Form.Item>
         </Form>
+
+        {isLoadingUpdatePassword ? (
+          <Spin indicator={antIcon} style={{ width: '100%' }} />
+        ) : (
+          <></>
+        )}
       </Modal>
       <Button style={{ border: 'none' }} onClick={handleLogout}>
         Đăng xuất

@@ -1,8 +1,11 @@
-import { Table, Tag, Space, Input, Typography, Select } from 'antd';
+import { Table, Tag, Space, Input, Typography, Select, Spin } from 'antd';
 import { useEffect, useState } from 'react';
 import { axiosClient } from '../../../api/config';
 import moment from 'moment';
 import { SearchOutlined } from '@ant-design/icons';
+import { LoadingOutlined } from '@ant-design/icons';
+
+const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 const columns = [
   {
@@ -56,7 +59,9 @@ const columns = [
     dataIndex: 'timeIn',
     key: 'timeIn',
     render: (time) => {
-      return moment(time).format('HH:MM:SS');
+      return moment(time).format('HH:MM:SS') !== 'Invalid date'
+        ? moment(moment(time).format('LTS'), 'h:mm:ss A').format('HH:mm:ss')
+        : '';
     },
     align: 'center',
     width: '7%',
@@ -70,7 +75,9 @@ const columns = [
     dataIndex: 'timeOut',
     key: 'timeOut',
     render: (time) => {
-      return moment(time).format('HH:MM:SS');
+      return moment(time).format('HH:MM:SS') !== 'Invalid date'
+        ? moment(moment(time).format('LTS'), 'h:mm:ss A').format('HH:mm:ss')
+        : '';
     },
     align: 'center',
     width: '7%',
@@ -140,12 +147,14 @@ export const TableStudentAttendence = (props) => {
   const [data, setData] = useState({ totalPage: 0, data: [] });
   const [semesters, setSemesters] = useState([]);
   const [semester, setSemester] = useState();
+  const [isLoadingTable, setLoadingTable] = useState(true);
 
   const handleOnChange = (value) => {
     setCurrent(value.current);
   };
 
   const handleGetData = () => {
+    setLoadingTable(true);
     axiosClient
       .get(
         `/attendence?semesterId=${semester?.id}&searchName=${encodeURIComponent(
@@ -158,8 +167,11 @@ export const TableStudentAttendence = (props) => {
           ...attendence,
         }));
         setData({ totalPage: results.totalPage, data: results });
+        setLoadingTable(false);
       })
-      .catch((err) => {});
+      .catch((err) => {
+        setLoadingTable(false);
+      });
   };
 
   const handleGetSemesters = () => {
@@ -180,7 +192,7 @@ export const TableStudentAttendence = (props) => {
   }, [current, props.searchName]);
 
   return (
-    <div>
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
       <Space size="large" style={{ marginTop: 20, marginBottom: 20 }}>
         <Space>
           <Input
@@ -207,17 +219,22 @@ export const TableStudentAttendence = (props) => {
           </Select>
         </Space>
       </Space>
-      <Table
-        columns={columns}
-        dataSource={data.data}
-        onChange={(value) => handleOnChange(value)}
-        bordered={true}
-        pagination={{
-          simple: true,
-          defaultPageSize: pageSize,
-          total: data.totalPage * pageSize,
-        }}
-      />
+      {isLoadingTable ? (
+        <Spin indicator={antIcon} />
+      ) : (
+        <Table
+          columns={columns}
+          dataSource={data.data}
+          onChange={(value) => handleOnChange(value)}
+          bordered={true}
+          pagination={{
+            simple: true,
+            defaultPageSize: pageSize,
+            total: data.totalPage * pageSize,
+            current,
+          }}
+        />
+      )}
     </div>
   );
 };
