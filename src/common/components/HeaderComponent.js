@@ -76,14 +76,14 @@ export const HeaderComponent = (props) => {
         </div>
       </Popover>
 
-      <Title level={4} style={{ display: 'flex', alignItems: 'center' }}>
+      <Title level={4}>
         <img src={logo} alt="logo" style={{ height: '2rem' }} />
         {auth.role !== 'student' ? (
           <Typography style={{ color: 'black' }}>
             HỆ THỐNG QUẢN LÝ HỌC VIÊN
           </Typography>
         ) : (
-          <Typography>Học viên Chính trị quốc gia Hồ Chí Minh</Typography>
+          <Typography>Học viện Chính trị quốc gia Hồ Chí Minh</Typography>
         )}
       </Title>
     </Header>

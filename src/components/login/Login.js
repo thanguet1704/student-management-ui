@@ -8,6 +8,7 @@ import logo from '../../assets/logo.png';
 import { AuthContext } from '../../contexts/AuthProvider';
 import './login.css';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import Cookies from 'js-cookie';
 
 export const Login = (props) => {
   const { setAuth } = useContext(AuthContext);
@@ -25,6 +26,9 @@ export const Login = (props) => {
           name: res.data.name,
           role: res.data.role,
         });
+
+        Cookies.set('hcmaid', res.data.access_token);
+
         switch (res.data.role) {
           case 'student':
             history.push('/attendence');

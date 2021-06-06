@@ -14,8 +14,6 @@ export const UserOption = (props) => {
 
   const handleLogout = () => {
     Cookies.remove('hcmaid', { path: '/' });
-    Cookies.remove('name', { path: '/' });
-    Cookies.remove('role', { path: '/' });
     authCt.setAuth({ name: '', role: '' });
     message.success('Đăng xuất thành công');
     setTimeout(() => {
@@ -31,9 +29,6 @@ export const UserOption = (props) => {
         newPassword,
       })
       .then((res) => {
-        Cookies.remove('hcmaid', { path: '/' });
-        Cookies.remove('name', { path: '/' });
-        Cookies.remove('role', { path: '/' });
         props.setIsModalVisible(false);
         message.success('Đổi mạt khẩu thành công mời đăng nhập lại');
         setTimeout(() => {

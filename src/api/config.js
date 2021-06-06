@@ -3,13 +3,13 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 export const axiosClient = axios.create({
-  baseURL: `https://01b77fcb0891.ngrok.io`,
+  baseURL: `https://6b7aab1d0d99.ngrok.io`,
   headers: {
     'content-type': 'application/json',
     Authorization: `Bearer ${Cookies.get('hcmaid')}`,
   },
   paramsSerializer: (params) => queryString.stringify(params),
-  withCredentials: true,
+  credentials: true,
 });
 
 axiosClient.interceptors.request.use(async (config) => {
