@@ -261,7 +261,7 @@ export const CreateTeacher = (props) => {
               <Upload
                 {...upload}
                 maxCount={1}
-                accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                accept=".xlsx, .xls, .csv"
                 onChange={handleOnChange}
                 progress={{
                   strokeColor: {

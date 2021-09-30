@@ -3,7 +3,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 export const axiosClient = axios.create({
-  baseURL: `https://hcma.herokuapp.com/`,
+  baseURL: process.env.REACT_APP_API_BASE_URL,
   headers: {
     'content-type': 'application/json',
     Authorization: `Bearer ${Cookies.get('hcmaid')}`,
